@@ -1,0 +1,2 @@
+npm run sass-watch //convert scss -> css
+npm run dev //To run programm instead of node app.js

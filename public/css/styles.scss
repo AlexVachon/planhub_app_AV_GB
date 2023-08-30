@@ -1,0 +1,6 @@
+@import '/public/css/bootstrap.min.css';
+
+
+h1 {
+    @extend .bg-primary;
+}
