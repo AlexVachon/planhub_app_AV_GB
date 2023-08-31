@@ -179,8 +179,7 @@
 //-----------------------------------------------+
 // *** Start your CSS HERE ***/
 
-p{
-    @extend .fs-4;
+body{
+    @extend .bg-light, .text-dark;
 }
-
 
