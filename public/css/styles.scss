@@ -1,6 +1,8 @@
+//Import bootstrap dans node_modules
 @import '../../node_modules/bootstrap/scss/bootstrap';
 @import url("https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap");
-// *** Change the theme of the npm bootstrap ***
+// *** Change the theme of the bootstrap file ***
+//-----------------------------------------------+
 :root,
 [data-bs-theme=light] {
   --bs-blue: #4c9be8;
@@ -174,7 +176,7 @@
   --bs-form-invalid-color: #e89895;
   --bs-form-invalid-border-color: #e89895;
 }
-
+//-----------------------------------------------+
 // *** Start your CSS HERE ***/
 
 p{
