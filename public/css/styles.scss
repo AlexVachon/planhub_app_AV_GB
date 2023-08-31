@@ -1,10 +1,5 @@
 @import '../../node_modules/bootstrap/scss/bootstrap';
 @import url("https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap");
-
-p{
-    @extend .fs-4
-}
-
 // *** Change the theme of the npm bootstrap ***
 :root,
 [data-bs-theme=light] {
@@ -179,4 +174,11 @@ p{
   --bs-form-invalid-color: #e89895;
   --bs-form-invalid-border-color: #e89895;
 }
+
+// *** Start your CSS HERE ***/
+
+p{
+    @extend .fs-4;
+}
+
 
