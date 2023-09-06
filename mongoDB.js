@@ -1,26 +1,52 @@
+const { MongoClient } = require('mongodb');
 
-const { MongoClient, ServerApiVersion } = require('mongodb');
-const uri = "mongodb+srv://dev:<t43u9MrgCWBcMWsV>@planhub.9pkfsc2.mongodb.net/?retryWrites=true&w=majority"; //connect with dev permission TODO: creer permission pour client
+// Connection string obtained from MongoDB Atlas
+const uri = "mongodb+srv://dev:zbNK0g4Zhw7wvrwq@planhub.9pkfsc2.mongodb.net/?retryWrites=true&w=majority";
 
-// Create a MongoClient with a MongoClientOptions object to set the Stable API version
-const client = new MongoClient(uri, {
-  serverApi: {
-    version: ServerApiVersion.v1,
-    strict: true,
-    deprecationErrors: true,
-  }
-});
+// Create a new MongoClient
+async function connectToDatabase() {
+  const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
-async function run() {
   try {
-    // Connect the client to the server	(optional starting in v4.7)
+    // Connect to the MongoDB cluster
     await client.connect();
-    // Send a ping to confirm a successful connection
-    await client.db("admin").command({ ping: 1 });
-    console.log("Pinged your deployment. You successfully connected to MongoDB!");
-  } finally {
-    // Ensures that the client will close when you finish/error
-    await client.close();
+    console.log("Connected to MongoDB Atlas");
+
+    // Return the client so it can be used to access collections
+    return client;
+
+  } catch (err) {
+    console.error("Error connecting to MongoDB Atlas:", err);
+    throw err; // Rethrow the error for handling at a higher level if needed
   }
 }
-run().catch(console.dir);
+
+async function accessCollection(client, collectionName) {
+  try {
+    // Access the specified database and collection
+    const database = client.db('planhub_app');
+    const collection = database.collection(collectionName);
+
+    // Perform database operations on the collection
+    // Example: Retrieve documents from the collection
+    const documents = await collection.find({}).toArray();
+    console.log(`Documents from ${collectionName}:`, documents);
+
+  } catch (err) {
+    console.error(`Error accessing ${collectionName}:`, err);
+    throw err; // Rethrow the error for handling at a higher level if needed
+  }
+}
+
+async function main() {
+  const client = await connectToDatabase();
+
+  const collectionName = 'users';
+  await accessCollection(client, collectionName);
+
+  // Close the database connection when done
+  await client.close();
+}
+
+// Call the main function to initiate the database connection and collection access
+main();
