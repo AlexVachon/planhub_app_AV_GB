@@ -38,6 +38,7 @@ async function accessCollection(client, collectionName) {
   }
 }
 
+// Call the main function to initiate the database connection and collection access
 async function main() {
   const client = await connectToDatabase();
 
@@ -48,5 +49,8 @@ async function main() {
   await client.close();
 }
 
-// Call the main function to initiate the database connection and collection access
-main();
+module.exports = {
+  connectToDatabase,
+  accessCollection,
+  uri
+}
