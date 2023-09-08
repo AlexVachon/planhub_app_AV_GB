@@ -4,11 +4,21 @@ const express = require('express');
 //Access all methods in the mongoDB.js file
 const db = require('./mongoDB')
 
+const users = require('./routes/users')
+
 const path = require('path');
 const app = express();
 const port = 3000;
 
+//middleware
+app.use(express.json());
+
 app.use(express.static(path.join(__dirname, 'public')));
+
+
+app.use('/api/v1/users', users)
+
+
 
 
 // Gestionnaire de route pour la page d'accueil
