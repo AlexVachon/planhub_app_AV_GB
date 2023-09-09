@@ -1,0 +1,56 @@
+"""
+
+
+Définition des Points d'Entrée : 
+    
+    Les routes définissent les points d'entrée dans votre application pour différents types de requêtes HTTP. 
+    Par exemple, vous pouvez avoir une route pour la page d'accueil (/), une route pour l'inscription (/signup), 
+    une route pour la connexion (/login), etc.
+
+Association à des Actions : 
+
+    Chaque route est associée à une action spécifique qui doit être effectuée lorsque la route est atteinte. 
+    Cette action est généralement une fonction appelée un "gestionnaire de route" ou "handler". 
+    Le gestionnaire de route traite la requête et renvoie une réponse.
+
+Réception des Requêtes : 
+    
+    Les routes sont configurées pour correspondre à des URL spécifiques. 
+    Lorsqu'une requête HTTP est reçue avec une URL correspondant à une route spécifique, 
+    le gestionnaire de route associé est déclenché pour gérer cette requête.
+
+Paramètres dans les Routes : 
+
+    Les routes peuvent inclure des paramètres dynamiques dans l'URL. 
+    Par exemple, /users/:id peut être une route pour afficher le profil d'un utilisateur, 
+    où :id est un paramètre qui permet d'identifier l'utilisateur demandé.
+
+Méthodes HTTP : 
+
+    Les routes sont également associées à des méthodes HTTP spécifiques, 
+    telles que GET, POST, PUT, DELETE, etc. Chaque méthode indique le type d'opération à effectuer sur la ressource correspondante.
+
+Middleware : 
+
+    Les routes peuvent également être associées à des fonctions middleware. 
+    Ces fonctions sont exécutées avant ou après le gestionnaire de route principal. 
+    Elles sont souvent utilisées pour effectuer des tâches telles que l'authentification, la validation des données, la gestion des sessions, etc.
+
+Réponse HTTP : 
+
+    Les gestionnaires de route sont responsables de la préparation et de l'envoi des réponses HTTP. 
+    Cela peut inclure la génération de contenu HTML, JSON, XML, ou d'autres types de données en réponse à la requête.
+
+Séparation des Responsabilités : 
+
+    L'utilisation de routes permet de séparer clairement la gestion des requêtes HTTP, 
+    la logique métier (traitement des données), et la présentation des données. 
+    Cette séparation facilite la maintenabilité et la scalabilité de l'application.
+
+Structure de l'Application : 
+
+    Les routes permettent de structurer l'application en regroupant des fonctionnalités similaires sous des URL spécifiques. 
+    Cela rend l'application plus organisée et facilite la navigation et la gestion.
+
+
+"""

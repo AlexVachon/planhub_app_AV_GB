@@ -1,0 +1,48 @@
+"""
+Structure de Données : 
+
+    Les modèles définissent la structure des données qui seront stockées dans la base de données.
+    Ils spécifient quels champs sont inclus dans un document (ou une entrée), quelles sont leurs types de données,
+    et éventuellement quelles contraintes s'appliquent à ces champs (par exemple, est-ce qu'un champ est obligatoire,
+    quelle est sa longueur maximale, etc.).
+
+Validation des Données :
+
+    Les modèles permettent de définir des règles de validation pour les données.
+    Par exemple, vous pouvez définir que le champ "email" doit contenir une adresse email valide,
+    ou que le champ "âge" doit être un nombre positif.
+
+Abstraction de la Base de Données :
+
+    Les modèles fournissent une couche d'abstraction entre votre application et la base de données.
+    Cela signifie que votre code d'application interagit principalement avec les modèles plutôt qu'avec la base de données directement. 
+    Cela facilite la gestion de la logique métier de votre application sans avoir à se soucier des détails spécifiques à la base de données.
+
+Facilitation des Opérations CRUD :
+
+    Les modèles facilitent la création, la lecture, la mise à jour et la suppression (CRUD) des données dans la base de données. 
+    Ils offrent souvent des méthodes et des requêtes prédéfinies pour effectuer ces opérations courantes, ce qui simplifie le code d'application.
+
+Sécurité : 
+
+    Les modèles peuvent être utilisés pour appliquer des règles de sécurité au niveau de la base de données, 
+    telles que l'autorisation d'accès aux données en fonction des rôles d'utilisateur.
+
+Organisation du Code : 
+
+    En utilisant des modèles, vous organisez votre code de manière plus modulaire et maintenable. 
+    Vous pouvez regrouper la logique liée à un modèle spécifique dans un seul endroit, ce qui rend la gestion de votre code plus facile à grande échelle.
+
+Réutilisation :
+
+    Les modèles peuvent être réutilisés dans différentes parties de votre application. 
+    Par exemple, si vous avez un modèle "Utilisateur", vous pouvez l'utiliser à plusieurs endroits pour gérer les utilisateurs, 
+    que ce soit lors de l'inscription, de la connexion, de la gestion de profil, etc.
+
+Intégration avec le Framework : 
+
+    Dans de nombreux frameworks web (comme Express.js pour Node.js), les modèles sont souvent intégrés de manière transparente. 
+    Cela signifie que vous pouvez utiliser des modèles pour représenter vos données dans le cadre de votre application web.
+
+    
+"""
