@@ -1,3 +1,6 @@
+/**
+ * Pour installer tous les packages necessaire -> npm install
+ */
 
 
 const express = require('express')
