@@ -15,7 +15,8 @@ const ProjectsModel = mongoose.Schema({
     },
     "admins": [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Users'
+        ref: 'Users',
+        required: true
     }],
     "users": [{
         type: mongoose.Schema.Types.ObjectId,
@@ -24,6 +25,10 @@ const ProjectsModel = mongoose.Schema({
     "tasks": [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Tasks'
+    }],
+    "teams":[{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Teams'
     }],
     "created_at": {
         type: Date,
