@@ -24,13 +24,18 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 app.use('/api/v1/users', users)
 
-
-
-
 // Gestionnaire de route pour la page d'accueil
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public/templates/index.html'))
 })
+
+
+
+
+
+
+
+
 
 const start = async () =>{
   try{
