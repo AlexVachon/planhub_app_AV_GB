@@ -1,18 +1,25 @@
 const User = require('../models/Users')
 
 
-const getAllUsers = async (req, res) => {
-    const users = await User.find({})
-    res.status(201).json({users})
-}
-
 const getOneUser = async (req, res) => {
-    const user = await User.find({})
+    //Valeur des champs dans le formulaire **FAIRE EN POST**
+    const {user_email, user_password} = req.body
+    try{
+        const user = await User.findOne({'email': user_email, 'password': user_password})
+        if (user){
+            res.status(201).json({user})
+        }else{
+            res.status(404).json({message: "Utilisateur non trouvé"})
+        }
+
+    }catch(err){
+        console.error("Erreur de la recherche de l'utilisateur :", err)
+    }
+    
 }
 
 
 
 module.exports = {
-    getAllUsers,
-    getOneUser
+    getOneUser,
 }
