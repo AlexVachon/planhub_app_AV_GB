@@ -9,6 +9,7 @@ const connectDB = require('./db/connect')
 const users = require('./routes/users')
 
 //.ENV -> hides informations like connection string
+// GUILLAUME -> Tu auras besoin de te creer un fichier .env et ajouter ceci a l'interieur: MONGO_URI = mongodb+srv://dev:zbNK0g4Zhw7wvrwq@planhub.9pkfsc2.mongodb.net/planhub_app?retryWrites=true&w=majority
 require('dotenv').config()
 
 const path = require('path')
