@@ -2,10 +2,10 @@ const express = require('express');
 const router = express.Router();
 
 //Get path from controllers
-const {getAllUsers} = require('../controllers/users')
+const {getOneUser} = require('../controllers/users')
 
 
-router.route('/').get(getAllUsers)
+router.route('/').post(getOneUser)
 
 
 module.exports = router;
