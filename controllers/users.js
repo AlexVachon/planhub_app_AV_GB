@@ -18,8 +18,20 @@ const getOneUser = async (req, res) => {
     
 }
 
+const getAllUsers = async (req, res) => {
+
+    try{
+        const users = await Users.find({})
+        
+        res.status(201).json({users})
+        
+    }catch(err){
+        console.error("Erreur de la recherche des utilisateurs :", err)
+    }
+}
 
 
 module.exports = {
     getOneUser,
+    getAllUsers
 }
