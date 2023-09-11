@@ -12,7 +12,8 @@ const TasksModel = mongoose.Schema({
     "task_name":{
         type: String,
         maxlength: [25, 'Le nom de la tâche ne peut pas dépasser 25 caractères'],
-        required: [true, 'Le nom de la tâche est requis']
+        required: [true, 'Le nom de la tâche est requis'],
+        trim: true
     },
     "task_type":{
         type: String,
@@ -24,6 +25,7 @@ const TasksModel = mongoose.Schema({
     },
     "task_description":{
         type: String,
+        trim: true
     },
     "created_by":{
         type:mongoose.Schema.Types.ObjectId,
