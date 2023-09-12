@@ -38,9 +38,20 @@ const createUser = async (req, res) => {
     const {first_name, last_name, username, email, password, password_confirm} = req.body
     if (password == password_confirm){
         try{
-            const user = await Users.create({"first_name": first_name, "last_name": last_name, "username": username, "email": email, "password": password})
+            const user = await Users.create({
+                "first_name": first_name,
+                "last_name": last_name,
+                "username": username,
+                "email": email,
+                "password": password
+            })
             res.status(201).json({user})
         }catch(err){
+            if (err['keyValue']['email']){
+                res.status(400).json({message: `${err['keyValue']['email']} est déjà utilisé`})
+            }else if(err['keyValue']['username']){
+                res.status(400).json({message: `${err['keyValue']['username']} est déjà utilisé`})
+            }
             console.error("Erreur de la création de l'utilisateur :", err)
         }
     }else{
