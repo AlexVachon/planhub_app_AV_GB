@@ -21,6 +21,9 @@ const port = 3000
 //MIDDLEWARE
 app.use(express.json())
 
+// set the view engine to ejs
+app.set('view engine', 'ejs');
+
 app.use(express.static(path.join(__dirname, 'public')))
 
 
@@ -29,7 +32,7 @@ app.use('/api/v1/users', users)
 
 // Gestionnaire de route pour la page d'accueil
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public/templates/index.html'))
+  res.render(path.join(__dirname, 'public/templates/index'))
 })
 
 

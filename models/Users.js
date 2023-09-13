@@ -43,20 +43,14 @@ const UserModel = new mongoose.Schema({
     }
 })
 
-// Fonction de hachage du mot de passe avant la sauvegarde
+
 UserModel.pre('save', async function (next) {
     if (!this.isModified('password')) {
         return next();
     }
-
     try {
-        // Générer un sel (salt) pour le hachage
-        const salt = await bcrypt.genSalt(10); // Le chiffre 10 est le coût du hachage
-
-        // Hacher le mot de passe avec le sel
+        const salt = await bcrypt.genSalt(10); 
         const hashedPassword = await bcrypt.hash(this.password, salt);
-
-        // Remplacer le mot de passe non chiffré par le mot de passe chiffré
         this.password = hashedPassword;
 
         next();
