@@ -7,11 +7,15 @@ const getOneUser = async (req, res) => {
     const {user_email, user_password} = req.body
     try{
         const user = await Users.findOne({'email': user_email})
+        if (user == null){
+            res.status(401).json({message: 'Courriel incorrect'})
+        }
+        
         const passwordMatch = await bcrypt.compare(user_password, user.password);
 
         if (passwordMatch) {
             // Le mot de passe correspond, vous pouvez répondre avec les détails de l'utilisateur
-            res.status(201).json({ user });
+            res.status(201).json({ message: 'Connected', user});
         } else {
             // Le mot de passe ne correspond pas
             res.status(401).json({ message: "Mot de passe incorrect" });

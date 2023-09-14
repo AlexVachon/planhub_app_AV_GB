@@ -18,6 +18,16 @@ const path = require('path')
 const app = express()
 const port = 3000
 
+//Session
+var session = require('express-session')
+
+app.use(session({
+  secret: 'mysecret',
+  cookie: {maxAge: 3600000}, //1 heure
+  resave: false,
+  saveUninitialized: false
+}))
+
 //MIDDLEWARE
 app.use(express.json())
 
@@ -26,12 +36,13 @@ app.set('view engine', 'ejs');
 
 app.use(express.static(path.join(__dirname, 'public')))
 
-
+// API urls routes:
 app.use('/api/v1/users', users)
 
 
 // Gestionnaire de route pour la page d'accueil
 app.get('/', (req, res) => {
+  console.log(res.session)
   res.render(path.join(__dirname, 'public/templates/index'))
 })
 

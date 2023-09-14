@@ -5,7 +5,7 @@ const router = express.Router();
 const {getOneUser, getAllUsers, createUser} = require('../controllers/users')
 
 
-router.route('/getOneUser').post(getOneUser)
+router.route('/user').post(getOneUser)
 router.route('/').get(getAllUsers)
 router.route('/create').post(createUser)
 
