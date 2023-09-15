@@ -1,5 +1,5 @@
 const Users = require('../models/Users')
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcrypt')
 
 
 const getOneUser = async (req, res) => {
@@ -14,11 +14,12 @@ const getOneUser = async (req, res) => {
         const passwordMatch = await bcrypt.compare(user_password, user.password);
 
         if (passwordMatch) {
+            req.session.user = user //A REVOIR
             // Le mot de passe correspond, vous pouvez répondre avec les détails de l'utilisateur
-            res.status(201).json({ message: 'Connected', user});
+            res.status(201).json({ message: 'Connected', user})
         } else {
             // Le mot de passe ne correspond pas
-            res.status(401).json({ message: "Mot de passe incorrect" });
+            res.status(401).json({ message: "Mot de passe incorrect" })
         }
 
     }catch(err){
