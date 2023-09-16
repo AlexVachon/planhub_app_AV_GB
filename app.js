@@ -4,6 +4,7 @@
 
 
 const express = require('express')
+const axios = require('axios')
 
 //DB CONNECTION
 const connectDB = require('./db/connect')
@@ -20,6 +21,7 @@ const port =  process.env.PORT || 3000
 
 //Session
 var session = require('express-session')
+const { renderFile } = require('ejs')
 
 app.use(session({
   secret: 'mysecret',
@@ -42,10 +44,34 @@ app.use('/api/v1/users', users)
 
 // Gestionnaire de route pour la page d'accueil
 app.get('/', (req, res) => {
-  console.log(res.session)
-  res.render(path.join(__dirname, 'public/templates/index'))
+    res.render(path.join(__dirname, 'public/templates/index'))
 })
 
+// Gestionnaire de route pour la création d'un compte / connexion
+app.get('/account/join' ,(req, res) => {
+    res.render(path.join(__dirname, 'public/templates/join'))
+})
+
+app.post('/account/join/login', (req, res) => {
+    const {connect_email, connect_password} = req.body
+
+    console.log(connect_email, connect_password)
+
+    const userData = {
+      user_email: connect_email,
+      user_password: connect_password
+    }
+
+    axios.post(`/api/users/connect`, userData)
+    .then(response => {
+      console.log(response)
+      req.session.user = response.data
+    })
+    .catch(error => {
+      console.log(error)
+      res.status(500).json({message: 'Erreur lors de la connexion au compte.'})
+    })
+})
 
 
 

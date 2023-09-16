@@ -724,7 +724,7 @@ progress {
   color: var(--bs-secondary-color);
 }
 
-.container,
+.container, main,
 .container-fluid,
 .container-xxl,
 .container-xl,
@@ -741,27 +741,27 @@ progress {
 }
 
 @media (min-width: 576px) {
-  .container-sm, .container {
+  .container-sm, .container, main {
     max-width: 540px;
   }
 }
 @media (min-width: 768px) {
-  .container-md, .container-sm, .container {
+  .container-md, .container-sm, .container, main {
     max-width: 720px;
   }
 }
 @media (min-width: 992px) {
-  .container-lg, .container-md, .container-sm, .container {
+  .container-lg, .container-md, .container-sm, .container, main {
     max-width: 960px;
   }
 }
 @media (min-width: 1200px) {
-  .container-xl, .container-lg, .container-md, .container-sm, .container {
+  .container-xl, .container-lg, .container-md, .container-sm, .container, main {
     max-width: 1140px;
   }
 }
 @media (min-width: 1400px) {
-  .container-xxl, .container-xl, .container-lg, .container-md, .container-sm, .container {
+  .container-xxl, .container-xl, .container-lg, .container-md, .container-sm, .container, main {
     max-width: 1320px;
   }
 }
@@ -3884,7 +3884,7 @@ textarea.form-control-lg {
   justify-content: space-between;
   padding: var(--bs-navbar-padding-y) var(--bs-navbar-padding-x);
 }
-.navbar > .container,
+.navbar > .container, .navbar > main,
 .navbar > .container-fluid,
 .navbar > .container-sm,
 .navbar > .container-md,
@@ -7857,7 +7857,7 @@ textarea.form-control-lg {
   margin-bottom: 1rem !important;
 }
 
-.my-4 {
+.my-4, h1, .h1 {
   margin-top: 1.5rem !important;
   margin-bottom: 1.5rem !important;
 }
