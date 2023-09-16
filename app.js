@@ -55,21 +55,16 @@ app.get('/account/join' ,(req, res) => {
 app.post('/account/join/login', (req, res) => {
     const {connect_email, connect_password} = req.body
 
-    console.log(connect_email, connect_password)
-
     const userData = {
-      user_email: connect_email,
+      user_email : connect_email,
       user_password: connect_password
     }
-
-    axios.post(`/api/users/connect`, userData)
-    .then(response => {
-      console.log(response)
-      req.session.user = response.data
+    axios.post(`http://localhost:${port}/api/v1/users/connect`, userData)
+    .then( response => {
+      console.log(response.data)
     })
     .catch(error => {
       console.log(error)
-      res.status(500).json({message: 'Erreur lors de la connexion au compte.'})
     })
 })
 
