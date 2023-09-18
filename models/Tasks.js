@@ -38,7 +38,7 @@ const TasksModel = mongoose.Schema({
     }],
     "task_subtasks":[{
         type: mongoose.Schema.Types.ObjectId,
-        ref:'Comments'
+        ref:'Subtasks'
     }],
     "task_comments":[{
         type: mongoose.Schema.Types.ObjectId,
