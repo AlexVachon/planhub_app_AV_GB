@@ -14,7 +14,7 @@ const getOneUser = async (req, res) => {
         const passwordMatch = await bcrypt.compare(user_password, user.password);
 
         if (passwordMatch) {
-            res.status(201).json({ message: 'Found', user})
+            res.status(201).json({ message: `Connecté en tant que ${user.username}`, user})
         } else {
             res.status(401).json({ message: "Mot de passe incorrect" })
         }

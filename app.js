@@ -4,6 +4,19 @@
 
 
 const express = require('express')
+const app = express()
+
+const session = require('express-session')
+
+app.use(session({
+  secret: process.env.SESSION_SECRET || "v57UkuLUUejo4yE0AGM8zlqd40dsiLbu",
+  cookie: {maxAge: 3600000}, //1 heure
+  resave: false,
+  saveUninitialized: false
+}))
+
+const cookieParser = require('cookie-parser')
+
 const axios = require('axios')
 
 //DB CONNECTION
@@ -11,68 +24,43 @@ const connectDB = require('./db/connect')
 
 //ROUTES -> ./routes/
 const users = require('./routes/users')
+const joins = require('./routes/join')
 
 //.ENV -> hides informations like connection string
 require('dotenv').config()
 
 const path = require('path')
-const app = express()
-const port =  process.env.PORT || 3000
-
-//Session
-var session = require('express-session')
 const { renderFile } = require('ejs')
 
-app.use(session({
-  secret: 'mysecret',
-  cookie: {maxAge: 3600000}, //1 heure
-  resave: false,
-  saveUninitialized: false
-}))
+const port =  process.env.PORT || 3000
+
+
+
 
 //MIDDLEWARE
 app.use(express.json())
+app.use(express.urlencoded({extended:true}))
+app.use(cookieParser())
+
+
 
 // set the view engine to ejs
 app.set('view engine', 'ejs');
 
 app.use(express.static(path.join(__dirname, 'public')))
 
-// API urls routes:
+// Routes
 app.use('/api/v1/users', users)
+app.use('/join', joins)
 
 
 // Gestionnaire de route pour la page d'accueil
 app.get('/', (req, res) => {
+  if (req.session.authenticated)
     res.render(path.join(__dirname, 'public/templates/index'))
+  else
+    res.redirect('/join')
 })
-
-// Gestionnaire de route pour la création d'un compte / connexion
-app.get('/account/join' ,(req, res) => {
-    res.render(path.join(__dirname, 'public/templates/join'))
-})
-
-app.post('/account/join/login', (req, res) => {
-    const {connect_email, connect_password} = req.body
-
-    const userData = {
-      user_email : connect_email,
-      user_password: connect_password
-    }
-    axios.post(`http://localhost:${port}/api/v1/users/connect`, userData)
-    .then( response => {
-      console.log(response.data)
-    })
-    .catch(error => {
-      console.log(error)
-    })
-})
-
-
-
-
-
-
 
 
 const start = async () =>{
@@ -90,3 +78,6 @@ const start = async () =>{
 }
 
 start()
+module.exports = {
+  port
+}
