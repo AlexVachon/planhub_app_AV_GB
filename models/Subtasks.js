@@ -1,11 +1,16 @@
 const mongoose = require('mongoose')
 
 // Change id needed
-const taskTypeOptions = ['À faire','En cours','En attente','À vérifier','En pause','Complété', 'Annulé']
+const subtaskEtatOptions = ['À faire','En cours','En attente','À vérifier','En pause','Complété', 'Annulé']
+const subtaskTypeOptions = ['Bug', 'Correction', 'Sprint', 'Tester', 'Travail']
 
-//Check if value is in taskTypeOptions
-const validateTaskType = (value) => {
-    return taskTypeOptions.includes(value)
+//Check if value is in taskEtatOptions
+const validateSubtaskEtat = (value) => {
+    return subtaskEtatOptions.includes(value)
+}
+
+const validateSubtaskType = (value) => {
+    return subtaskTypeOptions.includes(value)
 }
 
 const TasksModel = mongoose.Schema({
@@ -15,11 +20,19 @@ const TasksModel = mongoose.Schema({
         required: [true, 'Le nom de la tâche est requis'],
         trim: true
     },
+    "subtask_etat":{
+        type: String,
+        required: [true, "Le champ etat est requis"],
+        validate: {
+          validator: validateSubtaskEtat,
+          message: "La valeur 'etat' de la sous-tâche n'est pas valide",
+        }
+    },
     "subtask_type":{
         type: String,
         required: [true, "Le champ type est requis"],
         validate: {
-          validator: validateTaskType,
+          validator: validateSubtaskType,
           message: "La valeur 'type' de la sous-tâche n'est pas valide",
         }
     },
