@@ -185,5 +185,48 @@ body
 main
   @extend .container
 
+footer
+  --bs-border-opacity: .5
+  @extend .bg-body-tertiary, .border-top, .mt-2
+  height: 7.5%
+
 h1
   @extend .my-4
+
+#logo-app
+  width: 15%
+  @extend .m-0
+
+#logo-app-footer
+  @extend #logo-app, .my-0
+  width: 100%
+
+#card-join
+   
+  --bs-border-opacity: .5
+  @extend .card, .bg-white, .text-dark, .border-dark
+  width: 20rem
+  .card-header
+    h5
+      @extend .fw-bolder, .fs-2
+
+#card-join-parent
+  @extend .d-flex, .align-items-center, .flex-column, .mt-0
+
+
+#form-join
+  input
+    @extend .text-black
+  div label
+    @extend .text-start
+  .form-control
+    @extend .bg-white
+  button[type='submit']
+    @extend  .w-75, .bg-primary
+    margin-left: 11.5%
+    border-radius: 25px
+    &:hover
+      --bs-bg-opacity: .5
+      @extend .bg-primary
+
+    
