@@ -6,7 +6,7 @@ const {loadPage, setSession} = require('../controllers/join')
 
 router.route('/').get(loadPage)
 router.route('/login').post(setSession)
-router.route('/signin').post()
+router.route('/sign').post()
 
 
 

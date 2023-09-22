@@ -4,6 +4,7 @@
 <head>
     <%- include('../partials/head'); %>
         <title>PlanHub | Join</title>
+        <script src="../js/join.js"></script>
 </head>
 
 <body class="bg-white">
@@ -11,39 +12,15 @@
         <img id="logo-app" src="../images/planhub_logo.png" alt="Logo PlanHub noir">
     </header>
     <main>
+
         <div id="card-join-parent">
             <div id="card-join">
-                <div class="card-header">
-                    <h5>
-                        S’identifier
-                    </h5>
-                    <h6 class="card-subtitle mb-2 text-body-primary">Organisez vos projets scolaires/professionnels simplement</h6>
-                </div>
-                <div class="card-body">
-                    <form id="form-join">
-                        <div class="mb-3">
-                          <label for="connect_email" class="form-label">E-mail</label>
-                          <input type="email" class="form-control" id="connect_email" name="connect_email">
-                        </div>
-                        <div class="mb-3">
-                          <label for="connect_password" class="form-label">Mot de passe</label>
-                          <input type="password" class="form-control" id="connect_password" name="connect_password">
-                        </div>
-                        <button type="submit" class="btn btn-primary">S'identifier</button>
-                      </form>
-                </div>
-                <div class="card-footer text-body-secondary">
-                    2 days ago
-                </div>
+                <img class="loading" src="../gif/loading.gif" alt="loading.gif">
             </div>
-            <div class="my-5">
-                <p>Vous débutez sur PlanHub ?<a href=""> S’inscrire</a></p>
-            </div>
-
         </div>
 
     </main>
-    <footer class="fixed-bottom">
+    <footer>
         <%- include('../partials/footer-join'); %>
     </footer>
 </body>
