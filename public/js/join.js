@@ -5,10 +5,13 @@
 
 let card = null
 let lien = null
+let loading = `<img class="loading" src="../gif/loading.gif" alt="loading.gif">`
 let estFormLogin = true
 
 
-
+/**
+ * Fonction qui permet d'afficher le formulaire pour se connecter
+ */
 function formLogin() {
     estFormLogin = true
     card.innerHTML = `
@@ -40,6 +43,9 @@ function formLogin() {
     lien = document.getElementById('lien-join').addEventListener('click', gererClic)
 }
 
+/**
+ * Fonction qui permet d'afficher le formulaire pour se créer un compte
+ */
 function formSignIn(){
     estFormLogin = false
     card.innerHTML =  `
@@ -85,22 +91,30 @@ function formSignIn(){
     lien = document.getElementById('lien-join').addEventListener('click', gererClic)
 }
 
+/**
+ * Fonction qui gère le clique sur l'élément
+ * @param {*} e Lien cliquable
+ */
 function gererClic(e){
     e.preventDefault()
-    if (estFormLogin)
-        formSignIn()
-    else
-        formLogin()
+    if (estFormLogin){
+        card.innerHTML = loading
+        setTimeout(formSignIn, 250)
+    }
+    else{
+        card.innerHTML = loading
+        setTimeout(formLogin, 250)
+    }
+        
     
 }
-
 
 /**
  * Initialisation de la page
  */
 function initialize() {
     card = document.getElementById('card-join')
-    setTimeout(formLogin, 500)
+    setTimeout(formLogin, 250)
 }
 
 window.addEventListener('DOMContentLoaded', initialize)
