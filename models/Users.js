@@ -6,19 +6,22 @@ const UserModel = new mongoose.Schema({
         type: String,
         required: [true, "Vous devez fournir un prénom"],
         trim: true,
-        maxlength: [50, "Votre prénom ne peut pas dépasser 50 caractères"]
+        maxlength: [50, "Votre prénom ne peut pas dépasser 50 caractères"],
+        minlength: [3, "Votre prénom doit contenir au minimum 3 caractères"]
     },
     "last_name":{
         type: String,
         required: [true, "Vous devez fournir un nom"],
         trim: true,
-        maxlength: [50, "Votre nom ne peut pas dépasser 50 caractères"]
+        maxlength: [50, "Votre nom ne peut pas dépasser 50 caractères"],
+        minlength: [3, "Votre nom doit contenir au minimum 3 caractères"]
     },
     "username": {
         type: String,
         required: [true, "Vous devez fournir un Username"],
         trim: true,
-        maxlength: [15, "Votre Username ne peut pas dépasser 15 caractères"],
+        maxlength: [20, "Votre Username ne peut pas dépasser 20 caractères"],
+        minlength: [8, "Votre Username doit contenir au minimum 8 caractères"],
         unique: [true, "Nom d'utilisateur existant"]
     },
     "email":{
