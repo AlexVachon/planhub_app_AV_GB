@@ -8781,7 +8781,7 @@ textarea.form-control-lg {
   background-color: var(--bs-danger-bg-subtle) !important;
 }
 
-.bg-light-subtle, footer {
+.bg-light-subtle, footer, header {
   background-color: var(--bs-light-bg-subtle) !important;
 }
 
