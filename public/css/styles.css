@@ -7257,11 +7257,11 @@ textarea.form-control-lg {
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
 }
 
-.shadow-sm {
+.shadow-sm, header {
   box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
 }
 
-.shadow-lg {
+.shadow-lg, #card-join {
   box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175) !important;
 }
 
@@ -7456,7 +7456,7 @@ textarea.form-control-lg {
   border-color: rgba(var(--bs-light-rgb), var(--bs-border-opacity)) !important;
 }
 
-.border-dark, #card-join {
+.border-dark {
   --bs-border-opacity: 1;
   border-color: rgba(var(--bs-dark-rgb), var(--bs-border-opacity)) !important;
 }
@@ -7575,7 +7575,7 @@ textarea.form-control-lg {
   min-width: 100vw !important;
 }
 
-.h-25 {
+.h-25, header {
   height: 25% !important;
 }
 
@@ -7779,7 +7779,7 @@ textarea.form-control-lg {
   order: 6 !important;
 }
 
-.m-0, #logo-app, #logo-app-footer {
+.m-0 {
   margin: 0 !important;
 }
 
@@ -7803,7 +7803,7 @@ textarea.form-control-lg {
   margin: 3rem !important;
 }
 
-.m-auto {
+.m-auto, #logo-app, #logo-app-footer {
   margin: auto !important;
 }
 
@@ -7877,7 +7877,7 @@ textarea.form-control-lg {
   margin-bottom: auto !important;
 }
 
-.mt-0, #card-join-parent {
+.mt-0 {
   margin-top: 0 !important;
 }
 
@@ -7897,7 +7897,7 @@ textarea.form-control-lg {
   margin-top: 1.5rem !important;
 }
 
-.mt-5 {
+.mt-5, #card-join-parent {
   margin-top: 3rem !important;
 }
 
@@ -8001,7 +8001,7 @@ textarea.form-control-lg {
   padding: 0.5rem !important;
 }
 
-.p-3 {
+.p-3, header {
   padding: 1rem !important;
 }
 
@@ -8732,7 +8732,7 @@ textarea.form-control-lg {
   background-color: rgba(var(--bs-secondary-bg-rgb), var(--bs-bg-opacity)) !important;
 }
 
-.bg-body-tertiary, footer {
+.bg-body-tertiary {
   --bs-bg-opacity: 1;
   background-color: rgba(var(--bs-tertiary-bg-rgb), var(--bs-bg-opacity)) !important;
 }
@@ -8781,7 +8781,7 @@ textarea.form-control-lg {
   background-color: var(--bs-danger-bg-subtle) !important;
 }
 
-.bg-light-subtle {
+.bg-light-subtle, footer {
   background-color: var(--bs-light-bg-subtle) !important;
 }
 
@@ -8813,7 +8813,7 @@ textarea.form-control-lg {
   pointer-events: auto !important;
 }
 
-.rounded {
+.rounded, #card-join {
   border-radius: var(--bs-border-radius) !important;
 }
 
@@ -12037,6 +12037,8 @@ footer {
 
 #logo-app, #logo-app-footer {
   width: 15%;
+  min-width: 50px;
+  height: 15%;
 }
 
 #logo-app-footer {

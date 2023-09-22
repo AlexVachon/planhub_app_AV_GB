@@ -182,12 +182,15 @@
 body
     @extend .bg-light, .text-dark
 
+header
+  @extend .h-25, .p-3, .shadow-sm
+
 main
   @extend .container
 
 footer
   --bs-border-opacity: .5
-  @extend .bg-body-tertiary, .border-top, .mt-2
+  @extend .bg-light-subtle, .border-top, .mt-2
   height: 7.5%
 
 h1
@@ -195,23 +198,24 @@ h1
 
 #logo-app
   width: 15%
-  @extend .m-0
+  min-width: 50px
+  height: 15%
+  @extend .m-auto
 
 #logo-app-footer
   @extend #logo-app, .my-0
   width: 100%
 
 #card-join
-   
   --bs-border-opacity: .5
-  @extend .card, .bg-white, .text-dark, .border-dark
+  @extend .card, .bg-white, .text-dark, .shadow-lg, .rounded
   width: 20rem
   .card-header
     h5
       @extend .fw-bolder, .fs-2
 
 #card-join-parent
-  @extend .d-flex, .align-items-center, .flex-column, .mt-0
+  @extend .d-flex,.align-items-center, .flex-column, .mt-5
 
 
 #form-join
