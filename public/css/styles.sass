@@ -4,7 +4,7 @@
 // *** Change the theme of the bootstrap file ***
 //-----------------------------------------------+
 :root,
-[data-bs-theme=light] 
+[data-bs-theme=light]
   --bs-blue: #4c9be8
   --bs-indigo: #6610f2
   --bs-purple: #6f42c1
@@ -122,8 +122,7 @@
   --bs-form-invalid-color: #d9534f
   --bs-form-invalid-border-color: #d9534f
 
-
-[data-bs-theme=dark] 
+[data-bs-theme=dark]
   color-scheme: dark
   --bs-body-color: #ced4da
   --bs-body-color-rgb: 206, 212, 218
@@ -180,7 +179,7 @@
 // *** Start your CSS HERE ***/
 
 body
-    @extend .bg-light, .text-dark
+  @extend .bg-light, .text-dark
 
 header
   @extend .h-25, .p-3, .shadow-sm,.bg-light-subtle
@@ -190,7 +189,7 @@ main
 
 footer
   --bs-border-opacity: .5
-  @extend .bg-light-subtle, .border-top, .mt-2
+  @extend .bg-light-subtle, .border-top
   height: 7.5%
 
 h1
@@ -206,19 +205,28 @@ h1
   @extend #logo-app, .my-0
   width: 100%
 
+.loading
+  @extend .position-absolute, .top-50, .start-50, .translate-middle-x
+  width: 50px
+  height: 50px
+
 #card-join
   --bs-border-opacity: .5
-  @extend .card, .bg-white, .text-dark, .shadow-lg, .rounded
-  width: 20rem
+  @extend .card, .bg-white, .text-dark, .shadow-lg, .mb-2
+  max-width: 20rem
   .card-header
     h5
       @extend .fw-bolder, .fs-2
+  .card-body
+    @extend .my-1
+  .card-footer
+    @extend  .align-self-center, .flex-fill, .py-2, .my-4
 
 #card-join-parent
-  @extend .d-flex,.align-items-center, .flex-column, .mt-5
+  @extend .d-flex,.align-items-center, .flex-column
+  margin-top: 5rem
 
-
-#form-join
+.form-join
   input
     @extend .text-black
   div label
@@ -232,5 +240,3 @@ h1
     &:hover
       --bs-bg-opacity: .5
       @extend .bg-primary
-
-    

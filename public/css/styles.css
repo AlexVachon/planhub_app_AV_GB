@@ -7309,7 +7309,7 @@ textarea.form-control-lg {
   position: relative !important;
 }
 
-.position-absolute {
+.position-absolute, .loading {
   position: absolute !important;
 }
 
@@ -7325,7 +7325,7 @@ textarea.form-control-lg {
   top: 0 !important;
 }
 
-.top-50 {
+.top-50, .loading {
   top: 50% !important;
 }
 
@@ -7349,7 +7349,7 @@ textarea.form-control-lg {
   left: 0 !important;
 }
 
-.start-50 {
+.start-50, .loading {
   left: 50% !important;
 }
 
@@ -7373,7 +7373,7 @@ textarea.form-control-lg {
   transform: translate(-50%, -50%) !important;
 }
 
-.translate-middle-x {
+.translate-middle-x, .loading {
   transform: translateX(-50%) !important;
 }
 
@@ -7551,7 +7551,7 @@ textarea.form-control-lg {
   width: 50% !important;
 }
 
-.w-75, #form-join button[type=submit] {
+.w-75, .form-join button[type=submit] {
   width: 75% !important;
 }
 
@@ -7607,7 +7607,7 @@ textarea.form-control-lg {
   min-height: 100vh !important;
 }
 
-.flex-fill {
+.flex-fill, #card-join .card-footer {
   flex: 1 1 auto !important;
 }
 
@@ -7735,7 +7735,7 @@ textarea.form-control-lg {
   align-self: flex-end !important;
 }
 
-.align-self-center {
+.align-self-center, #card-join .card-footer {
   align-self: center !important;
 }
 
@@ -7847,7 +7847,7 @@ textarea.form-control-lg {
   margin-bottom: 0 !important;
 }
 
-.my-1 {
+.my-1, #card-join .card-body {
   margin-top: 0.25rem !important;
   margin-bottom: 0.25rem !important;
 }
@@ -7862,7 +7862,7 @@ textarea.form-control-lg {
   margin-bottom: 1rem !important;
 }
 
-.my-4, h1, .h1 {
+.my-4, #card-join .card-footer, h1, .h1 {
   margin-top: 1.5rem !important;
   margin-bottom: 1.5rem !important;
 }
@@ -7885,7 +7885,7 @@ textarea.form-control-lg {
   margin-top: 0.25rem !important;
 }
 
-.mt-2, footer {
+.mt-2 {
   margin-top: 0.5rem !important;
 }
 
@@ -7897,7 +7897,7 @@ textarea.form-control-lg {
   margin-top: 1.5rem !important;
 }
 
-.mt-5, #card-join-parent {
+.mt-5 {
   margin-top: 3rem !important;
 }
 
@@ -7941,7 +7941,7 @@ textarea.form-control-lg {
   margin-bottom: 0.25rem !important;
 }
 
-.mb-2 {
+.mb-2, #card-join {
   margin-bottom: 0.5rem !important;
 }
 
@@ -8053,7 +8053,7 @@ textarea.form-control-lg {
   padding-bottom: 0.25rem !important;
 }
 
-.py-2 {
+.py-2, #card-join .card-footer {
   padding-top: 0.5rem !important;
   padding-bottom: 0.5rem !important;
 }
@@ -8321,7 +8321,7 @@ textarea.form-control-lg {
   line-height: 2 !important;
 }
 
-.text-start, #form-join div label {
+.text-start, .form-join div label {
   text-align: left !important;
 }
 
@@ -8412,7 +8412,7 @@ textarea.form-control-lg {
   color: rgba(var(--bs-dark-rgb), var(--bs-text-opacity)) !important;
 }
 
-.text-black, #form-join input {
+.text-black, .form-join input {
   --bs-text-opacity: 1;
   color: rgba(var(--bs-black-rgb), var(--bs-text-opacity)) !important;
 }
@@ -8667,7 +8667,7 @@ textarea.form-control-lg {
   --bs-link-underline-opacity: 1;
 }
 
-.bg-primary, #form-join button[type=submit]:hover, #form-join button[type=submit] {
+.bg-primary, .form-join button[type=submit]:hover, .form-join button[type=submit] {
   --bs-bg-opacity: 1;
   background-color: rgba(var(--bs-primary-rgb), var(--bs-bg-opacity)) !important;
 }
@@ -8712,7 +8712,7 @@ textarea.form-control-lg {
   background-color: rgba(var(--bs-black-rgb), var(--bs-bg-opacity)) !important;
 }
 
-.bg-white, #form-join .form-control, #card-join {
+.bg-white, .form-join .form-control, #card-join {
   --bs-bg-opacity: 1;
   background-color: rgba(var(--bs-white-rgb), var(--bs-bg-opacity)) !important;
 }
@@ -8813,7 +8813,7 @@ textarea.form-control-lg {
   pointer-events: auto !important;
 }
 
-.rounded, #card-join {
+.rounded {
   border-radius: var(--bs-border-radius) !important;
 }
 
@@ -12045,14 +12045,23 @@ footer {
   width: 100%;
 }
 
+.loading {
+  width: 50px;
+  height: 50px;
+}
+
 #card-join {
   --bs-border-opacity: .5;
-  width: 20rem;
+  max-width: 20rem;
 }
-#form-join button[type=submit] {
+#card-join-parent {
+  margin-top: 5rem;
+}
+
+.form-join button[type=submit] {
   margin-left: 11.5%;
   border-radius: 25px;
 }
-#form-join button[type=submit]:hover {
+.form-join button[type=submit]:hover {
   --bs-bg-opacity: .5;
 }
