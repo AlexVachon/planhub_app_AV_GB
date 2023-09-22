@@ -53,7 +53,7 @@ function formSignIn(){
         <h5>
             Création d'un compte
         </h5>
-        <h6 class="card-subtitle mb-2 text-body-primary">Créez-vous un compte pour rejoindre notre communauté!</h6>
+        <h6 class="card-subtitle mb-2 text-body-primary">Rejoignez notre communtauté!</h6>
     </div>
     <div class="card-body">
         <form class="form-join" id="form-sign" action="/join/sign" method="post" novalidate>
