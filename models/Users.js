@@ -35,7 +35,8 @@ const UserModel = new mongoose.Schema({
         type: String,
         required: [true, "Vous devez fournir un mot de passe"],
         trim: true,
-        maxlength: [15, "Votre mot de passe ne peut pas dépasser 15 caractères"]
+        maxlength: [20, "Votre mot de passe ne peut pas dépasser 20 caractères"],
+        minlength: [8, "Votre mot de passe doit contenir au minimum 8 caractères"]
     },
     "projects":{
         type: Array
