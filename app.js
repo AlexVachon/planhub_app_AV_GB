@@ -62,6 +62,19 @@ app.get('/', (req, res) => {
     res.redirect('/join')
 })
 
+app.get('/logout', (req, res) =>{
+  req.session.destroy((error) => {
+    if (error){
+      console.log("Erreur lors de la déconnexion: ", error)
+      res.status(400).redirect('/')
+    }
+    else{
+      console.log("Utilisateur déconnecté")
+      console.log(__dirname)
+      res.status(201).render(path.join(__dirname, '/public/templates/join'), {message: "Déconnecté avec succès", success: true})
+    }
+  })
+})
 
 const start = async () =>{
   try{
