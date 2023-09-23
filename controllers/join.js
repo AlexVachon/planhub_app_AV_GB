@@ -11,7 +11,10 @@ const port =  process.env.PORT || 3000
 app.set('view engine', 'ejs');
 
 const loadPage = (req, res) => {
-    res.render(path.join(__dirname, '../public/templates/join'))
+    if (!req.session.user)
+        res.render(path.join(__dirname, '../public/templates/join'), {message:null})
+    else
+        res.status(201).redirect('/')
 }
 
 const setSession = (req, res) => {
@@ -32,7 +35,7 @@ const setSession = (req, res) => {
         })
         .catch(error => {
             console.log(error)
-            res.status(500).render('/join', { message: 'Erreur lors de la connexion au compte.' })
+            res.status(500).render(path.join(__dirname, '../public/templates/join'), { message: error['response']['data']['message'], success: false })
         });
     
 }
