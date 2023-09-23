@@ -36,7 +36,7 @@ function formLogin() {
         </form>
     </div>
     <div class="card-footer">
-        <p>Vous débutez sur PlanHub ?<a id="lien-join" href=""> S’inscrire</a></p>
+        <a id="lien-join" href=""> S’inscrire <img src="../images/chevron_right.png" alt="Flèche droite"></a>
     </div>
     
     `
@@ -85,7 +85,7 @@ function formSignIn(){
         </form>
     </div>
     <div class="card-footer">
-        <p>Vous avez déjà un compte ?<a id="lien-join" href="#"> S'identifier</a></p>
+        <a id="lien-join" href="#"><img src="../images/chevron_left.png" alt="Flèche gauche">S'identifier</a>
     </div>
     `
     lien = document.getElementById('lien-join').addEventListener('click', gererClic)

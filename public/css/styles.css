@@ -7265,7 +7265,7 @@ textarea.form-control-lg {
   box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175) !important;
 }
 
-.shadow-none {
+.shadow-none, .loading {
   box-shadow: none !important;
 }
 
@@ -8333,7 +8333,7 @@ textarea.form-control-lg {
   text-align: center !important;
 }
 
-.text-decoration-none {
+.text-decoration-none, #lien-join {
   text-decoration: none !important;
 }
 
