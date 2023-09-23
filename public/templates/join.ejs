@@ -12,6 +12,12 @@
         <%- include('../partials/header-join'); %>
     </header>
     <main>
+        <% if (message) { %>
+            <div class="alert <% if (success) { %> alert-success <% } else {%> alert-danger <% } %> w-25 text-center m-auto mt-2"><%= message %></div>
+        <% } %>
+        <div>
+
+        </div>
         <div id="card-join-parent">
             <div id="card-join">
                 <img class="loading" id="loading" src="../gif/loading.gif" alt="loading.gif">
