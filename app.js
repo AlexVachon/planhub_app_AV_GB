@@ -69,7 +69,7 @@ app.get('/logout', (req, res) =>{
       res.status(400).redirect('/')
     }
     else{
-      console.log("Utilisateur déconnecté")
+      console.log("Utilisateur déconnecter")
       console.log(__dirname)
       res.status(201).render(path.join(__dirname, '/public/templates/join'), {message: "Déconnecté avec succès", success: true})
     }
