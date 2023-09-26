@@ -8781,7 +8781,7 @@ textarea.form-control-lg {
   background-color: var(--bs-danger-bg-subtle) !important;
 }
 
-.bg-light-subtle, footer, header {
+.bg-light-subtle, #card-join .card-footer, footer, header {
   background-color: var(--bs-light-bg-subtle) !important;
 }
 
@@ -12067,5 +12067,5 @@ footer {
   border-radius: 25px;
 }
 .form-join button[type=submit]:hover {
-  --bs-bg-opacity: .5;
+  --bs-bg-opacity: .75;
 }
