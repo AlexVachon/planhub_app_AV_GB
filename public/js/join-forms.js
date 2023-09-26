@@ -1,5 +1,5 @@
 /**
- * Script pour formulaire creer un compte et/ou se connecter
+ * Script pour formulaires creer un compte et/ou se connecter
  */
 
 
@@ -114,6 +114,7 @@ function gererClic(e){
  */
 function initialize() {
     card = document.getElementById('card-join')
+    formLogin()
     setTimeout(formLogin, 250)
 }
 

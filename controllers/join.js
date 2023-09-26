@@ -12,9 +12,16 @@ app.set('view engine', 'ejs');
 
 const loadPage = (req, res) => {
     if (!req.session.user)
-        res.render(path.join(__dirname, '../public/templates/join'), {message:null})
+        res.status(201).render(path.join(__dirname, '../public/templates/login'), {message:null})
     else
         res.status(201).redirect('/')
+}
+
+const loadCreate = (req, res) => {
+    if (req.session.user)
+        res.status(201).redirect('/')
+    else
+        res.status(201).render(path.join(__dirname, '../public/templates/signin'))
 }
 
 const setSession = (req, res) => {
@@ -67,4 +74,5 @@ module.exports = {
     loadPage,
     setSession,
     createUser,
+    loadCreate,
 }

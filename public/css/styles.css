@@ -12041,8 +12041,9 @@ footer {
 
 #logo-app, #logo-app-footer {
   width: 15%;
-  min-width: 50px;
+  min-width: 100px;
   height: 15%;
+  min-height: 75px;
 }
 
 #logo-app-footer {
@@ -12057,7 +12058,7 @@ footer {
 #card-join {
   --bs-border-opacity: .5;
   max-width: 75rem;
-  min-width: 15rem;
+  min-width: 25rem;
 }
 #card-join-parent {
   margin: 5rem 0 5rem 0;
