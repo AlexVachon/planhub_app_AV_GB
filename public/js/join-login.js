@@ -2,35 +2,66 @@
  * Script pour se connecter à notre compte
  */
 
-let form = null
+// const regexEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+// const regexPW = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).{1,20}$/
+
+const input_email = document.getElementById("connect_email")
+const input_password = document.getElementById("connect_password")
+
+const notifications = document.getElementById("notifications")
+
+
+function afficherMessage(input, valide){
+    if (valide){
+        input.classList.remove("is-invalid")
+        input.classList.add("is-valid")
+    }else{
+        input.classList.remove("is-valid")
+        input.classList.add("is-invalid")
+        input.value = ""
+    }
+}
 
 async function gererSubmit(e){
     e.preventDefault()
     try {
-        const connect_email = document.getElementById("connect_email").value
-        const connect_password = document.getElementById("connect_password").value
+        const connect_email = input_email.value
+        const connect_password = input_password.value
 
-        const user = await envoyerRequeteAjax(
-            url = '/join/login',
-            methode = 'POST',
-            parametres = {
-                connect_email: connect_email,
-                connect_password: connect_password
+        const confirm_email = await envoyerRequeteAjax(
+            '/join/confirm/email',
+            'POST',
+            {
+                confirm_email: connect_email
             }
         )
-        console.log(user)
+        if(confirm_email){
+            afficherMessage(input_email, true)
+            try{
+                const user = await envoyerRequeteAjax(
+                    '/join/login',
+                    'POST',
+                    {
+                        connect_email: connect_email,
+                        connect_password: connect_password
+                    }
+                )
+                console.log(user)
+            }catch(e){
+                afficherMessage(input_password, false)
+            }
+        }
+        
     } catch (error) {
-        console.log(error)
+        afficherMessage(input_email, false)
     }
-
 }
-
 
 /**
  * Initialisation de la fenêtre
  */
 function initialize(){
-    form = document.querySelector("form")
-    form.addEventListener("submit", gererSubmit)      
+    document.querySelector("form").addEventListener("submit", gererSubmit)
 }
+
 window.addEventListener('load', initialize)
