@@ -1,4 +1,5 @@
 require('dotenv').config()
+const Users = require('../models/Users')
 
 const express = require('express')
 const app = express()
@@ -24,6 +25,22 @@ const loadCreate = (req, res) => {
         res.status(201).render(path.join(__dirname, '../public/templates/signin'))
 }
 
+const confirmEmail = async (req, res) => {
+    try{
+        const {confirm_email} = req.body
+
+        const user = await Users.findOne({ 'email': confirm_email})
+        if (user == null) {
+            res.status(400).json(false)
+        }
+        else{
+            res.status(200).json(true)
+        }
+    }catch(error){
+
+    }
+}
+
 const setSession = (req, res) => {
     const { connect_email, connect_password } = req.body;
 
@@ -40,11 +57,17 @@ const setSession = (req, res) => {
             req.session.user = data['user']
             res.status(201).redirect('/')
         })
-        .catch(error => {
-            console.log(error)
-            res.status(500).render(path.join(__dirname, '../public/templates/join'), { message: error['response']['data']['message'], success: false })
+        .catch(({response}) => {
+            if (response) {
+                const data = response.data
+                console.log(data)
+                res.data = data
+                res.status(500).json({error: data.message})
+            } else {
+                console.error("Erreur inattendue :", error)
+                res.status(500).json({ message: 'Erreur serveur' })
+            }
         });
-    
 }
 
 const createUser = (req, res) => {
@@ -75,4 +98,5 @@ module.exports = {
     setSession,
     createUser,
     loadCreate,
+    confirmEmail,
 }
