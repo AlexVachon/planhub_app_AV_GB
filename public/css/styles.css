@@ -7862,7 +7862,7 @@ textarea.form-control-lg {
   margin-bottom: 0.5rem !important;
 }
 
-.my-3 {
+.my-3, .form-join button[type=submit] {
   margin-top: 1rem !important;
   margin-bottom: 1rem !important;
 }
@@ -8407,7 +8407,7 @@ textarea.form-control-lg {
   color: rgba(var(--bs-danger-rgb), var(--bs-text-opacity)) !important;
 }
 
-.text-light {
+.text-light, #card-join .form-text {
   --bs-text-opacity: 1;
   color: rgba(var(--bs-light-rgb), var(--bs-text-opacity)) !important;
 }
@@ -12061,7 +12061,7 @@ footer {
 #card-join {
   --bs-border-opacity: .5;
   max-width: 75rem;
-  min-width: 15rem;
+  min-width: 18rem;
 }
 #card-join-parent {
   margin: 5rem 0 5rem 0;

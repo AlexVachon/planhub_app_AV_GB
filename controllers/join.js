@@ -13,7 +13,7 @@ app.set('view engine', 'ejs');
 
 const loadPage = (req, res) => {
     if (!req.session.user)
-        res.status(201).render(path.join(__dirname, '../public/templates/login'), {message:null})
+        res.status(201).render(path.join(__dirname, '../public/templates/login'))
     else
         res.status(201).redirect('/')
 }
@@ -52,22 +52,14 @@ const setSession = (req, res) => {
     axios.post(`http://planhub.click/api/v1/users/connect`, userData)
         .then(({data}) => {
             console.log(data)
-            
             req.session.authenticated = true
             req.session.user = data['user']
-            res.status(201).redirect('/')
+            res.redirect('/')
         })
-        .catch(({response}) => {
-            if (response) {
-                const data = response.data
-                console.log(data)
-                res.data = data
-                res.status(500).json({error: data.message})
-            } else {
-                console.error("Erreur inattendue :", error)
-                res.status(500).json({ message: 'Erreur serveur' })
-            }
-        });
+        .catch(error => {
+            console.error("Erreur inattendue :", error)
+            res.status(500).json({ message: 'Erreur serveur' })
+        })
 }
 
 const createUser = (req, res) => {

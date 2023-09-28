@@ -1,57 +1,87 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <%- include('../partials/head'); %>
+
+<head>
+    <%- include('../partials/head'); %>
         <title>PlanHub | Création de compte</title>
-    </head>
-    <body class="bg-white">
-        <header class="border-bottom">
-            <%- include('../partials/header-join'); %>
-        </header>
-        <main>
-            <div id="card-join-parent">
-                <div id="card-join">
-                    <div class="card-header">
-                        <a href="/join"><img src="../images/chevron_left.png" alt="Flèche gauche">S'identifier</a>
-                        <h5>
-                            Création d'un compte
-                        </h5>
-                        <h6 class="card-subtitle mb-2 text-body-primary">Rejoignez notre communauté!</h6>
-                    </div>
-                    <div class="card-body">
-                        <form class="form-join" id="form-sign" action="/join/sign" method="post" novalidate>
-                            <div class="mb-3">
-                                <label for="sign_first_name" class="form-label">Prénom</label>
-                                <input class="form-control" type="text" name="sign_first_name" id="sign_first_name" max="50" min="3">
+        <script src="../js/utils-ajax.js" defer></script>
+        <script src="../js/join-signin.js" defer></script>
+</head>
+
+<body class="bg-white">
+    <header class="border-bottom">
+        <%- include('../partials/header-join'); %>
+    </header>
+    <main>
+        <div id="card-join-parent">
+            <div id="card-join">
+                <div class="card-header">
+                    <a href="/join"><img src="../images/chevron_left.png" alt="Flèche gauche">S'identifier</a>
+                    <h5>
+                        Création d'un compte
+                    </h5>
+                    <h6 class="card-subtitle mb-2 text-body-primary">Rejoignez notre communauté!</h6>
+                </div>
+                <div class="card-body">
+                    <form class="form-join" id="form-sign" action="/join/sign" method="post" novalidate>
+                        <div class="mb-3">
+                            <label for="sign_first_name" class="form-label">Prénom</label>
+                            <input class="form-control" type="text" name="sign_first_name" id="sign_first_name" max="50"
+                                min="3" aria-describedby="fnHelp">
+                            <div id="fnHelp" class="form-text">
+                                Contient de 3 à 50 caractères
                             </div>
-                            <div class="mb-3">
-                                <label for="sign_last_name" class="form-label">Nom</label>
-                                <input class="form-control" type="text" name="sign_last_name" id="sign_last_name" max="50" min="3">
+                        </div>
+                        <div class="mb-3">
+                            <label for="sign_last_name" class="form-label">Nom</label>
+                            <input class="form-control" type="text" name="sign_last_name" id="sign_last_name" max="50"
+                                min="3" aria-describedby="lnHelp">
+                            <div id="lnHelp" class="form-text">
+                                Contient de 3 à 50 caractères
                             </div>
-                            <div class="mb-3">
-                                <label for="sign_username" class="form-label">Nom d'utilisateur</label>
-                                <input class="form-control" type="text" name="sign_username" id="sign_username" max="20" min="8">
+                        </div>
+                        <div class="mb-3">
+                            <label for="sign_username" class="form-label">Nom d'utilisateur</label>
+                            <input class="form-control" type="text" name="sign_username" id="sign_username" max="20"
+                                min="8" aria-describedby="unHelp">
+                            <div id="unHelp" class="form-text">
+                                Contient de 8 à 20 caractères
                             </div>
-                            <div class="mb-3">
-                                <label for="sign_email" class="form-label">E-mail</label>
-                                <input class="form-control" type="email" name="sign_email" id="sign_email" max="100">
+                        </div>
+                        <div class="mb-3">
+                            <label for="sign_email" class="form-label">E-mail</label>
+                            <input class="form-control" type="email" name="sign_email" id="sign_email" max="100"
+                                aria-describedby="emHelp">
+                            <div id="emHelp" class="form-text">
+                                Doit être valide et contient au maximum 100 caractères
                             </div>
-                            <div class="mb-3">
-                                <label for="sign_password" class="form-label">Mot de passe</label>
-                                <input class="form-control" type="password" name="sign_password" id="sign_password" max="20" min="8">
+                        </div>
+                        <div class="mb-3">
+                            <label for="sign_password" class="form-label">Mot de passe</label>
+                            <input class="form-control" type="password" name="sign_password" id="sign_password" max="20"
+                                min="8" aria-describedby="pwHelp">
+                            <div id="pwHelp" class="form-text">
+                                Contient au moins une lettre majuscule, un chiffre et un caractère spécial, qui contient
+                                de 3 à 20 caractères
                             </div>
-                            <div class="mb-3">
-                                <label for="sign_password_confirm" class="form-label">Confirmation mot de passe</label>
-                                <input class="form-control" type="password" name="sign_password_confirm" id="sign_password_confirm" max="20" min="8">
+                        </div>
+                        <div class="mb-3">
+                            <label for="sign_password_confirm" class="form-label">Confirmation mot de passe</label>
+                            <input class="form-control" type="password" name="sign_password_confirm"
+                                id="sign_password_confirm" max="20" min="8" aria-describedby="pwcHelp">
+                            <div id="pwcHelp" class="form-text">
+                                Doit être identique au mot de passe
                             </div>
-                            <button type="submit" class="btn btn-primary">Créer Compte</button>
-                        </form>
-                    </div>
+                        </div>
+                        <button id="btn-submit" type="submit" class="btn btn-primary">Créer Compte</button>
+                    </form>
                 </div>
             </div>
-        </main>
-        <footer>
-            <%- include('../partials/footer-join'); %>
-        </footer>
-    </body>
+        </div>
+    </main>
+    <footer>
+        <%- include('../partials/footer-join'); %>
+    </footer>
+</body>
+
 </html>

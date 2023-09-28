@@ -214,7 +214,7 @@ h1
   --bs-border-opacity: .5
   @extend .card, .bg-white, .text-dark, .shadow-lg, .mb-2
   max-width: 75rem
-  min-width: 15rem
+  min-width: 18rem
   .card-header
     h5
       @extend .fw-bolder, .fs-2
@@ -222,6 +222,8 @@ h1
     @extend .my-1
   .card-footer
     @extend  .text-center, .bg-light-subtle
+  .form-text
+    @extend .text-light
 
 #card-join-parent
   @extend .d-flex, .align-items-center, .flex-column
@@ -235,12 +237,13 @@ h1
   .form-control
     @extend .bg-white
   button[type='submit']
-    @extend  .w-75, .bg-primary
+    @extend  .w-75, .bg-primary, .my-3
     margin-left: 11.5%
     border-radius: 25px
     &:hover
       --bs-bg-opacity: .75
       @extend .bg-primary
+
       
 #lien-join
   @extend .text-decoration-none

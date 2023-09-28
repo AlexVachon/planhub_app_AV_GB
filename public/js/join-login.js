@@ -2,8 +2,6 @@
  * Script pour se connecter à notre compte
  */
 
-// const regexEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
-// const regexPW = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).{1,20}$/
 
 const input_email = document.getElementById("connect_email")
 const input_password = document.getElementById("connect_password")
@@ -11,18 +9,18 @@ const input_password = document.getElementById("connect_password")
 const notifications = document.getElementById("notifications")
 
 
-function afficherMessage(input, valide){
-    if (valide){
+function afficherMessage(input, valide) {
+    if (valide) {
         input.classList.remove("is-invalid")
         input.classList.add("is-valid")
-    }else{
+    } else {
         input.classList.remove("is-valid")
         input.classList.add("is-invalid")
         input.value = ""
     }
 }
 
-async function gererSubmit(e){
+async function gererSubmit(e) {
     e.preventDefault()
     try {
         const connect_email = input_email.value
@@ -35,9 +33,9 @@ async function gererSubmit(e){
                 confirm_email: connect_email
             }
         )
-        if(confirm_email){
+        if (confirm_email) {
             afficherMessage(input_email, true)
-            try{
+            try {
                 const user = await envoyerRequeteAjax(
                     '/join/login',
                     'POST',
@@ -46,12 +44,12 @@ async function gererSubmit(e){
                         connect_password: connect_password
                     }
                 )
-                console.log(user)
-            }catch(e){
+                window.location.href = user.url
+            } catch (e) {
                 afficherMessage(input_password, false)
             }
         }
-        
+
     } catch (error) {
         afficherMessage(input_email, false)
     }
@@ -60,7 +58,7 @@ async function gererSubmit(e){
 /**
  * Initialisation de la fenêtre
  */
-function initialize(){
+function initialize() {
     document.querySelector("form").addEventListener("submit", gererSubmit)
 }
 
