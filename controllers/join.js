@@ -7,7 +7,7 @@ const app = express()
 const axios = require('axios')
 const path = require('path')
 
-const port =  process.env.PORT || 3000
+const port = process.env.PORT || 3000
 
 app.set('view engine', 'ejs');
 
@@ -26,17 +26,17 @@ const loadCreate = (req, res) => {
 }
 
 const confirmEmail = async (req, res) => {
-    try{
-        const {confirm_email} = req.body
+    try {
+        const { confirm_email } = req.body
 
-        const user = await Users.findOne({ 'email': confirm_email})
+        const user = await Users.findOne({ 'email': confirm_email })
         if (user == null) {
             res.status(400).json(false)
         }
-        else{
+        else {
             res.status(200).json(true)
         }
-    }catch(error){
+    } catch (error) {
 
     }
 }
@@ -48,9 +48,9 @@ const setSession = (req, res) => {
         user_email: connect_email,
         user_password: connect_password
     }
-    
+
     axios.post(`http://planhub.click/api/v1/users/connect`, userData)
-        .then(({data}) => {
+        .then(({ data }) => {
             console.log(data)
             req.session.authenticated = true
             req.session.user = data['user']
@@ -62,33 +62,45 @@ const setSession = (req, res) => {
         })
 }
 
-const createUser = (req, res) => {
-    const {sign_first_name, sign_last_name, sign_username, sign_email, sign_password, sign_password_confirm} = req.body
+const isEmailUsed = async (req, res) => {
+    const { email } = req.body
+    try{
+        const user = await Users.findOne({'email': email})
 
-    const userData = {
-        first_name: sign_first_name,
-        last_name: sign_last_name,
-        username: sign_username,
-        email: sign_email,
-        password: sign_password,
-        password_confirm: sign_password_confirm
+        if (user){
+            res.status(200).json(true)
+        }else{
+            res.status(200).json(false)
+        }
+        
+    }catch(e){
+        console.log(e)
     }
-    
-    axios.post(`http://planhub.click/api/users/create`, userData)
-    .then(({data}) => {
-        console.log(data)
-        console.log(data['message'])
-    })
-    .catch(error => {
-        console.log(error)
-        res.status(500).json({ message: 'Erreur lors de la création du compte.' })
-    })
+}
+
+const isUserNameUsed = async (req, res) => {
+    const { username } = req.body
+
+    try {
+        
+        const user = await Users.findOne({'username': username})
+
+        if(user){
+            res.status(200).json(true)
+        }else{
+            res.status(200).json(false)
+        }
+
+    } catch (e) {
+        console.log(e)
+    }
 }
 
 module.exports = {
     loadPage,
     setSession,
-    createUser,
     loadCreate,
     confirmEmail,
+    isEmailUsed,
+    isUserNameUsed
 }
