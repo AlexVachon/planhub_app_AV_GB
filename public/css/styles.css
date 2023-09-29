@@ -8794,7 +8794,7 @@ textarea.form-control-lg {
   background-color: var(--bs-dark-bg-subtle) !important;
 }
 
-.bg-gradient {
+.bg-gradient, #card-join .card-footer, footer, header {
   background-image: var(--bs-gradient) !important;
 }
 
