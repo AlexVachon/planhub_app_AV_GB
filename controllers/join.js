@@ -49,11 +49,12 @@ const setSession = (req, res) => {
         user_password: connect_password
     }
 
-    axios.post(`http://planhub.click/api/v1/users/connect`, userData)
+    axios.post(`http://localhost:${port}/api/v1/users/connect`, userData)
         .then(({ data }) => {
             console.log(data)
             req.session.authenticated = true
-            req.session.user = data['user']
+            console.log(data['user']['_id'])
+            req.session.user = data['user']['_id']
             res.redirect('/')
         })
         .catch(error => {
