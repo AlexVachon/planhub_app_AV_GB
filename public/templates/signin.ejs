@@ -31,6 +31,12 @@
                             <div id="fnHelp" class="form-text">
                                 Contient de 3 à 50 caractères
                             </div>
+                            <div class="invalid-feedback">
+                                Prénom invalide...
+                            </div>
+                            <div class="valid-feedback">
+                                Parfait!
+                            </div>
                         </div>
                         <div class="mb-3">
                             <label for="sign_last_name" class="form-label">Nom</label>
@@ -38,6 +44,12 @@
                                 min="3" aria-describedby="lnHelp">
                             <div id="lnHelp" class="form-text">
                                 Contient de 3 à 50 caractères
+                            </div>
+                            <div class="invalid-feedback">
+                                Nom invalide...
+                            </div>
+                            <div class="valid-feedback">
+                                Parfait!
                             </div>
                         </div>
                         <div class="mb-3">
@@ -47,6 +59,12 @@
                             <div id="unHelp" class="form-text">
                                 Contient de 8 à 20 caractères
                             </div>
+                            <div class="invalid-feedback">
+                               Nom d'utilisateur invalide...
+                            </div>
+                            <div class="valid-feedback">
+                                Parfait!
+                            </div>
                         </div>
                         <div class="mb-3">
                             <label for="sign_email" class="form-label">E-mail</label>
@@ -54,6 +72,12 @@
                                 aria-describedby="emHelp">
                             <div id="emHelp" class="form-text">
                                 Doit être valide et contient au maximum 100 caractères
+                            </div>
+                            <div class="invalid-feedback">
+                                Courriel invalide ou déjà utilisé...
+                            </div>
+                            <div class="valid-feedback">
+                                Parfait!
                             </div>
                         </div>
                         <div class="mb-3">
@@ -64,6 +88,12 @@
                                 Contient au moins une lettre majuscule, un chiffre et un caractère spécial, qui contient
                                 de 3 à 20 caractères
                             </div>
+                            <div class="invalid-feedback">
+                                Mot de passe invalide...
+                            </div>
+                            <div class="valid-feedback">
+                                Parfait!
+                            </div>
                         </div>
                         <div class="mb-3">
                             <label for="sign_password_confirm" class="form-label">Confirmation mot de passe</label>
@@ -71,6 +101,12 @@
                                 id="sign_password_confirm" max="20" min="8" aria-describedby="pwcHelp">
                             <div id="pwcHelp" class="form-text">
                                 Doit être identique au mot de passe
+                            </div>
+                            <div class="invalid-feedback">
+                                Ne correspond pas au mot de passe...
+                            </div>
+                            <div class="valid-feedback">
+                                Parfait!
                             </div>
                         </div>
                         <button id="btn-submit" type="submit" class="btn btn-primary">Créer Compte</button>
