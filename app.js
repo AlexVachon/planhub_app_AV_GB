@@ -20,10 +20,7 @@ app.use(session({
       maxAge: 3600000,
   }
 }));
-
 const cookieParser = require('cookie-parser')
-
-const axios = require('axios')
 
 //DB CONNECTION
 const connectDB = require('./db/connect')
@@ -47,17 +44,12 @@ const port =  process.env.PORT || 3000
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 app.use(cookieParser())
-
-
+app.use(express.static(path.join(__dirname, 'public')))
+app.use('/api/v1/users', users)
+app.use('/join', joins)
 
 // set the view engine to ejs
 app.set('view engine', 'ejs');
-
-app.use(express.static(path.join(__dirname, 'public')))
-
-// Routes
-app.use('/api/v1/users', users)
-app.use('/join', joins)
 
 
 // Gestionnaire de route pour la page d'accueil
