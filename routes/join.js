@@ -12,6 +12,4 @@ router.route('/confirm/username_used').post(isUserNameUsed)
 router.route('/login').post(setSession)
 router.route('/sign').get(loadCreate).post(createUser)
 
-
-
 module.exports = router

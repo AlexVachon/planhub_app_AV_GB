@@ -37,4 +37,4 @@ const ProjectsModel = mongoose.Schema({
 
 })
 
-module.exports = mongoose.Model('Projects', ProjectsModel)
+module.exports = mongoose.model('Projects', ProjectsModel)
