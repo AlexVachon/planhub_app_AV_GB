@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <%- include('../partials/head'); %>
+        <title>PlanHub | Connexion</title>
+        <script src="../js/utils-ajax.js" defer></script>
+        <script src="../js/join-login.js" defer></script>
+</head>
+
+<body class="bg-white">
+    <header class="border-bottom">
+        <%- include('../partials/header-join'); %>
+    </header>
+    <main>
+
+        <div id="card-join-parent">
+            <div id="card-join">
+                <!-- <img class="loading" id="loading" src="../gif/loading.gif" alt="loading.gif"> -->
+                <div class="card-header">
+                    <h5>
+                        S’identifier
+                    </h5>
+                    <h6 class="card-subtitle mb-2 text-body-primary">Organisez vos projets
+                        scolaires/professionnels simplement</h6>
+                </div>
+                <div class="card-body">
+                    <form class="form-join" id="form-login" method="post" action="/join/login" novalidate>
+                        <div class="mb-3">
+                            <label for="connect_email" class="form-label">E-mail</label>
+                            <input type="email" class="form-control" id="connect_email" name="connect_email">
+                            <div class="invalid-feedback">
+                                Courriel inexistant...
+                            </div>
+                            <div class="valid-feedback">
+                                Parfait!
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="connect_password" class="form-label">Mot de passe</label>
+                            <input type="password" class="form-control" id="connect_password" name="connect_password">
+                            <div class="invalid-feedback">
+                                Mot de passe incorrect...
+                            </div>
+                            <div class="valid-feedback">
+                                Parfait!
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">S'identifier</button>
+                    </form>
+                </div>
+                <div class="card-footer">
+                    <p>Vous débutez sur PlanHub ? <a href="/join/sign">S'inscrire</a></p>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <%- include('../partials/footer-join'); %>
+    </footer>
+
+    
+</body>
+
+</html>

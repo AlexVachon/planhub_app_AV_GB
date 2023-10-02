@@ -53,6 +53,10 @@ async function envoyerRequeteAjax(
         // Pour gérer les codes 4xx et 5xx :
         throw new Error(`${reponse.status} ${reponse.statusText}`);
     }
-
-    return await reponse.json();
+    try{
+        return await reponse.json();
+    }catch(e){
+        console.log(e)
+        return await reponse;
+    }
 }

@@ -9,15 +9,18 @@ const app = express()
 const session = require('express-session')
 
 app.use(session({
-  secret: process.env.SESSION_SECRET || "v57UkuLUUejo4yE0AGM8zlqd40dsiLbu",
-  cookie: {maxAge: 3600000}, //1 heure
+  name: 'connect.sid',
+  secret: 'votre_secret_key',
   resave: false,
-  saveUninitialized: false
-}))
-
+  saveUninitialized: true,
+  cookie: {
+      secure: false,
+      httpOnly: true,
+      sameSite: 'Lax', 
+      maxAge: 3600000,
+  }
+}));
 const cookieParser = require('cookie-parser')
-
-const axios = require('axios')
 
 //DB CONNECTION
 const connectDB = require('./db/connect')
@@ -41,17 +44,12 @@ const port =  process.env.PORT || 3000
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 app.use(cookieParser())
-
-
+app.use(express.static(path.join(__dirname, 'public')))
+app.use('/api/v1/users', users)
+app.use('/join', joins)
 
 // set the view engine to ejs
 app.set('view engine', 'ejs');
-
-app.use(express.static(path.join(__dirname, 'public')))
-
-// Routes
-app.use('/api/v1/users', users)
-app.use('/join', joins)
 
 
 // Gestionnaire de route pour la page d'accueil
@@ -69,9 +67,9 @@ app.get('/logout', (req, res) =>{
       res.status(400).redirect('/')
     }
     else{
-      console.log("Utilisateur déconnecté")
+      console.log("Utilisateur déconnecter")
       console.log(__dirname)
-      res.status(201).render(path.join(__dirname, '/public/templates/join'), {message: "Déconnecté avec succès", success: true})
+      res.status(201).redirect('/join')
     }
   })
 })

@@ -1,5 +1,6 @@
 const Users = require('../models/Users')
 const bcrypt = require('bcrypt')
+const mongoose = require('mongoose')
 
 
 const getOneUser = async (req, res) => {
@@ -8,7 +9,7 @@ const getOneUser = async (req, res) => {
     try {
         const user = await Users.findOne({ 'email': user_email })
         if (user == null) {
-            res.status(400).json({ message: 'Courriel incorrect' })
+            res.status(400).json({message: 'Courriel incorrect' })
         }
 
         const passwordMatch = await bcrypt.compare(user_password, user.password);
@@ -16,7 +17,7 @@ const getOneUser = async (req, res) => {
         if (passwordMatch) {
             res.status(201).json({ message: `Connecté en tant que ${user.username}`, user })
         } else {
-            res.status(401).json({ message: "Mot de passe incorrect" })
+            res.status(400).json({ message: "Mot de passe incorrect"})
         }
 
     } catch (err) {
@@ -40,21 +41,20 @@ const createUser = async (req, res) => {
     const { first_name, last_name, username, email, password, password_confirm } = req.body
     if (password == password_confirm) {
         try {
-            const user = await Users.create({
-                "first_name": first_name,
-                "last_name": last_name,
-                "username": username,
-                "email": email,
-                "password": password
+            const user = new Users({
+                _id: new mongoose.Types.ObjectId(),
+                first_name: first_name.toString(),
+                last_name: last_name.toString(),
+                username: username.toString(),
+                email: email.toString(),
+                password: password.toString()
+                
             })
-            res.status(201).json({ user })
+            console.log(user)
+            user.save()
+            res.status(201).redirect('/join')
         } catch (err) {
-            if (err['keyValue']['email'])
-                res.status(400).json({ message: `${err['keyValue']['email']} est déjà utilisé` })
-            else if (err['keyValue']['username'])
-                res.status(400).json({ message: `${err['keyValue']['username']} est déjà utilisé` })
-            else
-                console.error("Erreur de la création de l'utilisateur :", err)
+            console.error("Erreur de la création de l'utilisateur :", err)
         }
     } else {
         res.status(400).json({ message: "Les mots de passe ne sont pas identiques." })

@@ -183,14 +183,14 @@ body
   min-height: 100vh
 
 header
-  @extend .h-25, .p-3, .shadow-sm,.bg-light-subtle
+  @extend .h-25, .p-3, .shadow-sm, .bg-light-subtle, .bg-gradient
 
 main
   @extend .container
 
 footer
   --bs-border-opacity: .5
-  @extend .bg-light-subtle, .border-top, .mt-auto
+  @extend .bg-light-subtle, .border-top, .mt-auto, .bg-gradient
   height: 7.5%
 
 h1
@@ -198,8 +198,7 @@ h1
 
 #logo-app
   width: 15%
-  min-width: 50px
-  height: 15%
+  min-width: 100px
   @extend .m-auto
 
 #logo-app-footer
@@ -215,14 +214,16 @@ h1
   --bs-border-opacity: .5
   @extend .card, .bg-white, .text-dark, .shadow-lg, .mb-2
   max-width: 75rem
-  min-width: 15rem
+  min-width: 18rem
   .card-header
     h5
       @extend .fw-bolder, .fs-2
   .card-body
     @extend .my-1
   .card-footer
-    @extend  .text-center
+    @extend  .text-center, .bg-light-subtle, .bg-gradient
+  .form-text
+    @extend .text-light
 
 #card-join-parent
   @extend .d-flex, .align-items-center, .flex-column
@@ -236,12 +237,21 @@ h1
   .form-control
     @extend .bg-white
   button[type='submit']
-    @extend  .w-75, .bg-primary
+    @extend  .w-75, .bg-primary, .my-3
     margin-left: 11.5%
     border-radius: 25px
     &:hover
-      --bs-bg-opacity: .5
+      --bs-bg-opacity: .75
       @extend .bg-primary
+
       
 #lien-join
   @extend .text-decoration-none
+
+.notification
+  @extend .position-absolute
+  left: 50%
+  top:10%
+  z-index: 1 
+  transform: translate(-50%, -50%)
+  min-width: 15rem

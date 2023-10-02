@@ -17,4 +17,4 @@ const CommentsModel = mongoose.Schema({
     }
 })
 
-module.exports = mongoose.Model('Teams', TeamsModel)
+module.exports = mongoose.model('Teams', TeamsModel)
