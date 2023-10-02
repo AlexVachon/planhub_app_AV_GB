@@ -54,11 +54,16 @@ app.set('view engine', 'ejs');
 
 // Gestionnaire de route pour la page d'accueil
 app.get('/', (req, res) => {
-  if (req.session.authenticated)
-    res.render(path.join(__dirname, 'public/templates/index'))
-  else
-    res.redirect('/join')
-})
+  if (req.session.authenticated) {
+
+    const user = req.session.user;
+    
+  
+    res.render(path.join(__dirname, 'public/templates/index'), { user });
+  } else {
+    res.redirect('/join');
+  }
+});
 
 app.get('/logout', (req, res) =>{
   req.session.destroy((error) => {
