@@ -8672,7 +8672,7 @@ textarea.form-control-lg {
   --bs-link-underline-opacity: 1;
 }
 
-.bg-primary, .form-join button[type=submit]:hover, .form-join button[type=submit] {
+.bg-primary, .dropdown-item:hover, .form-join button[type=submit]:hover, .form-join button[type=submit] {
   --bs-bg-opacity: 1;
   background-color: rgba(var(--bs-primary-rgb), var(--bs-bg-opacity)) !important;
 }
@@ -12037,6 +12037,7 @@ textarea.form-control-lg {
 
 body {
   min-height: 100vh;
+  font-family: "Numans", sans-serif;
 }
 
 footer {

@@ -25,6 +25,10 @@ const cookieParser = require('cookie-parser')
 //DB CONNECTION
 const connectDB = require('./db/connect')
 
+//MODÈLES -> ./models/
+const ModelUsers = require('./models/Users')
+const ModelProjects = require('./models/Projects')
+
 //ROUTES -> ./routes/
 const users = require('./routes/users')
 const joins = require('./routes/join')
@@ -53,13 +57,18 @@ app.set('view engine', 'ejs');
 
 
 // Gestionnaire de route pour la page d'accueil
-app.get('/', (req, res) => {
+app.get('/', async (req, res) => {
   if (req.session.authenticated) {
-
-    const user = req.session.user;
-    
-  
-    res.render(path.join(__dirname, 'public/templates/index'), { user });
+    try {
+      const user = await ModelUsers.findById(req.session.user).populate({
+        path : "projects", 
+        model : ModelProjects
+    });
+      res.render(path.join(__dirname, 'public/templates/index'), { user });
+    } catch (err) {
+      console.log("Erreur lors de la recherche de l'utilisateur avec l'ID : " + req.session.user, err);
+      res.status(500).redirect('/join');
+    }
   } else {
     res.redirect('/join');
   }
