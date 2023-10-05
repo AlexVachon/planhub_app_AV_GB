@@ -8717,7 +8717,7 @@ textarea.form-control-lg {
   background-color: rgba(var(--bs-black-rgb), var(--bs-bg-opacity)) !important;
 }
 
-.bg-white, .form-join .form-control, #card-join {
+.bg-white, .notification, .form-join .form-control, #card-join {
   --bs-bg-opacity: 1;
   background-color: rgba(var(--bs-white-rgb), var(--bs-bg-opacity)) !important;
 }
@@ -8786,7 +8786,7 @@ textarea.form-control-lg {
   background-color: var(--bs-danger-bg-subtle) !important;
 }
 
-.bg-light-subtle, #card-join .card-footer, footer, header {
+.bg-light-subtle, .notification .toast-header, #card-join .card-footer, footer, header {
   background-color: var(--bs-light-bg-subtle) !important;
 }
 

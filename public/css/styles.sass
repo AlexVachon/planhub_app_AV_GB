@@ -251,12 +251,14 @@ h1
   @extend .text-decoration-none
 
 .notification
-  @extend .position-absolute
+  @extend .position-absolute, .bg-white
   left: 50%
   top:10%
   z-index: 1 
   transform: translate(-50%, -50%)
   min-width: 15rem
+  .toast-header
+    @extend .bg-light-subtle
 
 .dropdown-item:hover
   @extend .bg-primary
