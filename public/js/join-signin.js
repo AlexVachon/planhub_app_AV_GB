@@ -9,7 +9,7 @@
 const regexFNLN = /^.{3,50}$/
 const regexUN = /^[a-zA-Z0-9_]{8,20}$/
 const regexEM = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
-const regexPW = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).{3,20}$/
+const regexPW = /^.{8,}/
 
 /**
  * Initialisation des inputs du formulaire
@@ -46,62 +46,6 @@ function allGood(values) {
         regexEM.test(values[3]) &&
         values[4] == values[5]
     );
-}
-
-/**
- * Affiche les feedbacks sur chaque input
- * @param  {[]} values Valeur à vérifier
- * @returns Vrai si tous les conditions sont respectées, sinon Faux
- */
-function validationChamps(values) {
-    if (regexFNLN.test(values[0])) {
-        input_fn.classList.remove('is-invalid')
-        input_fn.classList.add('is-valid')
-    } else {
-        input_fn.classList.remove('is-valid')
-        input_fn.classList.add('is-invalid')
-    }
-
-    if (regexFNLN.test(values[1])) {
-        input_ln.classList.remove('is-invalid')
-        input_ln.classList.add('is-valid')
-    } else {
-        input_ln.classList.remove('is-valid')
-        input_ln.classList.add('is-invalid')
-    }
-
-    if (regexUN.test(values[2])) {
-        input_un.classList.remove('is-invalid')
-        input_un.classList.add('is-valid')
-    } else {
-        input_un.classList.remove('is-valid')
-        input_un.classList.add('is-invalid')
-    }
-
-    if (regexEM.test(values[3])) {
-        input_em.classList.remove('is-invalid')
-        input_em.classList.add('is-valid')
-    } else {
-        input_em.classList.remove('is-valid')
-        input_em.classList.add('is-invalid')
-    }
-
-    if (regexPW.test(values[4])) {
-        input_pw.classList.remove('is-invalid')
-        input_pw.classList.add('is-valid')
-    } else {
-        input_pw.classList.remove('is-valid')
-        input_pw.classList.add('is-invalid')
-    }
-    if (values[4] == values[5] && values[5] != "") {
-        input_pwc.classList.remove('is-invalid');
-        input_pwc.classList.add('is-valid');
-    } else {
-        input_pwc.classList.remove('is-valid');
-        input_pwc.classList.add('is-invalid');
-    }
-
-    return allGood(values)
 }
 
 /**
@@ -150,14 +94,64 @@ async function usernameUsed() {
     return isValid;
 }
 
-async function checkUsed(){
-    try{
-        return emailUsed() && usernameUsed()
-    }catch (e){
-        usernameUsed()
-        return false
+
+/**
+ * Affiche les feedbacks sur chaque input
+ * @param  {[]} values Valeur à vérifier
+ * @returns Vrai si tous les conditions sont respectées, sinon Faux
+ */
+function validationChamps(values) {
+    if (regexFNLN.test(values[0])) {
+        input_fn.classList.remove('is-invalid')
+        input_fn.classList.add('is-valid')
+    } else {
+        input_fn.classList.remove('is-valid')
+        input_fn.classList.add('is-invalid')
     }
+
+    if (regexFNLN.test(values[1])) {
+        input_ln.classList.remove('is-invalid')
+        input_ln.classList.add('is-valid')
+    } else {
+        input_ln.classList.remove('is-valid')
+        input_ln.classList.add('is-invalid')
+    }
+
+    if (regexUN.test(values[2]) && !usernameUsed()) {
+        input_un.classList.remove('is-invalid')
+        input_un.classList.add('is-valid')
+    } else {
+        input_un.classList.remove('is-valid')
+        input_un.classList.add('is-invalid')
+    }
+
+    if (regexEM.test(values[3]) && !emailUsed()) {
+        input_em.classList.remove('is-invalid')
+        input_em.classList.add('is-valid')
+    } else {
+        input_em.classList.remove('is-valid')
+        input_em.classList.add('is-invalid')
+    }
+
+    if (regexPW.test(values[4])) {
+        input_pw.classList.remove('is-invalid')
+        input_pw.classList.add('is-valid')
+    } else {
+        input_pw.classList.remove('is-valid')
+        input_pw.classList.add('is-invalid')
+    }
+    if (values[4] == values[5] && values[5] != "") {
+        input_pwc.classList.remove('is-invalid');
+        input_pwc.classList.add('is-valid');
+    } else {
+        input_pwc.classList.remove('is-valid');
+        input_pwc.classList.add('is-invalid');
+    }
+
+    return allGood(values)
 }
+
+
 
 
 /**
@@ -175,25 +169,21 @@ async function gererSubmit(e) {
         const sign_password_confirm = input_pwc.value.trim();
 
         if (validationChamps([sign_first_name, sign_last_name, sign_username, sign_email, sign_password, sign_password_confirm])) {
-            const isUsed = await checkUsed();
 
-            if (!isUsed) {
-                const new_user = await envoyerRequeteAjax(
-                    url = `/join/sign`,
-                    methode = "POST",
-                    {
-                        first_name: sign_first_name,
-                        last_name: sign_last_name,
-                        username: sign_username,
-                        email: sign_email,
-                        password: sign_password,
-                        password_confirm: sign_password_confirm
-                    }
-                );
+            const request = await envoyerRequeteAjax(
+                url = `/join/sign`,
+                methode = "POST",
+                {
+                    first_name: sign_first_name,
+                    last_name: sign_last_name,
+                    username: sign_username,
+                    email: sign_email,
+                    password: sign_password,
+                    password_confirm: sign_password_confirm
+                }
+            );
 
-                // Gérez ici la redirection ou l'affichage de messages de succès.
-                window.location.href = new_user.url
-            }
+            window.location.href = request.url
 
         } else {
             console.log('Validation des champs incorrects');
