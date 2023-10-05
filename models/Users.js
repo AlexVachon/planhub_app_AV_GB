@@ -22,20 +22,31 @@ const UserModel = new mongoose.Schema({
         trim: true,
         maxlength: [20, "Votre Username ne peut pas dépasser 20 caractères"],
         minlength: [8, "Votre Username doit contenir au minimum 8 caractères"],
-        unique: [true, "Nom d'utilisateur existant"]
+        validate: {
+            validator: async function (value) {
+                const existingUsername = await this.constructor.findOne({ username: value })
+                return !existingUsername
+            },
+            message: "Ce nom d'utilisateur est déjà utilisé."
+        }
     },
     email: {
         type: String,
         required: [true, "Vous devez fournir une adresse courriel"],
         maxlength: [100, "Votre adresse courriel ne peut pas dépasser 100 caractères."],
         trim: true,
-        unique: [true, "Adresse courriel existante"]
+        validate: {
+            validator: async function (value) {
+                const existingEmail = await this.constructor.findOne({ email: value })
+                return !existingEmail
+            },
+            message: "Ce courriel est déjà utilisé."
+        }
     },
     password: {
         type: String,
         required: [true, "Vous devez fournir un mot de passe"],
         trim: true,
-        maxlength: [20, "Votre mot de passe ne peut pas dépasser 20 caractères"],
         minlength: [8, "Votre mot de passe doit contenir au minimum 8 caractères"]
     },
     projects: {
