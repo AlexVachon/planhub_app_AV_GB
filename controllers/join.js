@@ -1,13 +1,10 @@
-require('dotenv').config()
 const Users = require('../models/Users')
 
 const express = require('express')
 const app = express()
 
-const axios = require('axios')
 const path = require('path')
 
-const port = process.env.PORT || 3000
 
 app.set('view engine', 'ejs');
 
@@ -15,7 +12,7 @@ const loadPage = (req, res) => {
     if (!req.session.user)
         res.status(201).render(path.join(__dirname, '../public/templates/login'))
     else
-        res.status(201).redirect('/')
+        res.status(401).redirect('/')
 }
 
 const loadCreate = (req, res) => {
