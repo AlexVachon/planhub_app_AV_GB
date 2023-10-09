@@ -3,4 +3,4 @@ const router = express.Router()
 
 const { loadPage } = require('../controllers/taches')
 
-router.route('/:projet/:tache').get(loadPage)
+router.route('/:tache').get(loadPage)
