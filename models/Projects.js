@@ -6,7 +6,8 @@ const ProjectsModel = mongoose.Schema({
         type: String,
         required: [true, "Vous devez fournir un nom de projet"],
         trim: true,
-        maxlenght: [50, "Votre nom de projet ne peut pas dépasser 50 caractères"]
+        maxlenght: [50, "Votre nom de projet ne peut pas dépasser 50 caractères"],
+        minlenght: [3, "Votre nom de projet doit être constituer d'au moins 3 caractères"]
     },
     "created_by":{
         type: mongoose.Schema.Types.ObjectId,
