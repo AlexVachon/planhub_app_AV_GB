@@ -32,12 +32,12 @@ const ModelProjects = require('./models/Projects')
 //ROUTES -> ./routes/
 const users = require('./routes/users')
 const joins = require('./routes/join')
+const taches = require('./routes/taches')
 
 //.ENV -> hides informations like connection string
 require('dotenv').config()
 
 const path = require('path')
-const { renderFile } = require('ejs')
 
 const port =  process.env.PORT || 3000
 
@@ -51,6 +51,7 @@ app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
 app.use('/api/v1/users', users)
 app.use('/join', joins)
+app.use('/:projet', taches)
 
 // set the view engine to ejs
 app.set('view engine', 'ejs');
