@@ -3,6 +3,8 @@
 
 <head>
     <%- include('../partials/head'); %>
+    <script src="../js/project-create-form.js" defer></script>
+    <script src="../js/projetct-create.js" defer></script>
     <title>PlanHub | Accueil</title>
 </head>
 
@@ -70,13 +72,24 @@
                                 <p class="text-center">Vous n'avez aucun projet pour le moment...</p>
                                 </div>
                             <div class="container d-flex justify-content-center align-items-center">
-                                <button type="button" class="btn btn-lg btn-outline-secondary" style="border-radius: 10px">Créer un projet</button>
+                                <button type="button" id="createProjectButton" class="btn btn-lg btn-outline-secondary" style="border-radius: 10px">Créer un projet</button>
                             </div>
                         <% } %>
                     </div>
                 </div>
             </div>
         </div>
+
+        <div id="createProjectModal" class="modal">
+            <div class="modal-content">
+              <span class="close">&times;</span>
+              <h2>Créer un projet</h2>
+              <!-- Formulaire de création de projet ici -->
+              <label for="project_name">Nom du projet:</label>
+              <input type="text" id="project_name" name="project_name">
+            </div>
+          </div>
+          
     </div>
     <footer>
         <%- include('../partials/footer-join'); %>
