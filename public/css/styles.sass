@@ -250,6 +250,40 @@ h1
 #lien-join
   @extend .text-decoration-none
 
+#card-create-project
+  --bs-border-opacity: .5
+  @extend .card, .bg-white, .text-dark, .shadow-lg, .mb-2
+  max-width: 75rem
+  min-width: 18rem
+  .card-header
+    h5
+      @extend .fw-bolder, .fs-2
+  .card-body
+    @extend .my-1
+  .card-footer
+    @extend  .text-center, .bg-light-subtle, .bg-gradient
+  .form-text
+    @extend .text-light
+
+#card-create-project-parent
+  @extend .d-flex, .align-items-center, .flex-column
+  margin: 5rem 0 5rem 0
+
+.form-create-project
+  input
+    @extend .text-black
+  div label
+    @extend .text-start
+  .form-control
+    @extend .bg-white
+  button[type='submit']
+    @extend  .w-75, .bg-primary, .my-3
+    margin-left: 11.5%
+    border-radius: 25px
+    &:hover
+      --bs-bg-opacity: .75
+      @extend .bg-primary
+
 .notification
   @extend .position-absolute, .bg-white
   left: 50%
@@ -275,14 +309,21 @@ h1
   background-color: rgba(0, 0, 0, 0.7)
 
 .modal-content
-  background-color: #fff
+  background: rgba(255, 255, 255, 0.45)
   margin: 15% auto
   padding: 20px
   border: 1px solid #888
-  width: 80%
+  width: 20%
+
+// Vous pouvez ajouter d'autres styles personnalisés ici si nécessaire
+
 
 .close
-  color: #888
+  color: #484848
   float: right
   font-size: 28px
   font-weight: bold
+  position: absolute
+  top: 10px
+  right: 10px
+  cursor: pointer

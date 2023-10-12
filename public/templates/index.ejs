@@ -83,10 +83,24 @@
         <div id="createProjectModal" class="modal">
             <div class="modal-content">
               <span class="close">&times;</span>
-              <h2>Créer un projet</h2>
-              <!-- Formulaire de création de projet ici -->
-              <label for="project_name">Nom du projet:</label>
-              <input type="text" id="project_name" name="project_name">
+            <div id="card-create-project-parent">
+                <div id="card-create-project">
+                    <!-- <img class="loading" id="loading" src="../gif/loading.gif" alt="loading.gif"> -->
+                    <div class="card-header">
+                        <h2>
+                            Créer un projet
+                        </h2>
+                    </div>
+                    <div class="card-body">
+                        <form class="form-create-project" id="form-create-project" method="post" action="" novalidate>
+                            <div class="mb-3">
+                                <label for="project_name" class="form-label">Nom du projet:</label>
+                                <input type="text" class="form-control" id="project_name" name="project_name">
+                            </div>
+                            <button type="submit" class="btn btn-primary">S'identifier</button>
+                        </form>
+                    </div>
+                </div>
             </div>
           </div>
           
