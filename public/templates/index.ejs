@@ -86,8 +86,14 @@
               <h2>Créer un projet</h2>
               <form action="/project/create" class="form-create-project" id="form-create-project" method="post">
                 <div class="mb-3">
-                    <label for="project_name" class="form-label"><span style="color: red;">*</span> Nom du projet:</label>
-                    <input type="text" id="project_name" name="project_name" class="form-control">
+                    <label for="project_name" class="form-label"><span style="color: red;">*</span> Nom du projet</label>
+                    <input type="text" id="project_name" name="project_name" class="form-control" aria-describedby="pnHelp">
+                    <div id="pnHelp" class="valid-feedback">
+                        Parfait!
+                    </div>
+                    <div class="invalid-feedback">
+                        Doit contenir de 4 à 25 caractères
+                    </div>
                 </div>
                 <div class="mb-3">
                     <button type="submit" class="btn btn-primary">Créer</button>
