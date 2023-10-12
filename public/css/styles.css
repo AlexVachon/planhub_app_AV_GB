@@ -7857,7 +7857,7 @@ textarea.form-control-lg {
   margin-bottom: 0 !important;
 }
 
-.my-1, #card-create-project .card-body, #card-join .card-body {
+.my-1, .form-create-project button[type=submit], #card-create-project .card-body, #card-join .card-body {
   margin-top: 0.25rem !important;
   margin-bottom: 0.25rem !important;
 }
@@ -7867,7 +7867,7 @@ textarea.form-control-lg {
   margin-bottom: 0.5rem !important;
 }
 
-.my-3, .form-create-project button[type=submit], .form-join button[type=submit] {
+.my-3, .form-join button[type=submit] {
   margin-top: 1rem !important;
   margin-bottom: 1rem !important;
 }
@@ -12114,7 +12114,7 @@ footer {
   width: 100%;
   height: 100%;
   overflow: auto;
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 .modal-content {
