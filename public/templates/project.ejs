@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <%- include('../partials/head'); %>
+    <title>PlanHub | Accueil</title>
+</head>
+
+<body>
+    
+    <%- include('../partials/header'); %>
+    
+    <div class="container-fluid">
+        <div class="row flex-nowrap">
+            <aside class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-secondary bg-gradient">
+                <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
+                    <a href="/" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                        <span class="fs-5 d-none d-sm-inline">Vos tâches</span>
+                    </a>
+                    <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+                        <li class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <img id="ajouter" src="../images/add.png" alt="Ajouter">
+                            </div>
+                            <div>
+                                <a href="#Ajouter" data-bs-toggle="collapse" class="text-white nav-link px-0 align-middle">
+                                    <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">Créer</span>
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                    <hr>
+                    
+                </div>
+            </aside>
+            <div class="d-flex flex-column align-items-center col py-3 bg-light-subtle">
+                <div class="mt-4 text-center container">
+                    <h2>Bienvenue dans le projet</h2>
+                </div>
+                <div class="w-75 mt-5">
+                    <div class="container">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <%- include('../partials/footer-join'); %>
+    </footer>
+</body>
+</html>

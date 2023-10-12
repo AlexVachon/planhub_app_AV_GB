@@ -59,6 +59,14 @@ app.set('view engine', 'ejs');
 // Gestionnaire de route pour la page d'accueil
 app.get('/', async (req, res) => {
   if (req.session.authenticated) {
+    res.redirect('/projects');
+  } else {
+    res.redirect('/join');
+  }
+});
+
+app.get('/projects', async (req, res) => {
+  if (req.session.authenticated) {
     try {
       const user = await ModelUsers.findById(req.session.user).populate({
         path : "projects", 
@@ -73,6 +81,36 @@ app.get('/', async (req, res) => {
     res.redirect('/join');
   }
 });
+
+app.get('/projects/:id', async (req, res) => {
+  if (req.session.authenticated) {
+    /*try {
+      const projectId = req.params.id;
+      const user = await ModelUsers.findById(req.session.user).populate({
+        path: "projects",
+        model: ModelProjects
+      });
+
+      // Trouver le projet spécifique dans les projets de l'utilisateur
+      const project = user.projects.find(proj => proj.id === projectId);
+
+      if (project) {
+        // Si le projet est trouvé, vous pouvez afficher ses détails
+        res.render(path.join(__dirname, 'public/templates/project'), { project });
+      } else {
+        // Si le projet n'est pas trouvé, rediriger ou afficher un message d'erreur
+        res.status(404).send('Projet non trouvé');
+      }
+    } catch (err) {
+      console.log("Erreur lors de la recherche du projet ou de l'utilisateur : ", err);
+      res.status(500).redirect('/join');
+    }*/
+    res.render(path.join(__dirname, 'public/templates/project'));
+  } else {
+    res.redirect('/join');
+  }
+});
+
 
 app.get('/logout', (req, res) =>{
   req.session.destroy((error) => {
