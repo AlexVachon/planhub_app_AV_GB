@@ -83,27 +83,20 @@
         <div id="createProjectModal" class="modal">
             <div class="modal-content">
               <span class="close">&times;</span>
-            <div id="card-create-project-parent">
-                <div id="card-create-project">
-                    <!-- <img class="loading" id="loading" src="../gif/loading.gif" alt="loading.gif"> -->
-                    <div class="card-header">
-                        <h2>
-                            Créer un projet
-                        </h2>
-                    </div>
-                    <div class="card-body">
-                        <form class="form-create-project" id="form-create-project" method="post" action="" novalidate>
-                            <div class="mb-3">
-                                <label for="project_name" class="form-label">Nom du projet:</label>
-                                <input type="text" class="form-control" id="project_name" name="project_name">
-                            </div>
-                            <button type="submit" class="btn btn-primary">S'identifier</button>
-                        </form>
-                    </div>
+              <h2>Créer un projet</h2>
+              <form action="/project/create" class="form-create-project" id="form-create-project" method="post">
+                <div class="mb-3">
+                    <label for="project_name" class="form-label"><span style="color: red;">*</span> Nom du projet:</label>
+                    <input type="text" id="project_name" name="project_name" class="form-control">
                 </div>
+                <div class="mb-3">
+                    <button type="submit" class="btn btn-primary">Créer</button>
+                </div>
+
+              </form>
             </div>
           </div>
-          
+        
     </div>
     <footer>
         <%- include('../partials/footer-join'); %>

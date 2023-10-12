@@ -33,6 +33,7 @@ const ModelProjects = require('./models/Projects')
 const users = require('./routes/users')
 const joins = require('./routes/join')
 const taches = require('./routes/taches')
+const project = require('./routes/projects')
 
 //.ENV -> hides informations like connection string
 require('dotenv').config()
@@ -51,6 +52,7 @@ app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
 app.use('/api/v1/users', users)
 app.use('/join', joins)
+app.use('/project', project)
 app.use('/:projet', taches)
 
 // set the view engine to ejs

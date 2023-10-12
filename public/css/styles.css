@@ -8007,11 +8007,11 @@ textarea.form-control-lg {
   padding: 0.25rem !important;
 }
 
-.p-2 {
+.p-2, .form-create-project input {
   padding: 0.5rem !important;
 }
 
-.p-3, header {
+.p-3, .modal-content, header {
   padding: 1rem !important;
 }
 
@@ -8722,7 +8722,7 @@ textarea.form-control-lg {
   background-color: rgba(var(--bs-black-rgb), var(--bs-bg-opacity)) !important;
 }
 
-.bg-white, .notification, .form-create-project .form-control, #card-create-project, .form-join .form-control, #card-join {
+.bg-white, .modal-content, .notification, .form-create-project .form-control, #card-create-project, .form-join .form-control, #card-join {
   --bs-bg-opacity: 1;
   background-color: rgba(var(--bs-white-rgb), var(--bs-bg-opacity)) !important;
 }
@@ -12118,11 +12118,9 @@ footer {
 }
 
 .modal-content {
-  background: rgba(255, 255, 255, 0.45);
   margin: 15% auto;
-  padding: 20px;
   border: 1px solid #888;
-  width: 20%;
+  width: 50%;
 }
 
 .close {
