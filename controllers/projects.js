@@ -32,43 +32,38 @@ const getAllProjects = async (req, res) => {
 
 const createProject = async (req, res) => {
     userID = req.session.userID
-    const { project_name, created_by, admins, users } = req.body
-        if (!userID){
-            const { project_name, created_by, admins, users } = req.body;
+    created_by = userID // created_by current session userID
+    if (!userID) {
+        const { project_name } = req.body // admins, users ?
 
-try {
-    // Création d'un nouveau projet
-    const project = new Projects({
-        _id: new mongoose.Types.ObjectId(),
-        project_name: project_name,
-        created_by: created_by,
-        admins: admins,
-        users: users
-    });
+        try {
+            const project = new Projects({
+                _id: new mongoose.Types.ObjectId(),
+                project_name: project_name,
+                created_by: created_by
+            });
 
-    // Sauvegarde du projet dans la base de données
-    project.save()
-        .then(savedProject => {
-            console.log('Projet créé :', savedProject);
+            project.save()
+                .then(savedProject => {
+                    console.log('Projet créé :', savedProject);
 
-            // Mise à jour du tableau projects de l'utilisateur avec l'ID du projet
-            return Users.updateOne({ _id: created_by }, { $push: { projects: savedProject._id } });
-        })
-        .then(() => {
-            res.status(201).json({ project });
-        })
-        .catch(err => {
+                    return Users.updateOne({ _id: created_by }, { $push: { projects: savedProject._id } });
+                })
+                .then(() => {
+                    res.status(201).json({ project });
+                })
+                .catch(err => {
+                    console.error(err, "Il y a une erreur dans la création du projet");
+                    res.status(500).json({ error: "Erreur lors de la création du projet" });
+                });
+        } catch (err) {
             console.error(err, "Il y a une erreur dans la création du projet");
             res.status(500).json({ error: "Erreur lors de la création du projet" });
-        });
-} catch (err) {
-    console.error(err, "Il y a une erreur dans la création du projet");
-    res.status(500).json({ error: "Erreur lors de la création du projet" });
-}
-
-        } else{
-            console.error("Vous devez d'abord être connecté")
         }
+
+    } else {
+        console.error("Vous devez d'abord être connecté")
+    }
 }
 
 module.exports = {

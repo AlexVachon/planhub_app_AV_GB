@@ -1,3 +1,7 @@
+/**
+ * Gestion d'un formulaire 'Pop-Up'
+ */
+
 const createProjectButton = document.getElementById('createProjectButton');
 const createProjectModal = document.getElementById('createProjectModal');
 const closeButton = document.querySelector('.close');

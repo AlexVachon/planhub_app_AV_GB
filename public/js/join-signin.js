@@ -97,7 +97,7 @@ async function usernameUsed() {
 
 /**
  * Affiche les feedbacks sur chaque input
- * @param  {[]} values Valeur à vérifier
+ * @param  {[]} values Valeurs à vérifier
  * @returns Vrai si tous les conditions sont respectées, sinon Faux
  */
 function validationChamps(values) {
