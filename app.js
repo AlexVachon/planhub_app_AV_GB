@@ -86,18 +86,27 @@ app.get('/projects/:id', async (req, res) => {
   if (req.session.authenticated) {
     const projectId = req.params.id;
     const user = await ModelUsers.findById(req.session.user);
-    
-    // On vérifie si l'utilisateur a accès au projet
-    for (const project of user.projects) {
-      if (projectId.toString() === project._id.toString()) {
-        return res.render(path.join(__dirname, 'public/templates/project'));
-      }
+
+    const project = await ModelProjects.findById(projectId);
+
+    if (!project) {
+      return res.redirect('/projects');
     }
-    res.redirect('/projects');
+
+    const userHasAccess = user.projects.some((userProject) =>
+      userProject._id.toString() === projectId.toString()
+    );
+
+    if (userHasAccess) {
+      return res.render(path.join(__dirname, 'public/templates/project'), { project });
+    } else {
+      res.redirect('/projects');
+    }
   } else {
     res.redirect('/join');
   }
 });
+
 
 
 app.get('/logout', (req, res) =>{
