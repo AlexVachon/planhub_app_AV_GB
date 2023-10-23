@@ -86,6 +86,8 @@ app.get('/projects/:id', async (req, res) => {
   if (req.session.authenticated) {
     const projectId = req.params.id;
     const user = await ModelUsers.findById(req.session.user);
+    
+    // On vérifie si l'utilisateur a accès au projet
     for (const project of user.projects) {
       if (projectId.toString() === project._id.toString()) {
         return res.render(path.join(__dirname, 'public/templates/project'));

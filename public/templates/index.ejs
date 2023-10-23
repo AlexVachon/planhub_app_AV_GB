@@ -56,7 +56,7 @@
                                 <% user.projects.forEach(project => { %>
                                     <li class="bg-secondary-subtle text-dark list-group-item d-flex justify-content-between align-items-center">
                                         <div>
-                                            <a href="/projects/<%= project._id %>"><%= project.project_name %></a>
+                                            <a class="stretched-link no-link-style" href="/projects/<%= project._id %>"><%= project.project_name %></a>  
                                         </div>
                                         <div>
                                             <img id="edit" src="../images/edit.png" alt="folder">
