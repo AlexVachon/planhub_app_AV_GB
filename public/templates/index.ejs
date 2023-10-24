@@ -5,6 +5,7 @@
     <%- include('../partials/head'); %>
     <script src="../js/utils-ajax.js" defer></script>
     <script src="../js/project-create-form.js" defer></script>
+    <script src="../js/project-list.js" defer></script>
     <script src="../js/project-create.js" defer></script>
     <title>PlanHub | Accueil</title>
 </head>
@@ -12,7 +13,17 @@
 <body>
     
     <%- include('../partials/header'); %>
-    
+
+    <div id="notifications" class="toast notification" role="alert" aria-live="assertive" aria-atomic="true">
+        <!-- <div class="toast-header">
+          <strong class="me-auto text-success">Confirmation !</strong>
+          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body text-body-dark">
+          Projet Ajouté
+        </div> -->
+    </div>
+
     <div class="container-fluid">
         <div class="row flex-nowrap">
             <aside class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-secondary bg-gradient">
@@ -20,29 +31,20 @@
                     <a href="/" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
                         <span class="fs-5 d-none d-sm-inline">Vos projets</span>
                     </a>
-                    <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+                    <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start">
                         <li class="d-flex justify-content-between align-items-center">
                             <div>
                                 <img id="ajouter" src="../images/add.png" alt="Ajouter">
                             </div>
                             <div>
-                                <a href="#Ajouter" data-bs-toggle="collapse" class="text-white nav-link px-0 align-middle">
+                                <a href="#Ajouter" data-bs-toggle="collapse" class="createProjectButton text-white nav-link px-0 align-middle">
                                     <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">Créer</span>
                                 </a>
                             </div>
                         </li>
-                        <% user.projects.forEach(project => { %>
-                            <li class="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <img id="folder" src="../images/folder_logo.png" alt="folder">
-                                </div>
-                                <div>
-                                    <a href="#submenu1" data-bs-toggle="collapse" class="text-white nav-link px-0 align-middle">
-                                        <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline"><%= project.project_name %></span>
-                                    </a>
-                                </div>
-                            </li>
-                        <% }); %>
+                        <div  id="menu">
+                            <!-- CONTENT LOADED IN AJAX -->
+                        </div>
                     </ul>
                     <hr>
                     
@@ -53,29 +55,8 @@
                     <h2>Bienvenue <%= user.first_name %> <%= user.last_name %></h2>
                 </div>
                 <div class="w-75 mt-5">
-                    <div class="container">
-                        <% if (user.projects.length > 0) { %>
-                            <ul class="list-group shadow">
-                                <% user.projects.forEach(project => { %>
-                                    <li class="bg-secondary-subtle text-dark list-group-item d-flex justify-content-between align-items-center">
-                                        <div>
-                                            <%= project.project_name %>
-                                        </div>
-                                        <div>
-                                            <img id="edit" src="../images/edit.png" alt="folder">
-                                            <img id="delete" src="../images/delete.png" alt="folder">
-                                        </div>
-                                    </li>
-                                <% }); %>
-                            </ul>
-                        <% } else { %>
-                            <div class="text-center">
-                                <p class="text-center">Vous n'avez aucun projet pour le moment...</p>
-                                </div>
-                            <div class="container d-flex justify-content-center align-items-center">
-                                <button type="button" id="createProjectButton" class="btn btn-lg btn-outline-secondary" style="border-radius: 10px">Créer un projet</button>
-                            </div>
-                        <% } %>
+                    <div class="container" id="mainContent">
+                        <!-- CONTENT LOADED IN AJAX -->
                     </div>
                 </div>
             </div>
@@ -103,7 +84,9 @@
               </form>
             </div>
           </div>
-        
+        <div hidden>
+            <div id="userID" data-userID="<%= user._id %>"></div>
+        </div>
     </div>
     <footer>
         <%- include('../partials/footer-join'); %>
