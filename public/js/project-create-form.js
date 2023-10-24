@@ -2,12 +2,14 @@
  * Gestion d'un formulaire 'Pop-Up'
  */
 
-const createProjectButton = document.getElementById('createProjectButton');
+const createProjectButtons = document.querySelectorAll('.createProjectButton');
 const createProjectModal = document.getElementById('createProjectModal');
 const closeButton = document.querySelector('.close');
 
-createProjectButton.addEventListener('click', () => {
-  createProjectModal.style.display = 'block';
+createProjectButtons.forEach(button => {
+  button.addEventListener('click', () => {
+    createProjectModal.style.display = 'block';
+  });
 });
 
 closeButton.addEventListener('click', () => {

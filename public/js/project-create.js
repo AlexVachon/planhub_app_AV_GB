@@ -26,13 +26,33 @@ async function gestionForm(e){
         const name_value = input__project_name.value.trim()
 
         if(validation(name_value)){
-            await envoyerRequeteAjax(
+            const project = await envoyerRequeteAjax(
                 url = `/project/create`,
                 methode = 'POST',
                 {
                     project_name : name_value
                 }
             )
+           
+            if (project){
+
+                createProjectModal.style.display = 'none';
+                  
+                const myToast = document.getElementById('notifications')
+                myToast.innerHTML = 
+                `
+                <div class="toast-header">
+                    <strong class="me-auto text-success">Confirmation !</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body text-body-dark">
+                    Projet: ${project.project_name} Ajouté
+                </div>
+                `
+                const toast = new bootstrap.Toast(myToast)
+                toast.show()
+            }
+                
         }
     } catch (error) {
         console.error(error)
