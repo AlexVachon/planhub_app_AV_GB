@@ -31,43 +31,80 @@ const getAllProjects = async (req, res) => {
 }
 
 const createProject = async (req, res) => {
-    userID = req.session.userID
-    created_by = userID // created_by current session userID
-    if (!userID) {
-        const { project_name } = req.body // admins, users ?
+    const userID = req.session.user;
+    const created_by = userID;
+
+    if (req.session.authenticated) {
+        const { project_name } = req.body;
 
         try {
             const project = new Projects({
                 _id: new mongoose.Types.ObjectId(),
                 project_name: project_name,
-                created_by: created_by
+                created_by: created_by,
+                admins: [created_by],
+                users: [created_by],
             });
 
-            project.save()
-                .then(savedProject => {
-                    console.log('Projet créé :', savedProject);
+            const savedProject = await project.save();
 
-                    return Users.updateOne({ _id: created_by }, { $push: { projects: savedProject._id } });
-                })
-                .then(() => {
-                    res.status(201).json({ project });
-                })
-                .catch(err => {
-                    console.error(err, "Il y a une erreur dans la création du projet");
-                    res.status(500).json({ error: "Erreur lors de la création du projet" });
-                });
+            await Users.updateOne({ _id: created_by }, { $push: { projects: savedProject._id } });
+
+            res.status(201).json(savedProject);
+
         } catch (err) {
-            console.error(err, "Il y a une erreur dans la création du projet");
-            res.status(500).json({ error: "Erreur lors de la création du projet" });
+            if (err.name === 'ValidationError') {
+                const validationErrors = {};
+                for (const key in err.errors) {
+                    validationErrors[key] = err.errors[key].message;
+                }
+                console.error(validationErrors);
+                res.status(400).json({ errors: validationErrors });
+            } else {
+                console.error(err);
+                res.status(500).json({ message: 'Erreur lors de la création du projet' });
+            }
         }
-
     } else {
-        console.error("Vous devez d'abord être connecté")
+        console.error("Vous devez d'abord être connecté");
+        res.status(401).json({ message: "Vous devez d'abord être connecté" });
     }
 }
+
+
+const getProjectsUser = async (req, res) => {
+    const { id } = req.params;
+
+    if (req.session.authenticated && id == req.session.user) {
+        try {
+            const user = await Users.findById(id)
+
+            if (!user) {
+                res.status(404).json({ "error": "Utilisateur non trouvé" })
+                return
+            }
+
+            const projectIds = user.projects
+
+            const projects = await Projects.find({ _id: { $in: projectIds } })
+                .sort({ project_name: 1 })
+
+            res.status(201).json(projects)
+
+        } catch (error) {
+            console.error(error)
+            res.status(500).json({ error })
+        }
+    } else {
+        res.status(403).redirect('/join')
+    }
+}
+
+
 
 module.exports = {
     getOneProject,
     getAllProjects,
-    createProject
+    createProject,
+    getProjectsUser
 }
