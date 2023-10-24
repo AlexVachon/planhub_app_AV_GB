@@ -12133,3 +12133,8 @@ footer {
   right: 10px;
   cursor: pointer;
 }
+.no-link-style {
+  text-decoration: none;
+  color: inherit;
+  cursor: auto;
+}
