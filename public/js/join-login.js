@@ -6,18 +6,11 @@
 const input_email = document.getElementById("connect_email")
 const input_password = document.getElementById("connect_password")
 
-const notifications = document.getElementById("notifications")
+const myToast = document.getElementById('notifications')
+const toast = new bootstrap.Toast(myToast)
 
-
-function afficherMessage(input, valide) {
-    if (valide) {
-        input.classList.remove("is-invalid")
-        input.classList.add("is-valid")
-    } else {
-        input.classList.remove("is-valid")
-        input.classList.add("is-invalid")
-        input.value = ""
-    }
+function afficherMessage() {
+    toast.show()
 }
 
 async function gererSubmit(e) {
@@ -26,32 +19,19 @@ async function gererSubmit(e) {
         const connect_email = input_email.value
         const connect_password = input_password.value
 
-        const confirm_email = await envoyerRequeteAjax(
-            '/join/confirm/email',
+        const response = await envoyerRequeteAjax(
+            '/join/login',
             'POST',
             {
-                confirm_email: connect_email
+                user_email: connect_email,
+                user_password: connect_password
             }
         )
-        if (confirm_email) {
-            afficherMessage(input_email, true)
-            try {
-                const user = await envoyerRequeteAjax(
-                    '/join/login',
-                    'POST',
-                    {
-                        connect_email: connect_email,
-                        connect_password: connect_password
-                    }
-                )
-                window.location.href = user.url
-            } catch (e) {
-                afficherMessage(input_password, false)
-            }
-        }
+        
+        window.location = response.url
 
     } catch (error) {
-        afficherMessage(input_email, false)
+        afficherMessage()
     }
 }
 
@@ -59,6 +39,7 @@ async function gererSubmit(e) {
  * Initialisation de la fenêtre
  */
 function initialize() {
+    toast.hide()
     document.querySelector("form").addEventListener("submit", gererSubmit)
 }
 

@@ -2,22 +2,22 @@ const Users = require('../models/Users')
 const bcrypt = require('bcrypt')
 const mongoose = require('mongoose')
 
-
 const getOneUser = async (req, res) => {
-    //Valeur des champs dans le formulaire **FAIRE EN POST**
     const { user_email, user_password } = req.body
     try {
         const user = await Users.findOne({ 'email': user_email })
         if (user == null) {
-            res.status(400).json({message: 'Courriel incorrect' })
+            res.status(400).json({ message: 'Courriel incorrect' })
         }
 
         const passwordMatch = await bcrypt.compare(user_password, user.password);
 
         if (passwordMatch) {
-            res.status(201).json({ message: `Connecté en tant que ${user.username}`, user })
+            req.session.authenticated = true
+            req.session.user = user._id
+            res.status(201).redirect('/')
         } else {
-            res.status(400).json({ message: "Mot de passe incorrect"})
+            res.status(400).json({ message: "Mot de passe incorrect" })
         }
 
     } catch (err) {
@@ -48,16 +48,30 @@ const createUser = async (req, res) => {
                 username: username.toString(),
                 email: email.toString(),
                 password: password.toString()
-                
+
             })
             console.log(user)
-            user.save()
-            res.status(201).redirect('/join')
+            user.save().then(() => {
+                res.status(201).redirect('/join')
+            }).catch((err) => {
+                if (err.name === 'ValidationError') {
+                    const validationErrors = {};
+                    for (const key in err.errors) {
+                        validationErrors[key] = err.errors[key].message;
+                    }
+                    console.error(validationErrors);
+                    res.status(400).json({ errors: validationErrors });
+                } else {
+                    console.error(err);
+                    res.status(500).json({ message: 'Une erreur interne est survenue.' });
+                }
+            })
+
         } catch (err) {
-            console.error("Erreur de la création de l'utilisateur :", err)
+            console.error(err)
         }
     } else {
-        res.status(400).json({ message: "Les mots de passe ne sont pas identiques." })
+        res.status(400).json({ message: "Les mots de passe ne sont pas identique" })
     }
 }
 
