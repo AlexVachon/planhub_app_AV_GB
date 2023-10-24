@@ -28,9 +28,11 @@ const connectDB = require('./db/connect')
 //MODÈLES -> ./models/
 const ModelUsers = require('./models/Users')
 const ModelProjects = require('./models/Projects')
+const ModelTasks = require('./models/Tasks')
 
 //ROUTES -> ./routes/
 const users = require('./routes/users')
+const tasks = require('./routes/tasks')
 const joins = require('./routes/join')
 
 //.ENV -> hides informations like connection string
@@ -50,6 +52,7 @@ app.use(express.urlencoded({extended:true}))
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
 app.use('/api/v1/users', users)
+app.use('/api/v1/tasks', tasks)
 app.use('/join', joins)
 
 // set the view engine to ejs
@@ -87,7 +90,16 @@ app.get('/projects/:id', async (req, res) => {
     const projectId = req.params.id;
     const user = await ModelUsers.findById(req.session.user);
 
-    const project = await ModelProjects.findById(projectId);
+    const project = await ModelProjects.findById(projectId).populate({
+      path : "tasks", 
+      model : ModelTasks
+    }).populate({
+      path: 'users', 
+      model: ModelUsers
+    }).populate({
+      path: 'admins',
+      model: ModelUsers
+    });
 
     if (!project) {
       return res.redirect('/projects');
@@ -98,7 +110,10 @@ app.get('/projects/:id', async (req, res) => {
     );
 
     if (userHasAccess) {
-      return res.render(path.join(__dirname, 'public/templates/project'), { project });
+      const taskTypeOptions = ['Bug', 'Correction', 'Sprint', 'Tester', 'Travail', 'Urgence'];
+      const taskEtatOptions = ['À faire','En cours','En attente','À vérifier','En pause','Complété', 'Annulé'];
+
+      res.render(path.join(__dirname, 'public/templates/project'), { project, taskTypeOptions, taskEtatOptions });
     } else {
       res.redirect('/projects');
     }
@@ -106,6 +121,7 @@ app.get('/projects/:id', async (req, res) => {
     res.redirect('/join');
   }
 });
+
 
 
 
