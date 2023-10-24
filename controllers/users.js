@@ -14,7 +14,6 @@ const getOneUser = async (req, res) => {
 
         if (passwordMatch) {
             req.session.authenticated = true
-            console.log(user._id)
             req.session.user = user._id
             res.status(201).redirect('/')
         } else {
