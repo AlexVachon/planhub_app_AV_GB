@@ -2,15 +2,15 @@ const mongoose = require('mongoose')
 
 // Change id needed
 const taskEtatOptions = ['À faire','En cours','En attente','À vérifier','En pause','Complété', 'Annulé']
-const taskTypeOptions = ['Bug', 'Correction', 'Sprint', 'Tester', 'Travail']
+const taskTypeOptions = ['Bug', 'Correction', 'Sprint', 'Tester', 'Travail', 'Urgence']
 
 //Check if value is in taskEtatOptions
 const validateTaskEtat = (value) => {
-    return taskEtatOptions.includes(value)
+    return value >= 0 && value < taskEtatOptions.length;
 }
 
 const validateTaskType = (value) => {
-    return taskTypeOptions.includes(value)
+    return value >= 0 && value < taskTypeOptions.length;
 }
 
 const TasksModel = mongoose.Schema({
@@ -21,7 +21,7 @@ const TasksModel = mongoose.Schema({
         trim: true
     },
     "task_etat":{
-        type: String,
+        type: Number,
         required: [true, "Le champ type est requis"],
         validate: {
           validator: validateTaskEtat,
@@ -29,7 +29,7 @@ const TasksModel = mongoose.Schema({
         }
     },
     "task_type":{
-        type: String,
+        type: Number,
         required: [true, "Le champ type est requis"],
         validate: {
           validator: validateTaskType,
@@ -49,6 +49,11 @@ const TasksModel = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Users'
     }],
+    "task_project":{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'Projects',
+        required: true
+    },
     "task_subtasks":[{
         type: mongoose.Schema.Types.ObjectId,
         ref:'Subtasks'

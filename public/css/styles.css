@@ -12083,3 +12083,8 @@ footer {
   transform: translate(-50%, -50%);
   min-width: 15rem;
 }
+.no-link-style {
+  text-decoration: none;
+  color: inherit;
+  cursor: auto;
+}
