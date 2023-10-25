@@ -14,13 +14,22 @@
         <%- include('../partials/header-join'); %>
     </header>
     <main>
-        <div id="notifications" class="toast notification" role="alert" aria-live="assertive" aria-atomic="true">
+        <div id="toast-alert" class="toast notification" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="toast-header">
               <strong class="me-auto text-danger">Erreur !</strong>
               <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
             <div class="toast-body text-body-dark">
               Identifiants incorrects
+            </div>
+        </div>
+        <div id="toast-logout" class="toast notification" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="3000">
+            <div class="toast-header">
+            <strong class="me-auto text-info">Déconnexion</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Fermer"></button>
+            </div>
+            <div class="toast-body text-body-dark">
+            Vous êtes déconnecté.
             </div>
         </div>
 
@@ -38,6 +47,9 @@
                         <div class="mb-3">
                             <label for="connect_email" class="form-label">Email</label>
                             <input type="email" class="form-control" id="connect_email" name="connect_email">
+                            <div class="invalid-feedback">
+                                Courriel ou mot de passe incorrects
+                            </div>
                         </div>
                         <div class="mb-3">
                             <label for="connect_password" class="form-label">Mot de passe</label>
