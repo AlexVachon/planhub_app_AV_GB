@@ -56,7 +56,7 @@ app.use('/api/v1/users', users)
 app.use('/api/v1/tasks', tasks)
 app.use('/join', joins)
 app.use('/project', project)
-app.use('/:projet', taches)
+//app.use('/:projet', taches)
 
 // set the view engine to ejs
 app.set('view engine', 'ejs');

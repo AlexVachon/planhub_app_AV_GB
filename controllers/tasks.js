@@ -29,9 +29,9 @@ const getAllTasks = async (req, res) => {
 
 const createTask = async (req, res) => {
     const userID = req.session.userID;
-    /*if (!userID) {
+    if (!userID) {
         return res.status(401).json({ error: "Vous devez d'abord être connecté" });
-    }*/
+    }
 
     const { task_name, task_etat, task_type, task_description, task_project, created_by, assigned_to } = req.body;
 
