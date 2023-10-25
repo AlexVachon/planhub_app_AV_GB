@@ -137,7 +137,7 @@ app.get('/logout', (req, res) =>{
     else{
       console.log("Utilisateur déconnecter")
       console.log(__dirname)
-      res.status(201).redirect('/join')
+      res.status(201).redirect('/join?logout=true')
     }
   })
 })

@@ -6,11 +6,22 @@
 const input_email = document.getElementById("connect_email")
 const input_password = document.getElementById("connect_password")
 
-const myToast = document.getElementById('notifications')
-const toast = new bootstrap.Toast(myToast)
+const myToastAlert = document.getElementById('toast-alert')
+const toastAlert = new bootstrap.Toast(myToastAlert)
+
+const myToastLogout = document.getElementById('toast-logout')
+const toastLogout = new bootstrap.Toast(myToastLogout)
+
+const params = new URLSearchParams(window.location.search)
+if (params.get('logout') === 'true'){
+    toastLogout.show()
+}
+
 
 function afficherMessage() {
-    toast.show()
+    toastAlert.show()
+    input_email.classList.remove("is-invalid")
+    input_email.classList.add("is-invalid")
 }
 
 async function gererSubmit(e) {
@@ -39,7 +50,7 @@ async function gererSubmit(e) {
  * Initialisation de la fenêtre
  */
 function initialize() {
-    toast.hide()
+    toastAlert.hide()
     document.querySelector("form").addEventListener("submit", gererSubmit)
 }
 

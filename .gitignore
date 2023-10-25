@@ -1,3 +1,4 @@
 node_modules/
 .env
-*.css.map
+styles.css
+styles.css.map
