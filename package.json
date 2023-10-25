@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node app.js",
+    "start": "npm-run-all --parallel sass-watch app.js",
     "sass-watch": "sass --no-source-map --watch public/css/styles.sass public/css/styles.css",
     "nodemon-watch": "nodemon app.js -e *",
     "dev": "npm-run-all --parallel sass-watch nodemon-watch"
