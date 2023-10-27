@@ -12105,6 +12105,7 @@ footer {
   transform: translate(-50%, -50%);
   min-width: 15rem;
 }
+
 .modal {
   display: none;
   position: fixed;
@@ -12132,10 +12133,10 @@ footer {
   top: 10px;
   right: 10px;
   cursor: pointer;
-}
 
 .no-link-style {
   text-decoration: none;
   color: inherit;
   cursor: auto;
+
 }

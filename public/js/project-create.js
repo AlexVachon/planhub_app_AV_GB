@@ -2,6 +2,7 @@
 const input__project_name = document.getElementById('project_name')
 const regexPN = /^.{4,25}$/
 
+const loading_gif = document.getElementById('loading-project-form')
 
 function resetValue(){
     input__project_name.value = ""
@@ -21,10 +22,12 @@ function validation(value){
 
 async function gestionForm(e){
     e.preventDefault()
-
+    loading_gif.hidden = false
     try {
+        await new Promise(r => setTimeout(r, 2000));
+        
         const name_value = input__project_name.value.trim()
-
+        
         if(validation(name_value)){
             const project = await envoyerRequeteAjax(
                 url = `/project/create`,
@@ -52,8 +55,8 @@ async function gestionForm(e){
                 const toast = new bootstrap.Toast(myToast)
                 toast.show()
             }
-                
         }
+        loading_gif.hidden = true
     } catch (error) {
         console.error(error)
     }
