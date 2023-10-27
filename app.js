@@ -34,7 +34,6 @@ const ModelTasks = require('./models/Tasks')
 const users = require('./routes/users')
 const tasks = require('./routes/tasks')
 const joins = require('./routes/join')
-const taches = require('./routes/taches')
 const project = require('./routes/projects')
 
 //.ENV -> hides informations like connection string
@@ -56,7 +55,6 @@ app.use('/api/v1/users', users)
 app.use('/api/v1/tasks', tasks)
 app.use('/join', joins)
 app.use('/project', project)
-//app.use('/:projet', taches)
 
 // set the view engine to ejs
 app.set('view engine', 'ejs');
