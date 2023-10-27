@@ -28,55 +28,56 @@ const getAllTasks = async (req, res) => {
 }
 
 const createTask = async (req, res) => {
-    const userID = req.session.userID;
-    /*if (!userID) {
-        return res.status(401).json({ error: "Vous devez d'abord être connecté" });
-    }*/
 
-    const { task_name, task_etat, task_type, task_description, task_project, created_by, assigned_to } = req.body;
+    const userID = req.session.user;
+    const { projectId } = req.params
+
+    if (!userID) {
+        res.status(401).json({ error: "Vous devez d'abord être connecté" });
+    }
+
+    const { task_name, task_type, task_description } = req.body;
 
     try {
         const task = new Tasks({
             _id: new mongoose.Types.ObjectId(),
-            task_name,
-            task_etat,
-            task_type,
-            task_description,
-            task_project,
-            created_by,
-            assigned_to
+            task_name: task_name,
+            task_type: task_type,
+            task_description: task_description,
+            task_project: projectId,
+            created_by: userID
         });
 
         task.save()
-        .then(savedTask => {
-            Users.updateOne({ _id: created_by }, { $push: { tasks: savedTask._id } });
-            res.status(201).json({ task: savedTask });
-        })
-        .catch(error => {
-            if (error.name === 'ValidationError') {
+            .then(savedTask => {
+                Users.updateOne({ _id: created_by }, { $push: { tasks: savedTask._id } });
+                res.status(201).json({ task: savedTask });
+            })
+            .catch(error => {
+                if (error.name === 'ValidationError') {
 
-                const validationErrors = {};
+                    const validationErrors = {};
 
-                for (const key in error.errors) {
+                    for (const key in error.errors) {
 
-                    validationErrors[key] = error.errors[key].message;
+                        validationErrors[key] = error.errors[key].message;
+
+                    }
+
+                    console.error(validationErrors);
+
+                    res.status(400).json({ errors: validationErrors });
+
+                } else {
+
+                    console.error(error);
+
+                    res.status(500).json({ message: 'Erreur lors de la création de la tâche' });
 
                 }
+            });
 
-                console.error(validationErrors);
 
-                res.status(400).json({ errors: validationErrors });
-
-            } else {
-
-                console.error(error);
-
-                res.status(500).json({ message: 'Erreur lors de la création de la tâche' });
-
-            }
-        });
-
-        
     } catch (err) {
         console.error("Erreur lors de la création de la tâche :", err);
         return res.status(500).json({ error: "Erreur lors de la création de la tâche" });
