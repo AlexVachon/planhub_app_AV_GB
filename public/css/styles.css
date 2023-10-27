@@ -7275,7 +7275,7 @@ textarea.form-control-lg {
   box-shadow: var(--bs-box-shadow-lg) !important;
 }
 
-.shadow-none, .loading {
+.shadow-none, .loading-project {
   box-shadow: none !important;
 }
 
@@ -7315,11 +7315,11 @@ textarea.form-control-lg {
   position: static !important;
 }
 
-.position-relative {
+.position-relative, .loading-project {
   position: relative !important;
 }
 
-.position-absolute, .notification, .loading {
+.position-absolute, .loading, .notification {
   position: absolute !important;
 }
 
@@ -7335,7 +7335,7 @@ textarea.form-control-lg {
   top: 0 !important;
 }
 
-.top-50, .loading {
+.top-50, .loading-project {
   top: 50% !important;
 }
 
@@ -7359,7 +7359,7 @@ textarea.form-control-lg {
   left: 0 !important;
 }
 
-.start-50, .loading {
+.start-50, .loading, .loading-project {
   left: 50% !important;
 }
 
@@ -7383,7 +7383,7 @@ textarea.form-control-lg {
   transform: translate(-50%, -50%) !important;
 }
 
-.translate-middle-x, .loading {
+.translate-middle-x, .loading, .loading-project {
   transform: translateX(-50%) !important;
 }
 
@@ -12059,9 +12059,9 @@ footer {
   width: 100%;
 }
 
-.loading {
-  width: 50px;
-  height: 50px;
+.loading-project {
+  width: 2.5%;
+  min-width: 25px;
 }
 
 #card-join {
@@ -12105,6 +12105,11 @@ footer {
   transform: translate(-50%, -50%);
   min-width: 15rem;
 }
+.no-link-style {
+  text-decoration: none;
+  color: inherit;
+  cursor: auto;
+}
 
 .modal {
   display: none;
@@ -12133,10 +12138,11 @@ footer {
   top: 10px;
   right: 10px;
   cursor: pointer;
+}
 
-.no-link-style {
-  text-decoration: none;
-  color: inherit;
-  cursor: auto;
-
+.loading {
+  margin: 0;
+  top: 20%;
+  width: 5%;
+  z-index: 2;
 }

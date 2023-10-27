@@ -62,22 +62,30 @@
                             <ul class="list-group shadow">
                                 <% project.tasks.forEach(task => { %>
                                     <li class="bg-secondary-subtle text-dark list-group-item">
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div class="border-right pr-3">
-                                                <a class="stretched-link no-link-style" href="#tasks/<%= task._id %>"><%= task.task_name %> (<%= taskEtatOptions[task.task_etat] %>)</a>
-                                            </div>
-                                            <div class="d-flex align-items-center">
-                                                <div class="ml-3">
-                                                    <p class="mb-0"><%= taskTypeOptions[task.task_type] %></p>
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <div class="border-right pr-3">
+                                                    <a class="stretched-link no-link-style" href="#tasks/<%= task._id %>"><%= task.task_name %></a>
                                                 </div>
-                                                <div class="ml-3">
-                                                    <img id="edit" src="../images/edit.png" alt="edit">
-                                                    <img id="delete" src="../images/delete.png" alt="delete">
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="row">
+                                                    <div class="col-4">
+                                                        <p class="mb-0"><%= taskEtatOptions[task.task_etat] %></p>
+                                                    </div>
+                                                    <div class="col-4">
+                                                        <p class="mb-0"><%= taskTypeOptions[task.task_type] %></p>
+                                                    </div>
+                                                    <div class="col-4">
+                                                        <div class="d-flex justify-content-end">
+                                                            <img id="edit" src="../images/edit.png" alt="edit">
+                                                            <img id="delete" src="../images/delete.png" alt="delete">
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </li>
-                                    
                                 <% }); %>
                             </ul>
                         <% } else { %>
