@@ -39,8 +39,7 @@ const project = require('./routes/projects')
 //.ENV -> hides informations like connection string
 require('dotenv').config()
 
-const path = require('path')
-
+const path = require('path');
 const port =  process.env.PORT || 3000
 
 
@@ -89,32 +88,15 @@ app.get('/projects', async (req, res) => {
 app.get('/projects/:id', async (req, res) => {
   if (req.session.authenticated) {
     const projectId = req.params.id;
+    const project = await ModelProjects.findById(projectId)
     const user = await ModelUsers.findById(req.session.user);
-
-    const project = await ModelProjects.findById(projectId).populate({
-      path : "tasks", 
-      model : ModelTasks
-    }).populate({
-      path: 'users', 
-      model: ModelUsers
-    }).populate({
-      path: 'admins',
-      model: ModelUsers
-    });
-
-    if (!project) {
-      return res.redirect('/projects');
-    }
 
     const userHasAccess = user.projects.some((userProject) =>
       userProject._id.toString() === projectId.toString()
     );
 
     if (userHasAccess) {
-      const taskTypeOptions = ['Bug', 'Correction', 'Sprint', 'Tester', 'Travail', 'Urgence'];
-      const taskEtatOptions = ['À faire','En cours','En attente','À vérifier','En pause','Complété', 'Annulé'];
-
-      res.render(path.join(__dirname, 'public/templates/project'), { project, taskTypeOptions, taskEtatOptions });
+      res.render(path.join(__dirname, 'public/templates/project'), { user, project, taskTypeOptions, taskEtatOptions });
     } else {
       res.redirect('/projects');
     }
