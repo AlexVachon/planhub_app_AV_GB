@@ -1,5 +1,5 @@
-const Tasks = require('../models/Tasks');
-const Users = require("../models/Users")
+const Tasks = require('../models/Tasks')
+const Projects = require("../models/Projects")
 
 const mongoose = require('mongoose');
 
@@ -29,59 +29,66 @@ const getAllTasks = async (req, res) => {
 
 const createTask = async (req, res) => {
 
-    const userID = req.session.user;
-    const { projectId } = req.params
+    if (req.session.authenticated) {
+        const userID = req.session.user
+        const { projectId } = req.params
+        const { task_name, task_type, task_description } = req.body;
 
-    if (!userID) {
-        res.status(401).json({ error: "Vous devez d'abord être connecté" });
-    }
+        try {
+            const projet = await Projects.findOne({ _id: projectId })
+            if (!projet) {
+                res.status(404).json({ message: "Projet introuvable" });
+            }
 
-    const { task_name, task_type, task_description } = req.body;
+            const users = projet.users
 
-    try {
-        const task = new Tasks({
-            _id: new mongoose.Types.ObjectId(),
-            task_name: task_name,
-            task_type: task_type,
-            task_description: task_description,
-            task_project: projectId,
-            created_by: userID
-        });
+            if (users.includes(userID)) {
+                const task = new Tasks({
+                    _id: new mongoose.Types.ObjectId(),
+                    task_name: task_name,
+                    task_type: task_type,
+                    task_description: task_description,
+                    task_project: projectId,
+                    created_by: userID
+                });
 
-        task.save()
-            .then(savedTask => {
-                Users.updateOne({ _id: created_by }, { $push: { tasks: savedTask._id } });
-                res.status(201).json({ task: savedTask });
-            })
-            .catch(error => {
-                if (error.name === 'ValidationError') {
+                const savedTask = await task.save()
 
-                    const validationErrors = {};
+                await Projects.updateOne({ _id: projectId }, { $push: { tasks: savedTask._id } })
+                res.status(201).json(savedTask);
+            } else {
+                res.status(403).json({ message: "Accès non autorisé" });
+            }
 
-                    for (const key in error.errors) {
+        } catch (err) {
+            if (err.name === 'ValidationError') {
 
-                        validationErrors[key] = error.errors[key].message;
+                const validationErrors = {};
 
-                    }
+                for (const key in err.errors) {
 
-                    console.error(validationErrors);
-
-                    res.status(400).json({ errors: validationErrors });
-
-                } else {
-
-                    console.error(error);
-
-                    res.status(500).json({ message: 'Erreur lors de la création de la tâche' });
+                    validationErrors[key] = err.errors[key].message;
 
                 }
-            });
 
+                console.error(validationErrors);
 
-    } catch (err) {
-        console.error("Erreur lors de la création de la tâche :", err);
-        return res.status(500).json({ error: "Erreur lors de la création de la tâche" });
+                res.status(400).json({ errors: validationErrors });
+
+            } else {
+
+                console.error(err);
+
+                res.status(400).json({ message: 'Erreur lors de la création de la tâche' });
+
+            }
+
+        }
+    } else {
+        console.error("Vous devez d'abord être connecté");
+        res.status(401).json({ message: "Vous devez d'abord être connecté" });
     }
+
 }
 
 module.exports = {
