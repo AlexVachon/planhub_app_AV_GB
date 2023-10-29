@@ -7,11 +7,17 @@
         </title>
 
         <script src="../js/task-create-form.js" defer></script>
+        <script src="../js/utils-ajax.js" defer></script>
+        <script src="../js/task-create.js" defer></script>
 </head>
 
 <body>
 
     <%- include('../partials/header-project'); %>
+
+        <div id="notifications" class="toast notification" role="alert" aria-live="assertive" aria-atomic="true">
+            <!--Loaded with script -->
+        </div>
 
         <div class="container-fluid">
             <div class="row flex-nowrap">
@@ -102,7 +108,7 @@
                                         <p class="text-center">Vous n'avez actuellement aucune tâche...</p>
                                     </div>
                                     <div class="container d-flex justify-content-center align-items-center">
-                                        <button type="button" class="btn btn-lg btn-outline-secondary"
+                                        <button type="button" class="createTaskButton btn btn-lg btn-outline-secondary"
                                             style="border-radius: 10px">Créer une tâche</button>
                                     </div>
                                     <% } %>
@@ -154,7 +160,7 @@
                 <div class="modal-content">
                     <span class="close">&times;</span>
                     <h2>Créer une tâche</h2>
-                    <form action="" class="form-create-project" id="form-create-task" method="post">
+                    <form class="form-create-project" id="form-create-task" method="post" data-projectId="<%= project._id %>" novalidate>
                         <div class="mb-3">
                             <div>
                                 <!-- <div>
