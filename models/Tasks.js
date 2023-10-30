@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 
 // Change id needed
 const taskEtatOptions = ['À faire','En cours','En attente','À vérifier','En pause','Complété', 'Annulé']
-const taskTypeOptions = ['Bug', 'Correction', 'Sprint', 'Tester', 'Travail', 'Urgence']
+const taskTypeOptions = ['Bug', 'Correction', 'Sprint', 'Tester', 'Tâche', 'Urgence']
 
 //Check if value is in taskEtatOptions
 const validateTaskEtat = (value) => {
@@ -17,12 +17,13 @@ const TasksModel = mongoose.Schema({
     "task_name":{
         type: String,
         maxlength: [25, 'Le nom de la tâche ne peut pas dépasser 25 caractères'],
+        minlength: [4, 'Le nom de la tâche doit contenir au moins 4 caractères'],
         required: [true, 'Le nom de la tâche est requis'],
         trim: true
     },
     "task_etat":{
         type: Number,
-        required: [true, "Le champ type est requis"],
+        default: 0,
         validate: {
           validator: validateTaskEtat,
           message: "La valeur 'etat' de la tâche n'est pas valide",
@@ -31,6 +32,7 @@ const TasksModel = mongoose.Schema({
     "task_type":{
         type: Number,
         required: [true, "Le champ type est requis"],
+        default: 0,
         validate: {
           validator: validateTaskType,
           message: "La valeur 'type' de la tâche n'est pas valide",

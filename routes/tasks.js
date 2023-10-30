@@ -6,6 +6,6 @@ const { getOneTask, getAllTasks, createTask } = require('../controllers/tasks')
 
 router.route('/').post(getOneTask)
 router.route('/').get(getAllTasks);
-router.route('/create').post(createTask);
+router.route('/:projectId/create').post(createTask);
 
 module.exports = router;

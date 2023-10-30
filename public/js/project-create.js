@@ -24,7 +24,7 @@ async function gestionForm(e){
     e.preventDefault()
     loading_gif.hidden = false
     try {
-        await new Promise(r => setTimeout(r, 2000));
+        await new Promise(r => setTimeout(r, 1000));
         
         const name_value = input__project_name.value.trim()
         
