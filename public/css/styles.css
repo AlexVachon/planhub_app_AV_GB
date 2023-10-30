@@ -8412,7 +8412,7 @@ textarea.form-control-lg {
   color: rgba(var(--bs-danger-rgb), var(--bs-text-opacity)) !important;
 }
 
-.text-light, #card-create-project .form-text, #card-join .form-text {
+.text-light, #card-create-project .form-text, .form-text {
   --bs-text-opacity: 1;
   color: rgba(var(--bs-light-rgb), var(--bs-text-opacity)) !important;
 }
@@ -8422,7 +8422,7 @@ textarea.form-control-lg {
   color: rgba(var(--bs-dark-rgb), var(--bs-text-opacity)) !important;
 }
 
-.text-black, .form-create-project input, .form-join input {
+.text-black, textarea, .modal .form-select, .form-create-project input, .form-join input {
   --bs-text-opacity: 1;
   color: rgba(var(--bs-black-rgb), var(--bs-text-opacity)) !important;
 }
@@ -8722,7 +8722,7 @@ textarea.form-control-lg {
   background-color: rgba(var(--bs-black-rgb), var(--bs-bg-opacity)) !important;
 }
 
-.bg-white, .modal-content, .notification, .form-create-project .form-control, #card-create-project, .form-join .form-control, #card-join {
+.bg-white, .modal-content, .modal .form-select, .notification, .form-create-project .form-control, #card-create-project, .form-join .form-control, #card-join {
   --bs-bg-opacity: 1;
   background-color: rgba(var(--bs-white-rgb), var(--bs-bg-opacity)) !important;
 }
@@ -12122,7 +12122,6 @@ footer {
   overflow: auto;
   background-color: rgba(0, 0, 0, 0.5);
 }
-
 .modal-content {
   margin: 15% auto;
   border: 1px solid #888;

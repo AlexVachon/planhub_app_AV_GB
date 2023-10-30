@@ -62,7 +62,7 @@
                                 <!-- <div>
                                 <img id="loading-project-form" class="loading" src="../gif/loading.gif"
                                     alt="Loading gif" hidden>
-                            </div> -->
+                                </div> -->
                                 <label for="task_name" class="form-label"><span style="color: red;">*</span>
                                     Nom de la tâche</label>
                                 <input type="text" id="task_name" name="task_name" class="form-control"
@@ -119,6 +119,10 @@
 
                     </form>
                 </div>
+            </div>
+            <div hidden>
+                <div id="userID" data-userID="<%= user._id %>"></div>
+                <div id="projectID" data-projectID="<%= project._id %>"></div>
             </div>
         </div>
         <footer>

@@ -125,10 +125,9 @@ const getUsersProjects = async (req, res) => {
 
             if (!project) {
                 res.status(404).json({ "error": "Projet non trouvé" })
-                return
             }
 
-            const usersIds = project.Users
+            const usersIds = project.users
 
             const users = await Users.find({ _id: { $in: usersIds } })
 
@@ -145,7 +144,30 @@ const getUsersProjects = async (req, res) => {
 
 
 const getAdminsProjects = async (req, res) => {
-    
+    const { projectId } = req.params;
+    const userId = req.session.user;
+
+    if (req.session.authenticated && userId == req.session.user) {
+        try {
+            const project = await Projects.findById(projectId)
+
+            if (!project) {
+                res.status(404).json({ "error": "Projet non trouvé" })
+            }
+
+            const adminsIds = project.admins
+
+            const admins = await Users.find({ _id: { $in: adminsIds } })
+
+            res.status(201).json(admins)
+
+        } catch (error) {
+            console.error(error)
+            res.status(500).json({ error })
+        }
+    } else {
+        res.status(403).redirect('/join')
+    }
 }
 
 

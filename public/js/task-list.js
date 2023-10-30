@@ -1,5 +1,5 @@
-const projectId = document.querySelector('#projectId').getAttribute('data-projectId')
-const userId = document.querySelector('#userId').getAttribute('data-userId')
+const projectId = document.querySelector('#projectID').getAttribute('data-projectId')
+const userId = document.querySelector('#userID').getAttribute('data-userId')
 
 const menuAside = document.getElementById('Menu-Aside')
 const taskContent = document.getElementById('Task-Content')
@@ -114,8 +114,6 @@ function HTMLContentTaskContent(tasks){
 }
 
 function HTMLContentUserContent(users, admins) {
-    const userContent = document.getElementById('userContent'); // Assurez-vous que vous avez un élément avec l'ID 'userContent' dans votre HTML
-
     userContent.innerHTML = '';
 
     if (users.length > 1) {
@@ -135,9 +133,9 @@ function HTMLContentUserContent(users, admins) {
             
             div.appendChild(a);
 
-            if (admins.some(admin => admin.id === utilisateur.id)) {
+            if (admins.some(admin => admin._id === utilisateur._id)) {
                 const span = document.createElement('span');
-                span.textContent = '(Admin)';
+                span.textContent = ' (Admin)';
                 div.appendChild(span);
             }
 
@@ -162,29 +160,60 @@ function HTMLContentUserContent(users, admins) {
 }
 
 
-async function AfficherListeMenu(){
+async function AppelTasks(){
 
     try {
-        const tasks = await envoyerRequeteAjax(
+        return await envoyerRequeteAjax(
             url = `/api/v1/tasks/${userId}/${projectId}/tasks`,
             methode = "GET",
         )
-        if (tasks.constructor === [].constructor){
-            HTMLContentTaskContent(tasks)
-            HTMLContentMenuTasks(tasks)
-        }
 
-        const users = await envoyerRequeteAjax(
+    } catch (error) {
+        console.error(error)
+    }
+}
+
+async function AppelUsers(){
+
+    try {
+        return await envoyerRequeteAjax(
             url = `/api/v1/tasks/${userId}/${projectId}/users`,
             methode = "GET",
         )
-        const admins = await envoyerRequeteAjax(
+
+    } catch (error) {
+        console.error(error)
+    }
+}
+
+async function AppelAdmins(){
+
+    try {
+        return await envoyerRequeteAjax(
             url = `/api/v1/tasks/${userId}/${projectId}/admins`,
             methode = "GET",
         )
+
+    } catch (error) {
+        console.error(error)
+    }
+}
+
+async function AfficherListeMenu(){
+
+    try {
+        const tasks = await AppelTasks()
+
         if (tasks.constructor === [].constructor){
-            HTMLContentTaskContent(users, admins)
-        }
+            HTMLContentTaskContent(tasks)
+            HTMLContentMenuTasks(tasks)
+        } 
+        const users = await AppelUsers()
+        const admins = await AppelAdmins()
+
+        if (users.constructor === [].constructor){
+            HTMLContentUserContent(users, admins)
+        } 
     } catch (error) {
         console.error(error)
     }
