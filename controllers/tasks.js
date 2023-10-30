@@ -66,23 +66,15 @@ const createTask = async (req, res) => {
                 const validationErrors = {};
 
                 for (const key in err.errors) {
-
                     validationErrors[key] = err.errors[key].message;
-
                 }
 
                 console.error(validationErrors);
-
                 res.status(400).json({ errors: validationErrors });
-
             } else {
-
                 console.error(err);
-
                 res.status(400).json({ message: 'Erreur lors de la création de la tâche' });
-
             }
-
         }
     } else {
         console.error("Vous devez d'abord être connecté");
@@ -91,8 +83,64 @@ const createTask = async (req, res) => {
 
 }
 
+const editTask = async (req, res) => {
+    if (req.session.authenticated) {
+        const { projectId, taskId } = req.params
+        const { task_name, task_description, task_type } = req.body
+
+        try {
+            const projet = await Projects.findById(projectId)
+            const users = projet.users
+
+            if (users.includes(req.session.user)) {
+
+                const updatedData = {
+                    task_name: task_name,
+                    task_type: task_type,
+                    task_description: task_description
+                }
+
+                const tache = await Tasks.findOneAndUpdate(
+                    { _id: taskId },
+                    { $set: updatedData },
+                    { new: true }
+                )
+
+                if (tache){
+                    res.status(200).json(tache)
+                }else{
+                    res.status(400).json({message: "Aucune tâche correspondant n'a été trouvé."})
+                }
+
+            } else {
+                res.status(403).json({ message: "Accès non autorisé" })
+            }
+
+
+        } catch (error) {
+            if (err.name === 'ValidationError') {
+
+                const validationErrors = {};
+                for (const key in err.errors) {
+                    validationErrors[key] = err.errors[key].message;
+                }
+
+                console.error(validationErrors);
+                res.status(400).json({ errors: validationErrors });
+
+            } else {
+                console.error(err);
+                res.status(400).json({ message: 'Erreur lors de la modification de la tâche' });
+            }
+        }
+    } else {
+        res.status(403).redirect('/join')
+    }
+}
+
 module.exports = {
     getOneTask,
     getAllTasks,
-    createTask
+    createTask,
+    editTask
 }
