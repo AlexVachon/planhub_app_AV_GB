@@ -3,17 +3,22 @@
 
 <head>
     <%- include('../partials/head'); %>
-    <title>PlanHub | <%= project.project_name %></title>
-    <script src="../js/utils-ajax.js" defer></script>
-
-
-    <script src="../js/task-list.js" defer></script>
+        <title>PlanHub | <%= project.project_name %>
+        </title>
+        <script src="../js/utils-ajax.js" defer></script>
+        <script src="../js/task-list.js" defer></script>
+        <script src="../js/task-create-form.js" defer></script>
+        <script src="../js/task-create.js" defer></script>
 </head>
 
 <body>
-    
+
     <%- include('../partials/header-project'); %>
     
+    <div id="notifications" class="toast notification" role="alert" aria-live="assertive" aria-atomic="true">
+        <!--Loaded with script -->
+    </div>
+
     <div class="container-fluid">
         <div class="row flex-nowrap">
             <%- include('../partials/aside-task'); %>
@@ -44,18 +49,81 @@
                         <div class="container d-flex justify-content-center mt-3 align-items-center">
                             <button type="button" class="btn btn-lg btn-outline-secondary" style="border-radius: 10px">Inviter</button>
                         </div>
-                        
                     </div>
                 </div>
             </div>
+            <div id="createTaskModal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <h2>Créer une tâche</h2>
+                    <form class="form-create-project" id="form-create-task" method="post" data-projectId="<%= project._id %>" novalidate>
+                        <div class="mb-3">
+                            <div>
+                                <!-- <div>
+                                <img id="loading-project-form" class="loading" src="../gif/loading.gif"
+                                    alt="Loading gif" hidden>
+                            </div> -->
+                                <label for="task_name" class="form-label"><span style="color: red;">*</span>
+                                    Nom de la tâche</label>
+                                <input type="text" id="task_name" name="task_name" class="form-control"
+                                    aria-describedby="tnHelp">
+                                <div id="tnHelp" class="form-text">
+                                    Votre nom de tâche doit contenir de 4 à 25 caractères
+                                </div>
+                                <div class="valid-feedback">
+                                    Parfait!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Doit contenir de 4 à 25 caractères
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="mb-3">
+                            <div>
+                                <label for="task_type" class="form-label"><span style="color: red;">*</span>
+                                    Type</label>
+                                <select id="task_type" name="task_type" class="form-select">
+                                    <option value="0">Bug</option>
+                                    <option value="1">Correction</option>
+                                    <option value="2">Sprint</option>
+                                    <option value="3">Tester</option>
+                                    <option value="4">Tâche</option>
+                                    <option value="5">Urgence</option>
+                                </select>
+                                <div id="ttHelp" class="form-text">
+                                    Sélectionner le type (Bug par défaut)
+                                </div>
+                                <div class="valid-feedback">
+                                    Parfait!
+                                </div>
+                                <div class="invalid-feedback">
+                                    Sélectionner un type
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="mb-3">
+                            <div>
+                                <label for="task_description" class="form-label">Description</label>
+                                <textarea class="form-control" id="task_description" name="task_description" rows="4"
+                                    cols="50" aria-describedby="tdHelp"></textarea>
+                                <div id="tdHelp" class="form-text">
+                                    Fournissez une description (optionnel)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <button type="submit" class="btn btn-primary">Créer</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
         </div>
-        <div hidden>
-            <div id="projectId" data-projectId="<%= project._id %>"></div>
-            <div id="userId" data-userId="<%= user._id %>"></div>
-        </div>
-    </div>
-    <footer>
-        <%- include('../partials/footer-join'); %>
-    </footer>
+        <footer>
+            <%- include('../partials/footer-join'); %>
+        </footer>
 </body>
+
 </html>

@@ -6,7 +6,7 @@ const { getOneTask, getAllTasks, createTask, getTasksProject, getUsersProjects, 
 
 router.route('/').post(getOneTask);
 router.route('/').get(getAllTasks);
-router.route('/create').post(createTask);
+router.route('/:projectId/create').post(createTask);
 router.route('/:userId/:projectId/tasks').get(getTasksProject);
 router.route('/:userId/:projectId/users').get(getUsersProjects);
 router.route('/:userId/:projectId/admins').get(getAdminsProjects);
