@@ -76,7 +76,7 @@ function HTMLContentTaskContent(tasks){
                 <div class="row">
                     <div class="col-6">
                         <div class="border-right pr-3">
-                            <a class="stretched-link no-link-style" href="#tasks/<%= task._id %>">${task.task_name}</a>
+                            <a class="stretched-link no-link-style" href="#tasks/${task._id}">${task.task_name}</a>
                         </div>
                     </div>
                     <div class="col-6">

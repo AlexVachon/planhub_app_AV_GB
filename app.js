@@ -88,7 +88,7 @@ app.get('/projects', async (req, res) => {
 app.get('/projects/:id', async (req, res) => {
   if (req.session.authenticated) {
     const projectId = req.params.id;
-    const project = await ModelProjects.findById(projectId)
+    const project = await ModelProjects.findById(projectId);
     const user = await ModelUsers.findById(req.session.user);
 
     const userHasAccess = user.projects.some((userProject) =>
@@ -96,7 +96,7 @@ app.get('/projects/:id', async (req, res) => {
     );
 
     if (userHasAccess) {
-      res.render(path.join(__dirname, 'public/templates/project'), { user, project, taskTypeOptions, taskEtatOptions });
+      res.render(path.join(__dirname, 'public/templates/project'), { user, project });
     } else {
       res.redirect('/projects');
     }
@@ -105,7 +105,31 @@ app.get('/projects/:id', async (req, res) => {
   }
 });
 
+app.get('/projects/:projectid/:taskid', async (req, res) => {
+  if (req.session.authenticated) {
+    const projectId = req.params.projectdid;
+    const taskid = req.params.taskdid;
+    const project = await ModelProjects.findById(projectId);
+    const task = await ModelProjects.findById(taskid);
+    const user = await ModelUsers.findById(req.session.user);
 
+    const userHasAccess = user.projects.some((userProject) =>
+      userProject._id.toString() === projectId.toString()
+    );
+
+    const taskInProject = project.tasks.some((taskProject) =>
+      taskProject._id.toString() === taskid.toString()
+    );
+
+    if (userHasAccess && taskInProject) {
+      res.render(path.join(__dirname, 'public/templates/task'), { user, project, task });
+    } else {
+      res.redirect('/projects');
+    }
+  } else {
+    res.redirect('/join');
+  }
+});
 
 
 app.get('/logout', (req, res) =>{
