@@ -107,10 +107,10 @@ app.get('/projects/:id', async (req, res) => {
 
 app.get('/projects/:projectid/:taskid', async (req, res) => {
   if (req.session.authenticated) {
-    const projectId = req.params.projectdid;
-    const taskid = req.params.taskdid;
+    const projectId = req.params.projectid;
+    const taskid = req.params.taskid;
     const project = await ModelProjects.findById(projectId);
-    const task = await ModelProjects.findById(taskid);
+    const task = await ModelTasks.findById(taskid);
     const user = await ModelUsers.findById(req.session.user);
 
     const userHasAccess = user.projects.some((userProject) =>
