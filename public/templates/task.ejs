@@ -4,13 +4,9 @@
 <head>
     <%- include('../partials/head'); %>
     <title>PlanHub | <%= task.task_name %></title>
-    <script src="../js/utils-ajax.js" defer></script>
-    <script src="../js/task-list.js" defer></script>
-    <script src="../js/subtask-list.js" defer></script>
 </head>
 
 <body>
-    
     <%- include('../partials/header-project'); %>
     
     <div class="container-fluid">
@@ -19,13 +15,15 @@
             
             <div class="d-flex flex-column align-items-center col py-3 bg-light-subtle">
                 <div class="mt-4 text-center container">
-                    <h2><%= task.task_name %>
+                    <h2><%= task.task_name %></h2>
+                </div>
+                <div>
+                    <p><%= task.task_description %></p>
                 </div>
                 <div class="container row mt-5">
                     <div class="col-xl-8 col-lg-6 col-sm-12">
                         <h3 class="text-center">Liste des tâches :</h3>
                         <div id="Task-Content">
-                            <!-- CONTENT LOADED IN AJAX -->
                             <div>
                                 <img class="loading-project" src="../gif/loading.gif" alt="Loading gif">
                             </div>
@@ -34,7 +32,6 @@
                     <div class="col-xl-4 col-lg-6 col-sm-12">
                         <h3 class="text-center">Utilisateurs:</h3>
                         <div id="User-Content">
-                            <!-- CONTENT LOADED IN AJAX -->
                             <div>
                                 <img class="loading-project" src="../gif/loading.gif" alt="Loading gif">
                             </div>
