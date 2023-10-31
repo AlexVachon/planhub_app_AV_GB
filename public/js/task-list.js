@@ -69,37 +69,40 @@ function HTMLContentTaskContent(tasks){
     if (tasks){
         const ul = document.createElement('ul')
         ul.classList.add('list-group', 'shadow')
-        for(task of tasks){
+        tasks.forEach(task => {
+            const li = document.createElement('li');
+            li.classList.add('bg-secondary-subtle', 'text-dark', 'list-group-item');
             
-            ul.innerHTML += 
-            `<li class="bg-secondary-subtle text-dark list-group-item">
-                <div class="row">
-                    <div class="col-6">
-                        <div class="border-right pr-3">
-                            <a class="stretched-link no-link-style" href="/projects/${projectId}/${task._id}">${task.task_name}</a>
-                        </div>
+            // Création du contenu HTML pour chaque tâche
+            li.innerHTML = 
+            `
+            <div class="row">
+                <div class="col-6">
+                    <div class="border-right pr-3">
+                        <a class="stretched-link no-link-style" href="/projects/${projectId}/${task._id}">${task.task_name}</a>
                     </div>
-                    <div class="col-6">
-                        <div class="row">
-                            <div class="col-4">
-                                <p class="mb-0">${taskEtatOptions[task.task_etat]}</p>
-                            </div>
-                            <div class="col-4">
-                                <p class="mb-0">${taskTypeOptions[task.task_type]}</p>
-                            </div>
-                            <div class="col-4">
-                                <div class="d-flex justify-content-end">
-                                    <img id="edit" src="../images/edit.png" alt="edit">
-                                    <img id="delete" src="../images/delete.png" alt="delete">
-                                </div>
+                </div>
+                <div class="col-6">
+                    <div class="row">
+                        <div class="col-4">
+                            <p class="mb-0">${taskEtatOptions[task.task_etat]}</p>
+                        </div>
+                        <div class="col-4">
+                            <p class="mb-0">${taskTypeOptions[task.task_type]}</p>
+                        </div>
+                        <div class="col-4">
+                            <div class="d-flex justify-content-end">
+                                <img id="edit" src="../images/edit.png" alt="edit">
+                                <img id="delete" src="../images/delete.png" alt="delete">
                             </div>
                         </div>
                     </div>
                 </div>
-            </li>
+            </div>
             `
-            taskContent.appendChild(ul)
-        }
+            ul.appendChild(li);
+        });
+        taskContent.append(ul)
     }else{
         taskContent.innerHTML = 
         `
