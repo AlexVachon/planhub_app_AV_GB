@@ -5,8 +5,6 @@
     <%- include('../partials/head'); %>
     <title>PlanHub | <%= task.task_name %></title>
     <script src="/js/utils-ajax.js" defer></script>
-    <script src="/js/task-list.js" defer></script>
-    <script src="/js/subtask-list.js" defer></script>
 </head>
 
 <body>
@@ -24,23 +22,41 @@
                     <p><%= task.task_description %></p>
                 </div>
                 <div class="container row mt-5">
-                    <div class="col-xl-8 col-lg-6 col-sm-12">
-                        <h3 class="text-center">Liste des tâches :</h3>
-                        <div id="Task-Content">
-                            <div>
-                                <img class="loading-project" src="/gif/loading.gif" alt="Loading gif">
-                            </div>
-                        </div>
+                    <div>
+                        <h3 class="text-center">Liste des sous-tâches :</h3>
+                        <div id="Subask-Content">
+                            <ul class="list-group shadow col-8 mx-auto">
+                                <li class="bg-secondary-subtle text-dark list-group-item">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="border-right pr-3">
+                                                <a class="stretched-link no-link-style">Nom de la sous-tâche</a>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="row">
+                                                <div class="col-4">
+                                                    <p class="mb-0">En cours</p>
+                                                </div>
+                                                <div class="col-4">
+                                                    <p class="mb-0">Urgence</p>
+                                                </div>
+                                                <div class="col-4">
+                                                    <div class="d-flex justify-content-end">
+                                                        <img id="edit" src="/images/edit.png" alt="edit">
+                                                        <img id="delete" src="/images/delete.png" alt="delete">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
                     </div>
-                    <div class="col-xl-4 col-lg-6 col-sm-12">
-                        <h3 class="text-center">Utilisateurs:</h3>
-                        <div id="User-Content">
-                            <div>
-                                <img class="loading-project" src="/gif/loading.gif" alt="Loading gif">
-                            </div>
-                        </div>
-                        <div class="container d-flex justify-content-center mt-3 align-items-center">
-                            <button type="button" class="btn btn-lg btn-outline-secondary" style="border-radius: 10px">Inviter</button>
+                    <div class="mt-5">
+                        <h3>Commentaires :</h3>
+                        <div>
+                            <p> En construction...</p>
                         </div>
                     </div>
                 </div>
