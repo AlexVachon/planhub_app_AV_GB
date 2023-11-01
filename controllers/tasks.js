@@ -1,5 +1,6 @@
+const Projects = require('../models/Projects');
 const Tasks = require('../models/Tasks')
-const Projects = require("../models/Projects")
+const Users = require("../models/Users")
 
 const mongoose = require('mongoose');
 
@@ -63,15 +64,19 @@ const createTask = async (req, res) => {
         } catch (err) {
             if (err.name === 'ValidationError') {
 
-                const validationErrors = {};
+                    const validationErrors = {};
 
                 for (const key in err.errors) {
                     validationErrors[key] = err.errors[key].message;
-                }
 
-                console.error(validationErrors);
-                res.status(400).json({ errors: validationErrors });
-            } else {
+                    }
+
+                    console.error(validationErrors);
+
+                    res.status(400).json({ errors: validationErrors });
+
+                } else {
+
                 console.error(err);
                 res.status(400).json({ message: 'Erreur lors de la création de la tâche' });
             }
@@ -80,8 +85,88 @@ const createTask = async (req, res) => {
         console.error("Vous devez d'abord être connecté");
         res.status(401).json({ message: "Vous devez d'abord être connecté" });
     }
-
 }
+
+const getTasksProject = async (req, res) => {
+    const { projectId, userId } = req.params;
+
+    if (req.session.authenticated && userId == req.session.user) {
+        try {
+            const project = await Projects.findById(projectId)
+
+            if (!project) {
+                res.status(404).json({ "error": "Projet non trouvé" })
+            }
+            const taskIds = project.tasks
+
+            const tasks = await Tasks.find({ _id: { $in: taskIds } })
+            res.status(201).json(tasks)
+
+        } catch (error) {
+            console.error(error)
+            res.status(500).json({ error })
+        }
+    } else {
+        res.status(403).redirect('/join')
+    }
+}
+
+const getUsersProjects = async (req, res) => {
+    const { projectId } = req.params;
+    const userId = req.session.user;
+
+    if (req.session.authenticated && userId == req.session.user) {
+        try {
+            const project = await Projects.findById(projectId)
+
+            if (!project) {
+                res.status(404).json({ "error": "Projet non trouvé" })
+            }
+
+            const usersIds = project.users
+
+            const users = await Users.find({ _id: { $in: usersIds } })
+
+            res.status(201).json(users)
+
+        } catch (error) {
+            console.error(error)
+            res.status(500).json({ error })
+        }
+    } else {
+        res.status(403).redirect('/join')
+    }
+}
+
+
+const getAdminsProjects = async (req, res) => {
+    const { projectId } = req.params;
+    const userId = req.session.user;
+
+    if (req.session.authenticated && userId == req.session.user) {
+        try {
+            const project = await Projects.findById(projectId)
+
+            if (!project) {
+                res.status(404).json({ "error": "Projet non trouvé" })
+            }
+
+            const adminsIds = project.admins
+
+            const admins = await Users.find({ _id: { $in: adminsIds } })
+
+            res.status(201).json(admins)
+
+        } catch (error) {
+            console.error(error)
+            res.status(500).json({ error })
+        }
+    } else {
+        res.status(403).redirect('/join')
+    }
+}
+
+
 
 const editTask = async (req, res) => {
     if (req.session.authenticated) {
@@ -142,5 +227,8 @@ module.exports = {
     getOneTask,
     getAllTasks,
     createTask,
+    getTasksProject,
+    getUsersProjects,
+    getAdminsProjects,
     editTask
 }

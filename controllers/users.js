@@ -48,7 +48,6 @@ const createUser = async (req, res) => {
                 username: username.toString(),
                 email: email.toString(),
                 password: password.toString()
-
             })
             console.log(user)
             user.save().then(() => {
