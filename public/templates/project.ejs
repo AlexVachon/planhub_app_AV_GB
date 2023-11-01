@@ -5,153 +5,48 @@
     <%- include('../partials/head'); %>
         <title>PlanHub | <%= project.project_name %>
         </title>
-
-        <script src="../js/task-create-form.js" defer></script>
-        <script src="../js/utils-ajax.js" defer></script>
-        <script src="../js/task-create.js" defer></script>
+        <script src="/js/utils-ajax.js" defer></script>
+        <script src="/js/task-list.js" defer></script>
+        <script src="/js/task-create-form.js" defer></script>
+        <script src="/js/task-create.js" defer></script>
 </head>
 
 <body>
 
     <%- include('../partials/header-project'); %>
+    
+    <div id="notifications" class="toast notification" role="alert" aria-live="assertive" aria-atomic="true">
+        <!--Loaded with script -->
+    </div>
 
-        <div id="notifications" class="toast notification" role="alert" aria-live="assertive" aria-atomic="true">
-            <!--Loaded with script -->
-        </div>
-
-        <div class="container-fluid">
-            <div class="row flex-nowrap">
-                <aside class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-secondary bg-gradient">
-                    <div class="pb-3 mb-md-0 me-md-auto text-white">
-                        <a href="/projects" class="no-link-style">
-                            <img id="right" src="../images/chevron_left_white.png" alt="right">
-                        </a>
-                        <span class="fs-5 d-none d-sm-inline"><a href="/projects"
-                                class="no-link-style">retour</a></span>
-                    </div>
-                    <div
-                        class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
-                        <a href="/projects/<%= project._id %>"
-                            class="pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-                            <span class="fs-5 d-none d-sm-inline">Vos tâches</span>
-                        </a>
-                        <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start"
-                            id="menu">
-                            <li class="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <img id="ajouter" src="../images/add.png" alt="Ajouter">
-                                </div>
-                                <div>
-                                    <a href="#Ajouter" data-bs-toggle="collapse"
-                                        class="createTaskButton text-white nav-link px-0 align-middle">
-                                        <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">Créer</span>
-                                    </a>
-                                </div>
-                            </li>
-                            <% project.tasks.forEach(task=> { %>
-                                <li class="d-flex justify-content-between align-items-center">
-                                    <div>
-                                        <img id="task" src="../images/task.png" alt="task">
-                                    </div>
-                                    <div>
-                                        <a href="#tasks/<%= task._id %>" class="no-link-style">
-                                            <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">
-                                                <%= task.task_name %>
-                                            </span>
-                                        </a>
-                                    </div>
-                                </li>
-                                <% }); %>
-                        </ul>
-                        <hr>
-                    </div>
-                </aside>
-
-                <div class="d-flex flex-column align-items-center col py-3 bg-light-subtle">
-                    <div class="mt-4 text-center container">
-                        <h2>
-                            <%= project.project_name %>
-                        </h2>
-                    </div>
-                    <div class="container row mt-5">
-                        <div class="col-xl-8 col-lg-6 col-sm-12">
-                            <h3 class="text-center">Liste des tâches :</h3>
-                            <% if (project.tasks.length> 0) { %>
-                                <ul class="list-group shadow">
-                                    <% project.tasks.forEach(task=> { %>
-                                        <li class="bg-secondary-subtle text-dark list-group-item">
-                                            <div class="d-flex justify-content-between align-items-center">
-                                                <div class="border-right pr-3">
-                                                    <a class="stretched-link no-link-style"
-                                                        href="#tasks/<%= task._id %>">
-                                                        <%= task.task_name %> (<%= taskEtatOptions[task.task_etat] %>)
-                                                    </a>
-                                                </div>
-                                                <div class="d-flex align-items-center">
-                                                    <div class="ml-3">
-                                                        <p class="mb-0">
-                                                            <%= taskTypeOptions[task.task_type] %>
-                                                        </p>
-                                                    </div>
-                                                    <div class="ml-3">
-                                                        <img id="edit" src="../images/edit.png" alt="edit">
-                                                        <img id="delete" src="../images/delete.png" alt="delete">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </li>
-
-                                        <% }); %>
-                                </ul>
-                                <% } else { %>
-                                    <div class="text-center">
-                                        <p class="text-center">Vous n'avez actuellement aucune tâche...</p>
-                                    </div>
-                                    <div class="container d-flex justify-content-center align-items-center">
-                                        <button type="button" class="createTaskButton btn btn-lg btn-outline-secondary"
-                                            style="border-radius: 10px">Créer une tâche</button>
-                                    </div>
-                                    <% } %>
+    <div class="container-fluid">
+        <div class="row flex-nowrap">
+            <%- include('../partials/aside-task'); %>
+            
+            <div class="d-flex flex-column align-items-center col py-3 bg-light-subtle">
+                <div class="mt-4 text-center container">
+                    <h2><%= project.project_name %>
+                </div>
+                <div class="container row mt-5">
+                    <div class="col-xl-8 col-lg-6 col-sm-12">
+                        <h3 class="text-center">Liste des tâches :</h3>
+                        <div id="Task-Content">
+                            <!-- CONTENT LOADED IN AJAX -->
+                            <div>
+                                <img class="loading-project" src="/gif/loading.gif" alt="Loading gif">
+                            </div>
                         </div>
-                        <div class="col-xl-4 col-lg-6 col-sm-12">
-                            <h3 class="text-center">Utilisateurs:</h3>
-                            <% if (project.users.length> 1) { %>
-                                <ul class="list-group shadow">
-                                    <% project.users.forEach(utilisateur=> { %>
-                                        <li
-                                            class="bg-secondary-subtle text-dark list-group-item d-flex justify-content-between align-items-center">
-                                            <div>
-                                                <a class="stretched-link no-link-style"
-                                                    href="#users/<%= utilisateur._id %>">
-                                                    <%= utilisateur.first_name %>
-                                                        <%= utilisateur.last_name %>
-                                                </a>
-                                                <% if (project.admins.some(admin=> admin.id === utilisateur.id)) { %>
-                                                    <span>(Admin)</span>
-                                                    <% } %>
-                                            </div>
-                                        </li>
-                                        <% }); %>
-                                </ul>
-
-                                <% } else { %>
-                                    <% if (project.users.length===1) { %>
-                                        <div class="text-center">
-                                            <p class="text-center">Vous êtes le seul utilisateur dans le projet.</p>
-                                        </div>
-                                        <% } else { %>
-                                            <div class="text-center">
-                                                <p class="text-center">Il n'y a actuellement aucun utilisateur dans le
-                                                    projet.</p>
-                                            </div>
-                                            <% } %>
-                                                <% } %>
-                                                    <div
-                                                        class="container d-flex justify-content-center mt-3 align-items-center">
-                                                        <button type="button" class="btn btn-lg btn-outline-secondary"
-                                                            style="border-radius: 10px">Inviter</button>
-                                                    </div>
-
+                    </div>
+                    <div class="col-xl-4 col-lg-6 col-sm-12">
+                        <h3 class="text-center">Utilisateurs:</h3>
+                        <div id="User-Content">
+                            <!-- CONTENT LOADED IN AJAX -->
+                            <div>
+                                <img class="loading-project" src="/gif/loading.gif" alt="Loading gif">
+                            </div>
+                        </div>
+                        <div class="container d-flex justify-content-center mt-3 align-items-center">
+                            <button type="button" class="btn btn-lg btn-outline-secondary" style="border-radius: 10px">Inviter</button>
                         </div>
                     </div>
                 </div>
@@ -166,7 +61,7 @@
                                 <!-- <div>
                                 <img id="loading-project-form" class="loading" src="../gif/loading.gif"
                                     alt="Loading gif" hidden>
-                            </div> -->
+                                </div> -->
                                 <label for="task_name" class="form-label"><span style="color: red;">*</span>
                                     Nom de la tâche</label>
                                 <input type="text" id="task_name" name="task_name" class="form-control"
@@ -223,6 +118,10 @@
 
                     </form>
                 </div>
+            </div>
+            <div hidden>
+                <div id="userID" data-userID="<%= user._id %>"></div>
+                <div id="projectID" data-projectID="<%= project._id %>"></div>
             </div>
         </div>
         <footer>

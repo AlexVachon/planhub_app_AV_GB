@@ -14,10 +14,10 @@ app.use(session({
   resave: false,
   saveUninitialized: true,
   cookie: {
-      secure: false,
-      httpOnly: true,
-      sameSite: 'Lax', 
-      maxAge: 3600000,
+    secure: false,
+    httpOnly: true,
+    sameSite: 'Lax',
+    maxAge: 3600000,
   }
 }));
 const cookieParser = require('cookie-parser')
@@ -34,29 +34,27 @@ const ModelTasks = require('./models/Tasks')
 const users = require('./routes/users')
 const tasks = require('./routes/tasks')
 const joins = require('./routes/join')
-const taches = require('./routes/taches')
 const project = require('./routes/projects')
 
 //.ENV -> hides informations like connection string
 require('dotenv').config()
 
-const path = require('path')
-
-const port =  process.env.PORT || 3000
+const path = require('path');
+const port = process.env.PORT || 3000
 
 
 
 
 //MIDDLEWARE
-app.use(express.json())
-app.use(express.urlencoded({extended:true}))
-app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
+app.use(cookieParser())
+
 app.use('/api/v1/users', users)
 app.use('/api/v1/tasks', tasks)
 app.use('/join', joins)
 app.use('/project', project)
-// app.use('/:projet', taches)
 
 // set the view engine to ejs
 app.set('view engine', 'ejs');
@@ -75,9 +73,9 @@ app.get('/projects', async (req, res) => {
   if (req.session.authenticated) {
     try {
       const user = await ModelUsers.findById(req.session.user).populate({
-        path : "projects", 
-        model : ModelProjects
-    });
+        path: "projects",
+        model: ModelProjects
+      });
       res.render(path.join(__dirname, 'public/templates/index'), { user });
     } catch (err) {
       console.log("Erreur lors de la recherche de l'utilisateur avec l'ID : " + req.session.user, err);
@@ -91,32 +89,15 @@ app.get('/projects', async (req, res) => {
 app.get('/projects/:id', async (req, res) => {
   if (req.session.authenticated) {
     const projectId = req.params.id;
+    const project = await ModelProjects.findById(projectId);
     const user = await ModelUsers.findById(req.session.user);
-
-    const project = await ModelProjects.findById(projectId).populate({
-      path : "tasks", 
-      model : ModelTasks
-    }).populate({
-      path: 'users', 
-      model: ModelUsers
-    }).populate({
-      path: 'admins',
-      model: ModelUsers
-    });
-
-    if (!project) {
-      return res.redirect('/projects');
-    }
 
     const userHasAccess = user.projects.some((userProject) =>
       userProject._id.toString() === projectId.toString()
     );
 
     if (userHasAccess) {
-      const taskTypeOptions = ['Bug', 'Correction', 'Sprint', 'Tester', 'Travail', 'Urgence'];
-      const taskEtatOptions = ['À faire','En cours','En attente','À vérifier','En pause','Complété', 'Annulé'];
-
-      res.render(path.join(__dirname, 'public/templates/project'), { project, taskTypeOptions, taskEtatOptions });
+      res.render(path.join(__dirname, 'public/templates/project'), { user, project });
     } else {
       res.redirect('/projects');
     }
@@ -125,33 +106,65 @@ app.get('/projects/:id', async (req, res) => {
   }
 });
 
+app.get('/projects/:projectid/:taskid', async (req, res) => {
+  try {
+    if (req.session.authenticated) {
+
+      const projectid = req.params.projectid
+      const taskid = req.params.taskid
+
+      const user = await ModelUsers.findById(req.session.user);
+
+      const project = await ModelProjects.findById(projectid);
+
+      const task = await ModelTasks.findById(taskid);
+      
+
+      const userHasAccess = user.projects.some((userProject) =>
+        userProject._id.toString() === projectid.toString()
+      );
+
+      const taskInProject = project.tasks.some((taskProject) =>
+        taskProject._id.toString() === taskid.toString()
+      );
+
+      if (userHasAccess && taskInProject) {
+        res.render(path.join(__dirname, 'public/templates/task'), { user, project, task });
+      } else {
+        res.redirect('/projects');
+      }
+    } else {
+      res.redirect('/join');
+    }
+  } catch (error) {
+    console.error(error)
+  }
+});
 
 
-
-app.get('/logout', (req, res) =>{
+app.get('/logout', (req, res) => {
   req.session.destroy((error) => {
-    if (error){
+    if (error) {
       console.log("Erreur lors de la déconnexion: ", error)
       res.status(400).redirect('/')
     }
-    else{
+    else {
       console.log("Utilisateur déconnecter")
-      console.log(__dirname)
       res.status(201).redirect('/join?logout=true')
     }
   })
 })
 
-const start = async () =>{
-  try{
+const start = async () => {
+  try {
     await connectDB(process.env.MONGO_URI)
     // Écoute du serveur sur le port spécifié
-  app.listen(port, () => {
+    app.listen(port, () => {
       console.log(`Le serveur écoute sur le port ${port}`)
       console.log(`---> http://localhost:${port}/ <---`)
       console.log(`CTRL + C to STOP code`)
     })
-  }catch(err){
+  } catch (err) {
     console.log(err)
   }
 }

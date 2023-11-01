@@ -55,63 +55,16 @@ function HTMLContentMenu(projects) {
         li.appendChild(a);
         menu.appendChild(li);
     })
-    // for (project of projects) {
-    //     const li = document.createElement('li');
-
-    //     const a = document.createElement('a');
-    //     a.href = `/projects/${project._id}`;
-    //     a.classList.add('d-flex', 'justify-content', 'align-items-center', 'no-link-style');
-
-    //     a.innerHTML = `
-    //         <div>
-    //             <img id="folder" src="../images/folder_logo.png" alt="folder">
-    //         </div>
-    //         <div class="text-white nav-link px-0 align-middle">
-    //             <span class="ms-1 d-none d-sm-inline">${project.project_name}</span>
-    //         </div>
-    //     `;
-
-    //     a.addEventListener('mouseover', function() {
-    //         const link = this;
-    //         link.style.position = 'relative';
-    //         link.style.display = 'inline-block';
-
-    //         const pseudoElement = document.createElement('span');
-    //         pseudoElement.textContent = project.project_name
-    //         pseudoElement.style.position = 'absolute';
-    //         pseudoElement.style.left = '100%';
-    //         pseudoElement.style.top = '0';
-    //         pseudoElement.style.padding = '5px';
-    //         pseudoElement.style.backgroundColor = '#f0f0f0';
-    //         pseudoElement.style.border = '1px solid #ccc';
-    //         pseudoElement.style.zIndex = '1';
-
-    //         link.appendChild(pseudoElement);
-    //     })
-
-    //     a.addEventListener('mouseout', function () {
-    //         const link = this
-    //         link.style.position = 'static';
-    //         link.style.display = 'block';
-    //         const pseudoElement = link.querySelector('span');
-    //         if (pseudoElement) {
-    //             link.removeChild(pseudoElement);
-    //         }
-    //     });
-
-    //     li.appendChild(a);
-    //     menu.appendChild(li);
-    // }
 }
 
 
 function HTMLContentMainContent(projects){
     mainContent.innerHTML = ''
     if (projects){
-        for(project of projects){
-            const ul = document.createElement('ul')
+        const ul = document.createElement('ul')
             ul.classList.add('list-group', 'shadow')
-            ul.innerHTML = 
+        for(project of projects){
+            ul.innerHTML += 
             ` <li class="bg-secondary-subtle text-dark list-group-item d-flex justify-content-between align-items-center">
                 <div>
                     <a href="/projects/${project._id}" class="stretched-link no-link-style">${project.project_name}</a>
