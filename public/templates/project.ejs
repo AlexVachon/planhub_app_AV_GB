@@ -7,9 +7,7 @@
         </title>
         <script src="/js/utils-ajax.js" defer></script>
         <script src="/js/task-list.js" defer></script>
-        <script src="/js/task-create-form.js" defer></script>
         <script src="/js/task-create.js" defer></script>
-        <script src="/js/task-edit.js" defer></script>
 </head>
 
 <body>
@@ -125,71 +123,7 @@
                             <div>
                                 <label for="ed_task_name" class="form-label"><span style="color: red;">*</span>
                                     Nom de la tâche</label>
-                                <input type="text" id="task_name" name="task_name" class="form-control"
-                                    aria-describedby="ed_tnHelp">
-                                <div id="ed_tnHelp" class="form-text">
-                                    Votre nom de tâche doit contenir de 4 à 25 caractères
-                                </div>
-                                <div class="valid-feedback">
-                                    Parfait!
-                                </div>
-                                <div class="invalid-feedback">
-                                    Doit contenir de 4 à 25 caractères
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="mb-3">
-                            <div>
-                                <label for="ed_task_type" class="form-label"><span style="color: red;">*</span>
-                                    Type</label>
-                                <select id="ed_task_type" name="ed_task_type" class="form-select">
-                                    <option value="0">Bug</option>
-                                    <option value="1">Correction</option>
-                                    <option value="2">Sprint</option>
-                                    <option value="3">Tester</option>
-                                    <option value="4">Tâche</option>
-                                    <option value="5">Urgence</option>
-                                </select>
-                                <div id="ed_ttHelp" class="form-text">
-                                    Sélectionner le type (Bug par défaut)
-                                </div>
-                                <div class="valid-feedback">
-                                    Parfait!
-                                </div>
-                                <div class="invalid-feedback">
-                                    Sélectionner un type
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="mb-3">
-                            <div>
-                                <label for="ed_task_description" class="form-label">Description</label>
-                                <textarea class="form-control" id="ed_task_description" name="ed_task_description" rows="4"
-                                    cols="50" aria-describedby="tdHelp"></textarea>
-                                <div id="tdHelp" class="form-text">
-                                    Fournissez une description (optionnel)
-                                </div>
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <button type="submit" class="btn btn-primary">Modifier</button>
-                        </div>
-
-                    </form>
-                </div>
-            </div>
-            <div id="editTaskModal" class="modal">
-                <div class="modal-content">
-                    <span class="close">&times;</span>
-                    <h2>Modifier une tâche</h2>
-                    <form class="form-create-project" id="form-edit-task" method="post" data-projectId="<%= project._id %>" novalidate>
-                        <div class="mb-3">
-                            <div>
-                                <label for="ed_task_name" class="form-label"><span style="color: red;">*</span>
-                                    Nom de la tâche</label>
-                                <input type="text" id="task_name" name="task_name" class="form-control"
+                                <input type="text" id="ed_task_name" name="task_name" class="form-control"
                                     aria-describedby="ed_tnHelp">
                                 <div id="ed_tnHelp" class="form-text">
                                     Votre nom de tâche doit contenir de 4 à 25 caractères

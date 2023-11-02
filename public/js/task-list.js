@@ -8,6 +8,11 @@ const userContent = document.getElementById('User-Content')
 const taskTypeOptions = ['Bug', 'Correction', 'Sprint', 'Tester', 'Travail', 'Urgence'];
 const taskEtatOptions = ['À faire','En cours','En attente','À vérifier','En pause','Complété', 'Annulé'];
 
+const taskNameInput = document.getElementById('ed_task_name');
+const taskTypeSelect = document.getElementById('ed_task_type');
+const taskDescriptionTextArea = document.getElementById('ed_task_description');
+
+
 
 function HTMLContentMenuTasks(tasks) {
     menuAside.innerHTML = '';
@@ -21,7 +26,7 @@ function HTMLContentMenuTasks(tasks) {
 
         a.innerHTML = `
             <div>
-                <img id="folder" src="../images/task.png" alt="task">
+                <img id="folder" src="/images/task.png" alt="task">
             </div>
             <div class="text-white nav-link px-0 align-middle">
                 <span class="ms-1 d-none d-sm-inline">${task.task_name}</span>
@@ -78,7 +83,7 @@ function HTMLContentTaskContent(tasks){
             `
             <div class="row">
                 <div class="col-6">
-                    <div class="border-right pr-3">
+                    <div class="border-right pr-3" style="position: relative;">
                         <a class="stretched-link no-link-style" href="/projects/${projectId}/${task._id}">${task.task_name}</a>
                     </div>
                 </div>
@@ -92,17 +97,44 @@ function HTMLContentTaskContent(tasks){
                         </div>
                         <div class="col-4">
                             <div class="d-flex justify-content-end">
-                                <img id="edit" src="../images/edit.png" alt="edit">
-                                <img id="delete" src="../images/delete.png" alt="delete">
+                                <img id="edit" src="/images/edit.png" alt="edit">
+                                <img id="delete" src="/images/delete.png" alt="delete">
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             `
+            const imgEdit = li.querySelector('#edit');
+            const form = document.getElementById('editTaskModal')
+
+            imgEdit.addEventListener('click', (event) => {
+                event.preventDefault()
+                if (form) {
+                    form.style.display = 'block';
+                    taskNameInput.value = task.task_name;
+                    taskTypeSelect.value = task.task_type;
+                    taskDescriptionTextArea.value = task.task_description;
+                }
+            });
+
+            const closeFormButton = document.querySelector('#editTaskModal .close');
+
+            if (closeFormButton) {
+                closeFormButton.addEventListener('click', (event) => {
+                    const form = document.getElementById('editTaskModal');
+                    if (form) {
+                        form.style.display = 'none';
+                    }
+                });
+            }
+
             ul.appendChild(li);
         });
         taskContent.append(ul)
+
+        
+
     }else{
         taskContent.innerHTML = 
         `
