@@ -58,14 +58,14 @@ function HTMLContentMenu(projects) {
 }
 
 
-function HTMLContentMainContent(projects){
+function HTMLContentMainContent(projects) {
     mainContent.innerHTML = ''
-    if (projects){
+    if (projects.length > 0) {
         const ul = document.createElement('ul')
-            ul.classList.add('list-group', 'shadow')
-        for(project of projects){
-            ul.innerHTML += 
-            ` <li class="bg-secondary-subtle text-dark list-group-item d-flex justify-content-between align-items-center">
+        ul.classList.add('list-group', 'shadow')
+        for (project of projects) {
+            ul.innerHTML +=
+                ` <li class="bg-secondary-subtle text-dark list-group-item d-flex justify-content-between align-items-center">
                 <div>
                     <a href="/projects/${project._id}" class="stretched-link no-link-style">${project.project_name}</a>
                 </div>
@@ -77,27 +77,24 @@ function HTMLContentMainContent(projects){
             `
             mainContent.appendChild(ul)
         }
-    }else{
-        mainContent.innerHTML = 
-        `
+    } else {
+        mainContent.innerHTML =
+            `
         <div class="text-center">
             <p class="text-center">Vous n'avez aucun projet pour le moment...</p>
-        </div>
-        <div class="container d-flex justify-content-center align-items-center">
-            <button type="button" id="createProjectButton" class="createProjectButton btn btn-lg btn-outline-secondary" style="border-radius: 10px">Créer un projet</button>
         </div>
         `
     }
 }
 
-async function AfficherListeMenu(){
+async function AfficherListeMenu() {
 
     try {
         const projects = await envoyerRequeteAjax(
             url = `/project/${userID}/projects`,
             methode = "GET",
         )
-        if (projects.constructor === [].constructor){
+        if (projects.constructor === [].constructor) {
             HTMLContentMenu(projects)
             HTMLContentMainContent(projects)
         }
@@ -107,7 +104,7 @@ async function AfficherListeMenu(){
     }
 }
 
-function initialize(){
+function initialize() {
     setInterval(AfficherListeMenu, 1000)
 }
 window.addEventListener('load', initialize)
