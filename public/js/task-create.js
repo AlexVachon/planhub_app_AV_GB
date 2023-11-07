@@ -8,7 +8,7 @@ const input_tn = document.getElementById('task_name')
 const input_tt = document.getElementById("task_type")
 const input_td = document.getElementById("task_description")
 
-const regexTN = /^[A-Za-z0-9\s]+$/
+const regexTN = /^[A-Za-z0-9\s]{4,25}$/
 
 
 /**
@@ -32,7 +32,7 @@ function validateInputTN(value) {
 /**
  * Permet de gérer le submit du formulaire
  */
-async function gestionSubmit(e) {
+async function gestionSubmitCreate(e) {
     e.preventDefault()
     try {
         const name = input_tn.value.trim()
@@ -41,7 +41,7 @@ async function gestionSubmit(e) {
 
         if (validateInputTN(name)) {
             const task = await envoyerRequeteAjax(
-                url = `/api/v1/tasks/${form_task.dataset.projectid}/create`,
+                url = `/api/v1/tasks/${document.getElementById('projectID').dataset.projectid}/create`,
                 methode = 'POST',
                 parametres = {
                     task_name: name,
@@ -77,6 +77,6 @@ async function gestionSubmit(e) {
  * Initialise les fonctions de la page
  */
 function Initialize() {
-    form_task.addEventListener('submit', gestionSubmit)
+    form_task.addEventListener('submit', gestionSubmitCreate)
 }
 window.addEventListener('load', Initialize)
