@@ -11,6 +11,7 @@ const taskEtatOptions = ['À faire','En cours','En attente','À vérifier','En p
 const taskNameInput = document.getElementById('ed_task_name');
 const taskTypeSelect = document.getElementById('ed_task_type');
 const taskDescriptionTextArea = document.getElementById('ed_task_description');
+const taskIDHidden = document.getElementById('taskID')
 
 
 
@@ -33,12 +34,11 @@ function HTMLContentMenuTasks(tasks) {
             </div>
         `
         a.addEventListener('mouseover', () => {
-            // Créer une portée distincte pour chaque élément
             a.style.position = 'relative';
             a.style.display = 'inline-block';
 
             const pseudoElement = document.createElement('span')
-            pseudoElement.textContent = project.project_name
+            pseudoElement.textContent = task.task_name
             pseudoElement.style.position = 'absolute'
             pseudoElement.style.left = '100%'
             pseudoElement.style.top = '0'
@@ -52,9 +52,7 @@ function HTMLContentMenuTasks(tasks) {
             a.appendChild(pseudoElement);
         });
 
-        // Écouteur d'événement pour gérer la fin du survol
         a.addEventListener('mouseout', () => {
-            // Code à exécuter à la fin du survol
             a.style.position = 'static';
             a.style.display = 'block';
             const pseudoElement = a.querySelector('span');
@@ -78,7 +76,6 @@ function HTMLContentTaskContent(tasks){
             const li = document.createElement('li');
             li.classList.add('bg-secondary-subtle', 'text-dark', 'list-group-item');
             
-            // Création du contenu HTML pour chaque tâche
             li.innerHTML = 
             `
             <div class="row">
@@ -115,6 +112,7 @@ function HTMLContentTaskContent(tasks){
                     taskNameInput.value = task.task_name;
                     taskTypeSelect.value = task.task_type;
                     taskDescriptionTextArea.value = task.task_description;
+                    taskIDHidden.value = task._id
                 }
             });
 

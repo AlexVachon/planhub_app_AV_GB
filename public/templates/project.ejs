@@ -7,7 +7,9 @@
         </title>
         <script src="/js/utils-ajax.js" defer></script>
         <script src="/js/task-list.js" defer></script>
+        <script src="/js/task-create-form.js" defer></script>
         <script src="/js/task-create.js" defer></script>
+        <script src="/js/task-edit.js" defer></script>
 </head>
 
 <body>
@@ -54,7 +56,7 @@
                 <div class="modal-content">
                     <span class="close">&times;</span>
                     <h2>Créer une tâche</h2>
-                    <form class="form-create-project" id="form-create-task" method="post" data-projectId="<%= project._id %>" novalidate>
+                    <form class="form-create-project" id="form-create-task" method="post" novalidate>
                         <div class="mb-3">
                             <div>
                                 <label for="task_name" class="form-label"><span style="color: red;">*</span>
@@ -118,7 +120,8 @@
                 <div class="modal-content">
                     <span class="close">&times;</span>
                     <h2>Modifier une tâche</h2>
-                    <form class="form-create-project" id="form-edit-task" method="post" data-projectId="<%= project._id %>" novalidate>
+                    <form class="form-create-project" id="form-edit-task" method="post" novalidate>
+                        <input type="text" id="taskID" value="" hidden>
                         <div class="mb-3">
                             <div>
                                 <label for="ed_task_name" class="form-label"><span style="color: red;">*</span>
