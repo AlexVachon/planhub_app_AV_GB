@@ -33,7 +33,7 @@ function HTMLContentMenuTasks(tasks) {
             a.style.display = 'inline-block';
 
             const pseudoElement = document.createElement('span')
-            pseudoElement.textContent = project.project_name
+            pseudoElement.textContent = task.task_name
             pseudoElement.style.position = 'absolute'
             pseudoElement.style.left = '100%'
             pseudoElement.style.top = '0'
@@ -66,7 +66,7 @@ function HTMLContentMenuTasks(tasks) {
 
 function HTMLContentTaskContent(tasks){
     taskContent.innerHTML = ''
-    if (tasks){
+    if (tasks && tasks.length > 0){
         const ul = document.createElement('ul')
         ul.classList.add('list-group', 'shadow')
         tasks.forEach(task => {
@@ -108,9 +108,6 @@ function HTMLContentTaskContent(tasks){
         `
         <div class="text-center">
             <p class="text-center">Vous n'avez actuellement aucune tâche...</p>
-        </div>
-        <div class="container d-flex justify-content-center align-items-center">
-            <button type="button" class="btn btn-lg btn-outline-secondary" style="border-radius: 10px">Créer une tâche</button>
         </div>
         `
     }
