@@ -8,6 +8,12 @@ const userContent = document.getElementById('User-Content')
 const taskTypeOptions = ['Bug', 'Correction', 'Sprint', 'Tester', 'Travail', 'Urgence'];
 const taskEtatOptions = ['À faire','En cours','En attente','À vérifier','En pause','Complété', 'Annulé'];
 
+const taskNameInput = document.getElementById('ed_task_name');
+const taskTypeSelect = document.getElementById('ed_task_type');
+const taskDescriptionTextArea = document.getElementById('ed_task_description');
+const taskIDHidden = document.getElementById('taskID')
+
+
 
 function HTMLContentMenuTasks(tasks) {
     menuAside.innerHTML = '';
@@ -21,18 +27,18 @@ function HTMLContentMenuTasks(tasks) {
 
         a.innerHTML = `
             <div>
-                <img id="folder" src="../images/task.png" alt="task">
+                <img id="folder" src="/images/task.png" alt="task">
             </div>
             <div class="text-white nav-link px-0 align-middle">
                 <span class="ms-1 d-none d-sm-inline">${task.task_name}</span>
             </div>
         `
         a.addEventListener('mouseover', () => {
-            // Créer une portée distincte pour chaque élément
             a.style.position = 'relative';
             a.style.display = 'inline-block';
 
             const pseudoElement = document.createElement('span')
+            pseudoElement.textContent = task.task_name
             pseudoElement.textContent = task.task_name
             pseudoElement.style.position = 'absolute'
             pseudoElement.style.left = '100%'
@@ -47,9 +53,7 @@ function HTMLContentMenuTasks(tasks) {
             a.appendChild(pseudoElement);
         });
 
-        // Écouteur d'événement pour gérer la fin du survol
         a.addEventListener('mouseout', () => {
-            // Code à exécuter à la fin du survol
             a.style.position = 'static';
             a.style.display = 'block';
             const pseudoElement = a.querySelector('span');
@@ -73,12 +77,11 @@ function HTMLContentTaskContent(tasks){
             const li = document.createElement('li');
             li.classList.add('bg-secondary-subtle', 'text-dark', 'list-group-item');
             
-            // Création du contenu HTML pour chaque tâche
             li.innerHTML = 
             `
             <div class="row">
                 <div class="col-6">
-                    <div class="border-right pr-3">
+                    <div class="border-right pr-3" style="position: relative;">
                         <a class="stretched-link no-link-style" href="/projects/${projectId}/${task._id}">${task.task_name}</a>
                     </div>
                 </div>
@@ -92,17 +95,45 @@ function HTMLContentTaskContent(tasks){
                         </div>
                         <div class="col-4">
                             <div class="d-flex justify-content-end">
-                                <img id="edit" src="../images/edit.png" alt="edit">
-                                <img id="delete" src="../images/delete.png" alt="delete">
+                                <img id="edit" src="/images/edit.png" alt="edit">
+                                <img id="delete" src="/images/delete.png" alt="delete">
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             `
+            const imgEdit = li.querySelector('#edit');
+            const form = document.getElementById('editTaskModal')
+
+            imgEdit.addEventListener('click', (event) => {
+                event.preventDefault()
+                if (form) {
+                    form.style.display = 'block';
+                    taskNameInput.value = task.task_name;
+                    taskTypeSelect.value = task.task_type;
+                    taskDescriptionTextArea.value = task.task_description;
+                    taskIDHidden.value = task._id
+                }
+            });
+
+            const closeFormButton = document.querySelector('#editTaskModal .close');
+
+            if (closeFormButton) {
+                closeFormButton.addEventListener('click', (event) => {
+                    const form = document.getElementById('editTaskModal');
+                    if (form) {
+                        form.style.display = 'none';
+                    }
+                });
+            }
+
             ul.appendChild(li);
         });
         taskContent.append(ul)
+
+        
+
     }else{
         taskContent.innerHTML = 
         `
