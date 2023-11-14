@@ -39,6 +39,7 @@ function HTMLContentMenuTasks(tasks) {
 
             const pseudoElement = document.createElement('span')
             pseudoElement.textContent = task.task_name
+            pseudoElement.textContent = task.task_name
             pseudoElement.style.position = 'absolute'
             pseudoElement.style.left = '100%'
             pseudoElement.style.top = '0'
@@ -69,7 +70,7 @@ function HTMLContentMenuTasks(tasks) {
 
 function HTMLContentTaskContent(tasks){
     taskContent.innerHTML = ''
-    if (tasks.length > 0){
+    if (tasks && tasks.length > 0){
         const ul = document.createElement('ul')
         ul.classList.add('list-group', 'shadow')
         tasks.forEach(task => {

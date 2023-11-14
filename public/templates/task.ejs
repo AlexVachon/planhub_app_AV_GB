@@ -5,6 +5,7 @@
     <%- include('../partials/head'); %>
     <title>PlanHub | <%= task.task_name %></title>
     <script src="/js/utils-ajax.js" defer></script>
+    <script src="/js/subtask-list.js" defer></script>
 </head>
 
 <body>
@@ -24,8 +25,11 @@
                 <div class="container row mt-5">
                     <div>
                         <h3 class="text-center">Liste des sous-tâches :</h3>
-                        <div id="Subask-Content">
-                            <ul class="list-group shadow col-8 mx-auto">
+                        <div>
+                            <div id="Subask-Content">
+                                <!-- LOADED IN AJAX -->
+                            </div>
+                            <!-- <ul class="list-group shadow col-8 mx-auto">
                                 <li class="bg-secondary-subtle text-dark list-group-item">
                                     <div class="row">
                                         <div class="col-6">
@@ -51,12 +55,12 @@
                                         </div>
                                     </div>
                                 </li>
-                            </ul>
+                            </ul> -->
                     </div>
                     <div class="mt-5">
                         <h3>Commentaires :</h3>
                         <div>
-                            <p> En construction...</p>
+                            <!-- LOADED EN AJAX -->
                         </div>
                     </div>
                 </div>
@@ -65,6 +69,7 @@
         <div hidden>
             <div id="projectId" data-projectId="<%= project._id %>"></div>
             <div id="userId" data-userId="<%= user._id %>"></div>
+            <div id="taskId" data-taskId="<%= task._id %>"></div>
         </div>
     </div>
     <footer>
