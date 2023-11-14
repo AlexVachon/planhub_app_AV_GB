@@ -80,20 +80,20 @@ function ListContent(v){
             li.innerHTML = 
             `
             <div class="row">
-                <div class="col-6">
-                    <div class="border-right pr-3">
+                <div class="col-4">
+                    <div class="border-right pr-3" style="position: relative;  flex-grow: 1;">
                         <a class="stretched-link no-link-style">${value.subtask_name}</a>
                     </div>
                 </div>
-                <div class="col-6">
+                <div class="col-8">
                     <div class="row">
                         <div class="col-4">
                             <p class="mb-0">${taskEtatOptions[value.subtask_etat]}</p>
                         </div>
-                        <div class="col-4">
+                        <div class="col-5">
                             <p class="mb-0">${taskTypeOptions[value.subtask_type]}</p>
                         </div>
-                        <div class="col-4">
+                        <div class="col-3">
                             <div class="d-flex justify-content-end">
                                 <img id="edit" src="/images/edit.png" alt="edit">
                                 <img id="delete" src="/images/delete.png" alt="delete">
