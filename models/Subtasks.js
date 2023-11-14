@@ -13,7 +13,7 @@ const validateSubtaskType = (value) => {
     return value >= 0 && value < subtaskTypeOptions.length;
 }
 
-const TasksModel = mongoose.Schema({
+const SubtasksModel = mongoose.Schema({
     "subtask_name":{
         type: String,
         maxlength: [25, 'Le nom de la sous-tâche ne peut pas dépasser 25 caractères'],
@@ -56,4 +56,4 @@ const TasksModel = mongoose.Schema({
     }
 })
 
-module.exports = mongoose.model('Tasks', TasksModel)
+module.exports = mongoose.model('Subtasks', SubtasksModel)

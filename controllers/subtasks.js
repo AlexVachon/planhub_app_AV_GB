@@ -1,7 +1,6 @@
 const Projects = require('../models/Projects');
 const Tasks = require('../models/Tasks');
 const Subtasks = require('../models/Subtasks');
-
 const mongoose = require('mongoose');
 
 const getOneSubtask = async (req, res) => {
@@ -29,36 +28,47 @@ const getAllSubtasks = async (req, res) => {
 }
 
 const createSubtask = async (req, res) => {
-    const userID = req.session.userID;
-    if (!userID) {
-        return res.status(401).json({ error: "Vous devez d'abord être connecté" });
-    }
+    // if (req.session.authenticated) {
+    //     const userID = req.session.user
+    //     const { projectId, taskId } = req.params
+         const { subtask_name, subtask_etat, subtask_type,subtask_task, created_by,  assigned_to } = req.body;
 
-    const { subtask_name, subtask_etat, subtask_type, created_by, assigned_to } = req.body;
+         try {
+    //         const projet = await Projects.findOne({ _id: projectId })
+    //         if (!projet) {
+    //             res.status(404).json({ message: "Projet introuvable" });
+    //         }
+    //         const tache = await projet.tasks.findOne({ _id: taskId})
+    //         if (!tache) {
+    //             res.status(404).json({ message: "Tâche introuvable" });
+    //         }
+    //         const users = projet.users
 
-    try {
-        const task = new Tasks({
-            _id: new mongoose.Types.ObjectId(),
-            subtask_name,
-            subtask_etat,
-            subtask_type,
-            created_by,
-            assigned_to
-        });
+            //if (users.includes(userID)) {
+                const subtask = new Subtasks({
+                    _id: new mongoose.Types.ObjectId(),
+                    subtask_name: subtask_name,
+                    subtask_etat: subtask_etat,
+                    subtask_type: subtask_type,
+                    subtask_task: subtask_task,//taskId,
+                    created_by: created_by//userID
+                });
 
-        task.save()
-            .then(savedSubtask => {
-                Users.updateOne({ _id: created_by }, { $push: { tasks: savedSubtask._id } });
-                res.status(201).json({ task: savedSubtask });
-            })
-            .catch(error => {
-                if (error.name === 'ValidationError') {
+                const savedSubtask = await subtask.save()
+
+                //await Tasks.updateOne({ _id: taskId}, { $push: { subtasks: savedSubtask._id } }).exec();
+                res.status(201).json(savedSubtask);
+            // } else {
+            //     res.status(403).json({ message: "Accès non autorisé" });
+            // }
+
+        } catch (err) {
+            if (err.name === 'ValidationError') {
 
                     const validationErrors = {};
 
-                    for (const key in error.errors) {
-
-                        validationErrors[key] = error.errors[key].message;
+                for (const key in err.errors) {
+                    validationErrors[key] = err.errors[key].message;
 
                     }
 
@@ -68,18 +78,14 @@ const createSubtask = async (req, res) => {
 
                 } else {
 
-                    console.error(error);
-
-                    res.status(500).json({ message: 'Erreur lors de la création de la sous-tâche' });
-
-                }
-            });
-
-
-    } catch (err) {
-        console.error("Erreur lors de la création de la sous-tâche :", err);
-        return res.status(500).json({ error: "Erreur lors de la création de la sous-tâche" });
-    }
+                console.error(err);
+                res.status(400).json({ message: 'Erreur lors de la création de la sous-tâche' });
+            }
+        }
+    // } else {
+    //     console.error("Vous devez d'abord être connecté");
+    //     res.status(401).json({ message: "Vous devez d'abord être connecté" });
+    // }
 }
 
 module.exports = {
