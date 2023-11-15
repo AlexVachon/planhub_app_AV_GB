@@ -4288,7 +4288,7 @@ textarea.form-control-lg {
   --bs-navbar-toggler-icon-bg: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.55%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
 }
 
-.card, #card-create-project, #card-join {
+.card, .card-commentaire, .card-task, #card-create-project, #card-join {
   --bs-card-spacer-y: 1rem;
   --bs-card-spacer-x: 1rem;
   --bs-card-title-spacer-y: 0.5rem;
@@ -4320,26 +4320,28 @@ textarea.form-control-lg {
   border: var(--bs-card-border-width) solid var(--bs-card-border-color);
   border-radius: var(--bs-card-border-radius);
 }
-.card > hr, #card-create-project > hr, #card-join > hr {
+.card > hr, .card-commentaire > hr, .card-task > hr, #card-create-project > hr, #card-join > hr {
   margin-right: 0;
   margin-left: 0;
 }
-.card > .list-group, #card-create-project > .list-group, #card-join > .list-group {
+.card > .list-group, .card-commentaire > .list-group, .card-task > .list-group, #card-create-project > .list-group, #card-join > .list-group {
   border-top: inherit;
   border-bottom: inherit;
 }
-.card > .list-group:first-child, #card-create-project > .list-group:first-child, #card-join > .list-group:first-child {
+.card > .list-group:first-child, .card-commentaire > .list-group:first-child, .card-task > .list-group:first-child, #card-create-project > .list-group:first-child, #card-join > .list-group:first-child {
   border-top-width: 0;
   border-top-left-radius: var(--bs-card-inner-border-radius);
   border-top-right-radius: var(--bs-card-inner-border-radius);
 }
-.card > .list-group:last-child, #card-create-project > .list-group:last-child, #card-join > .list-group:last-child {
+.card > .list-group:last-child, .card-commentaire > .list-group:last-child, .card-task > .list-group:last-child, #card-create-project > .list-group:last-child, #card-join > .list-group:last-child {
   border-bottom-width: 0;
   border-bottom-right-radius: var(--bs-card-inner-border-radius);
   border-bottom-left-radius: var(--bs-card-inner-border-radius);
 }
-.card > .card-header + .list-group, #card-create-project > .card-header + .list-group, #card-join > .card-header + .list-group,
+.card > .card-header + .list-group, .card-commentaire > .card-header + .list-group, .card-task > .card-header + .list-group, #card-create-project > .card-header + .list-group, #card-join > .card-header + .list-group,
 .card > .list-group + .card-footer,
+.card-commentaire > .list-group + .card-footer,
+.card-task > .list-group + .card-footer,
 #card-create-project > .list-group + .card-footer,
 #card-join > .list-group + .card-footer {
   border-top: 0;
@@ -4435,7 +4437,7 @@ textarea.form-control-lg {
   border-bottom-left-radius: var(--bs-card-inner-border-radius);
 }
 
-.card-group > .card, .card-group > #card-create-project, .card-group > #card-join {
+.card-group > .card, .card-group > .card-commentaire, .card-group > .card-task, .card-group > #card-create-project, .card-group > #card-join {
   margin-bottom: var(--bs-card-group-margin);
 }
 @media (min-width: 576px) {
@@ -4443,42 +4445,50 @@ textarea.form-control-lg {
     display: flex;
     flex-flow: row wrap;
   }
-  .card-group > .card, .card-group > #card-create-project, .card-group > #card-join {
+  .card-group > .card, .card-group > .card-commentaire, .card-group > .card-task, .card-group > #card-create-project, .card-group > #card-join {
     flex: 1 0 0%;
     margin-bottom: 0;
   }
-  .card-group > .card + .card, .card-group > #card-create-project + .card, .card-group > .card + #card-create-project, .card-group > #card-create-project + #card-create-project, .card-group > #card-join + .card, .card-group > #card-join + #card-create-project, .card-group > .card + #card-join, .card-group > #card-create-project + #card-join, .card-group > #card-join + #card-join {
+  .card-group > .card + .card, .card-group > .card-commentaire + .card, .card-group > .card + .card-commentaire, .card-group > .card-commentaire + .card-commentaire, .card-group > .card-task + .card, .card-group > .card-task + .card-commentaire, .card-group > .card + .card-task, .card-group > .card-commentaire + .card-task, .card-group > .card-task + .card-task, .card-group > #card-create-project + .card, .card-group > #card-create-project + .card-commentaire, .card-group > #card-create-project + .card-task, .card-group > .card + #card-create-project, .card-group > .card-commentaire + #card-create-project, .card-group > .card-task + #card-create-project, .card-group > #card-create-project + #card-create-project, .card-group > #card-join + .card, .card-group > #card-join + .card-commentaire, .card-group > #card-join + .card-task, .card-group > #card-join + #card-create-project, .card-group > .card + #card-join, .card-group > .card-commentaire + #card-join, .card-group > .card-task + #card-join, .card-group > #card-create-project + #card-join, .card-group > #card-join + #card-join {
     margin-left: 0;
     border-left: 0;
   }
-  .card-group > .card:not(:last-child), .card-group > #card-create-project:not(:last-child), .card-group > #card-join:not(:last-child) {
+  .card-group > .card:not(:last-child), .card-group > .card-commentaire:not(:last-child), .card-group > .card-task:not(:last-child), .card-group > #card-create-project:not(:last-child), .card-group > #card-join:not(:last-child) {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
   }
-  .card-group > .card:not(:last-child) .card-img-top, .card-group > #card-create-project:not(:last-child) .card-img-top, .card-group > #card-join:not(:last-child) .card-img-top,
+  .card-group > .card:not(:last-child) .card-img-top, .card-group > .card-commentaire:not(:last-child) .card-img-top, .card-group > .card-task:not(:last-child) .card-img-top, .card-group > #card-create-project:not(:last-child) .card-img-top, .card-group > #card-join:not(:last-child) .card-img-top,
   .card-group > .card:not(:last-child) .card-header,
+  .card-group > .card-commentaire:not(:last-child) .card-header,
+  .card-group > .card-task:not(:last-child) .card-header,
   .card-group > #card-create-project:not(:last-child) .card-header,
   .card-group > #card-join:not(:last-child) .card-header {
     border-top-right-radius: 0;
   }
-  .card-group > .card:not(:last-child) .card-img-bottom, .card-group > #card-create-project:not(:last-child) .card-img-bottom, .card-group > #card-join:not(:last-child) .card-img-bottom,
+  .card-group > .card:not(:last-child) .card-img-bottom, .card-group > .card-commentaire:not(:last-child) .card-img-bottom, .card-group > .card-task:not(:last-child) .card-img-bottom, .card-group > #card-create-project:not(:last-child) .card-img-bottom, .card-group > #card-join:not(:last-child) .card-img-bottom,
   .card-group > .card:not(:last-child) .card-footer,
+  .card-group > .card-commentaire:not(:last-child) .card-footer,
+  .card-group > .card-task:not(:last-child) .card-footer,
   .card-group > #card-create-project:not(:last-child) .card-footer,
   .card-group > #card-join:not(:last-child) .card-footer {
     border-bottom-right-radius: 0;
   }
-  .card-group > .card:not(:first-child), .card-group > #card-create-project:not(:first-child), .card-group > #card-join:not(:first-child) {
+  .card-group > .card:not(:first-child), .card-group > .card-commentaire:not(:first-child), .card-group > .card-task:not(:first-child), .card-group > #card-create-project:not(:first-child), .card-group > #card-join:not(:first-child) {
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
   }
-  .card-group > .card:not(:first-child) .card-img-top, .card-group > #card-create-project:not(:first-child) .card-img-top, .card-group > #card-join:not(:first-child) .card-img-top,
+  .card-group > .card:not(:first-child) .card-img-top, .card-group > .card-commentaire:not(:first-child) .card-img-top, .card-group > .card-task:not(:first-child) .card-img-top, .card-group > #card-create-project:not(:first-child) .card-img-top, .card-group > #card-join:not(:first-child) .card-img-top,
   .card-group > .card:not(:first-child) .card-header,
+  .card-group > .card-commentaire:not(:first-child) .card-header,
+  .card-group > .card-task:not(:first-child) .card-header,
   .card-group > #card-create-project:not(:first-child) .card-header,
   .card-group > #card-join:not(:first-child) .card-header {
     border-top-left-radius: 0;
   }
-  .card-group > .card:not(:first-child) .card-img-bottom, .card-group > #card-create-project:not(:first-child) .card-img-bottom, .card-group > #card-join:not(:first-child) .card-img-bottom,
+  .card-group > .card:not(:first-child) .card-img-bottom, .card-group > .card-commentaire:not(:first-child) .card-img-bottom, .card-group > .card-task:not(:first-child) .card-img-bottom, .card-group > #card-create-project:not(:first-child) .card-img-bottom, .card-group > #card-join:not(:first-child) .card-img-bottom,
   .card-group > .card:not(:first-child) .card-footer,
+  .card-group > .card-commentaire:not(:first-child) .card-footer,
+  .card-group > .card-task:not(:first-child) .card-footer,
   .card-group > #card-create-project:not(:first-child) .card-footer,
   .card-group > #card-join:not(:first-child) .card-footer {
     border-bottom-left-radius: 0;
@@ -7415,7 +7425,7 @@ textarea.form-control-lg {
   border-right: 0 !important;
 }
 
-.border-bottom {
+.border-bottom, aside li:hover {
   border-bottom: var(--bs-border-width) var(--bs-border-style) var(--bs-border-color) !important;
 }
 
@@ -8275,7 +8285,7 @@ textarea.form-control-lg {
   font-size: 1.25rem !important;
 }
 
-.fs-6 {
+.fs-6, .card-commentaire {
   font-size: 1rem !important;
 }
 
@@ -8417,12 +8427,12 @@ textarea.form-control-lg {
   color: rgba(var(--bs-light-rgb), var(--bs-text-opacity)) !important;
 }
 
-.text-dark, #card-create-project, #card-join, body {
+.text-dark, .card-task input, .card-task textarea, .card-task, #card-create-project, #card-join, body {
   --bs-text-opacity: 1;
   color: rgba(var(--bs-dark-rgb), var(--bs-text-opacity)) !important;
 }
 
-.text-black, textarea, .modal .form-select, .form-create-project input, .form-join input {
+.text-black, .card-task a:hover, textarea, .modal .form-select, .form-create-project input, .form-join input {
   --bs-text-opacity: 1;
   color: rgba(var(--bs-black-rgb), var(--bs-text-opacity)) !important;
 }
@@ -8722,7 +8732,7 @@ textarea.form-control-lg {
   background-color: rgba(var(--bs-black-rgb), var(--bs-bg-opacity)) !important;
 }
 
-.bg-white, .modal-content, .modal .form-select, .notification, .form-create-project .form-control, #card-create-project, .form-join .form-control, #card-join {
+.bg-white, .card-commentaire, .card-task input, .card-task textarea, .modal-content, .modal .form-select, .notification, .form-create-project .form-control, #card-create-project, .form-join .form-control, #card-join {
   --bs-bg-opacity: 1;
   background-color: rgba(var(--bs-white-rgb), var(--bs-bg-opacity)) !important;
 }
@@ -8742,7 +8752,7 @@ textarea.form-control-lg {
   background-color: rgba(var(--bs-secondary-bg-rgb), var(--bs-bg-opacity)) !important;
 }
 
-.bg-body-tertiary {
+.bg-body-tertiary, .content li:hover {
   --bs-bg-opacity: 1;
   background-color: rgba(var(--bs-tertiary-bg-rgb), var(--bs-bg-opacity)) !important;
 }
@@ -8771,7 +8781,7 @@ textarea.form-control-lg {
   background-color: var(--bs-primary-bg-subtle) !important;
 }
 
-.bg-secondary-subtle {
+.bg-secondary-subtle, .card-task a.active {
   background-color: var(--bs-secondary-bg-subtle) !important;
 }
 
@@ -8791,7 +8801,7 @@ textarea.form-control-lg {
   background-color: var(--bs-danger-bg-subtle) !important;
 }
 
-.bg-light-subtle, .notification .toast-header, #card-create-project .card-footer, #card-join .card-footer, footer, header {
+.bg-light-subtle, .card-task, .notification .toast-header, #card-create-project .card-footer, #card-join .card-footer, footer, header {
   background-color: var(--bs-light-bg-subtle) !important;
 }
 
@@ -12105,7 +12115,7 @@ footer {
   transform: translate(-50%, -50%);
   min-width: 15rem;
 }
-.no-link-style {
+.no-link-style, .card-task a {
   text-decoration: none;
   color: inherit;
   cursor: auto;
@@ -12144,4 +12154,11 @@ footer {
   top: 20%;
   width: 5%;
   z-index: 2;
+}
+
+.card-task a.active {
+  --bs-bg-opacity: 0.10;
+}
+.content img:hover {
+  opacity: 0.7;
 }
