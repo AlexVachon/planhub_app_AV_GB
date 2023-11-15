@@ -342,3 +342,29 @@ h1
 
 textarea
   @extend .text-black
+
+.card-task
+  @extend .card, .bg-light-subtle, .text-dark
+  a
+    @extend .no-link-style
+  a.active
+    --bs-bg-opacity: 0.10
+    @extend .bg-secondary-subtle  
+  a:hover
+    @extend .text-black
+  input, textarea
+    @extend .bg-white, .text-dark
+
+.card-commentaire
+  @extend .card, .bg-white, .fs-6
+
+aside
+  li:hover
+    @extend .border-bottom
+
+.content
+  li:hover
+    @extend .bg-body-tertiary
+  img:hover
+    opacity: 0.7
+    

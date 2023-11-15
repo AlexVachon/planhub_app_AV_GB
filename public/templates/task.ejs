@@ -2,73 +2,117 @@
 <html>
 
 <head>
-    <%- include('../partials/head'); %>
-    <title>PlanHub | <%= task.task_name %></title>
+  <%- include('../partials/head'); %>
+    <title>PlanHub | <%= task.task_name %>
+    </title>
     <script src="/js/utils-ajax.js" defer></script>
+    <script src="/js/subtask-list.js" defer></script>
+    <script src="/js/tabs.js" defer></script>
 </head>
 
 <body>
-    <%- include('../partials/header-project'); %>
-    
+  <%- include('../partials/header-project'); %>
+
     <div class="container-fluid">
-        <div class="row flex-nowrap">
-            <%- include('../partials/aside-task'); %>
-            
-            <div class="d-flex flex-column align-items-center col py-3 bg-light-subtle">
-                <div class="mt-4 text-center container">
-                    <h2><%= task.task_name %></h2>
-                </div>
-                <div>
-                    <p><%= task.task_description %></p>
-                </div>
-                <div class="container row mt-5">
-                    <div>
-                        <h3 class="text-center">Liste des sous-tâches :</h3>
-                        <div id="Subask-Content">
-                            <ul class="list-group shadow col-8 mx-auto">
-                                <li class="bg-secondary-subtle text-dark list-group-item">
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <div class="border-right pr-3">
-                                                <a class="stretched-link no-link-style">Nom de la sous-tâche</a>
-                                            </div>
-                                        </div>
-                                        <div class="col-6">
-                                            <div class="row">
-                                                <div class="col-4">
-                                                    <p class="mb-0">En cours</p>
-                                                </div>
-                                                <div class="col-4">
-                                                    <p class="mb-0">Urgence</p>
-                                                </div>
-                                                <div class="col-4">
-                                                    <div class="d-flex justify-content-end">
-                                                        <img id="edit" src="/images/edit.png" alt="edit">
-                                                        <img id="delete" src="/images/delete.png" alt="delete">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                    </div>
-                    <div class="mt-5">
-                        <h3>Commentaires :</h3>
-                        <div>
-                            <p> En construction...</p>
-                        </div>
-                    </div>
-                </div>
+      <div class="row flex-nowrap">
+        <%- include('../partials/aside-task'); %>
+
+          <div class="d-flex flex-column align-items-center col py-3 bg-light-subtle">
+            <div class="mt-4 text-center container">
+              <h2>
+                <%= task.task_name %>
+              </h2>
             </div>
-        </div>
-        <div hidden>
+            <div>
+              <p>
+                <%= task.task_description %>
+              </p>
+            </div>
+            <div class="row container">
+              <div class="col-7 p-2">
+                <div class="card-task">
+                  <div class="card-header">
+                    <ul class="nav nav-tabs card-header-tabs">
+                      <li class="nav-item">
+                        <a class="nav-link active" href="#description">Description</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="#comments">Commentaires</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="#autres">Autres</a>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="card-body">
+                    <div class="tab-content">
+                      <!-- Descriptions Tab Content -->
+                      <div class="tab-pane fade show active" id="description">
+                        <div class="mb-3">
+                          <label for="taskDescription" class="form-label">Description</label>
+                          <textarea class="form-control" id="taskDescription"
+                            rows="8"><%= task.task_description %></textarea>
+                        </div>
+                      </div>
+                      <div class="tab-pane fade" id="comments">
+                        <div class="mb-3">
+                          <h6>Comments:</h6>
+                          <!-- Commentaire hardcodé avec la classe card -->
+                          <div class="card-commentaire mb-3">
+                            <div class="card-header d-flex justify-content-between">
+                              <p class="m-0"><span class="text-secondary">@John Doe</span></p>
+                              <p class="m-0"><span class="text-secondary">créé: 2023-01-01 12:00 PM</span></p>
+                            </div>
+                            <div class="card-body">
+                              <p class="card-text text-dark">This is a hardcoded comment.</p>
+                            </div>
+                          </div>
+                          <!-- Répéter cette structure pour chaque commentaire -->
+                        </div>
+                        <div class="input-group input-group-sm mb-3">
+                          <span class="input-group-text text-secondary" for="comment">Commenter</span>
+                          <textarea type="text" class="form-control" id="comment" name="comment"></textarea>
+                        </div>
+                        <button class="btn btn-success" id="AddCommentBtn">Ajouter</button>
+                      </div>
+
+                      <!-- Other Tab Content -->
+                      <div class="tab-pane fade" id="autres">
+                        <h5 class="card-title">Special title treatment for Other</h5>
+                        <p class="card-text">This is the content for the Other tab.</p>
+                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                      </div>
+
+                      
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-5 p-2">
+                <div>
+                  <h3 class="text-center">Liste des sous-tâches :</h3>
+                  <div>
+                    <div id="Subask-Content" class="text-break mb-3">
+                      <!-- LOADED IN AJAX -->
+                    </div>
+                    <div class="mb-3">
+                      <button class="btn btn-success">Ajouter</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div hidden>
             <div id="projectId" data-projectId="<%= project._id %>"></div>
             <div id="userId" data-userId="<%= user._id %>"></div>
-        </div>
-    </div>
-    <footer>
+            <div id="taskId" data-taskId="<%= task._id %>"></div>
+          </div>
+      </div>
+      <footer>
         <%- include('../partials/footer-join'); %>
-    </footer>
+      </footer>
 </body>
+
 </html>

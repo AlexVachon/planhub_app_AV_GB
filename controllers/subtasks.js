@@ -1,95 +1,108 @@
-const Projects = require('../models/Projects');
-const Tasks = require('../models/Tasks');
-const Subtasks = require('../models/Subtasks');
-const mongoose = require('mongoose');
+const Projects = require("../models/Projects");
+const Tasks = require("../models/Tasks");
+const Subtasks = require("../models/Subtasks");
+
+const mongoose = require("mongoose");
 
 const getOneSubtask = async (req, res) => {
-    const { id_subtask } = req.body;
-    try {
-        const subtask = await Subtasks.findOne({ '_id': id_subtask });
-        if (!subtask) {
-            return res.status(400).json({ message: 'Sous-tâche inexistante' });
-        }
-        return res.status(200).json({ subtask });
-    } catch (err) {
-        console.error("Erreur lors de la recherche de la sous-tâche :", err);
-        return res.status(500).json({ error: "Erreur lors de la recherche de la sous-tâche" });
+  const { id_subtask } = req.body;
+  try {
+    const subtask = await Subtasks.findOne({ _id: id_subtask });
+    if (!subtask) {
+      return res.status(400).json({ message: "Sous-tâche inexistante" });
     }
-}
+    return res.status(200).json({ subtask });
+  } catch (err) {
+    console.error("Erreur lors de la recherche de la sous-tâche :", err);
+    return res
+      .status(500)
+      .json({ error: "Erreur lors de la recherche de la sous-tâche" });
+  }
+};
 
 const getAllSubtasks = async (req, res) => {
-    try {
-        const subtasks = await Subtasks.find({});
-        return res.status(200).json({ subtasks });
-    } catch (err) {
-        console.error("Erreur lors de la recherche des sous-tâches :", err);
-        return res.status(500).json({ error: "Erreur lors de la recherche des sous-tâches" });
-    }
-}
+  try {
+    const subtasks = await Subtasks.find({});
+    return res.status(200).json({ subtasks });
+  } catch (err) {
+    console.error("Erreur lors de la recherche des sous-tâches :", err);
+    return res
+      .status(500)
+      .json({ error: "Erreur lors de la recherche des sous-tâches" });
+  }
+};
 
 const createSubtask = async (req, res) => {
-    // if (req.session.authenticated) {
-    //     const userID = req.session.user
-    //     const { projectId, taskId } = req.params
-         const { subtask_name, subtask_etat, subtask_type,subtask_task, created_by,  assigned_to } = req.body;
+  const userID = req.session.userID;
+  if (!userID) {
+    return res.status(401).json({ error: "Vous devez d'abord être connecté" });
+  }
 
-         try {
-    //         const projet = await Projects.findOne({ _id: projectId })
-    //         if (!projet) {
-    //             res.status(404).json({ message: "Projet introuvable" });
-    //         }
-    //         const tache = await projet.tasks.findOne({ _id: taskId})
-    //         if (!tache) {
-    //             res.status(404).json({ message: "Tâche introuvable" });
-    //         }
-    //         const users = projet.users
+  const { subtask_name, subtask_etat, subtask_type, created_by, assigned_to } =
+    req.body;
 
-            //if (users.includes(userID)) {
-                const subtask = new Subtasks({
-                    _id: new mongoose.Types.ObjectId(),
-                    subtask_name: subtask_name,
-                    subtask_etat: subtask_etat,
-                    subtask_type: subtask_type,
-                    subtask_task: subtask_task,//taskId,
-                    created_by: created_by//userID
-                });
+  try {
+    const task = new Tasks({
+      _id: new mongoose.Types.ObjectId(),
+      subtask_name,
+      subtask_etat,
+      subtask_type,
+      created_by,
+      assigned_to,
+    });
 
-                const savedSubtask = await subtask.save()
+    task
+      .save()
+      .then((savedSubtask) => {
+        Users.updateOne(
+          { _id: created_by },
+          { $push: { tasks: savedSubtask._id } }
+        );
+        res.status(201).json({ task: savedSubtask });
+      })
+      .catch((error) => {
+        if (error.name === "ValidationError") {
+          const validationErrors = {};
 
-                //await Tasks.updateOne({ _id: taskId}, { $push: { subtasks: savedSubtask._id } }).exec();
-                res.status(201).json(savedSubtask);
-            // } else {
-            //     res.status(403).json({ message: "Accès non autorisé" });
-            // }
+          for (const key in error.errors) {
+            validationErrors[key] = error.errors[key].message;
+          }
 
-        } catch (err) {
-            if (err.name === 'ValidationError') {
+          console.error(validationErrors);
 
-                    const validationErrors = {};
+          res.status(400).json({ errors: validationErrors });
+        } else {
+          console.error(error);
 
-                for (const key in err.errors) {
-                    validationErrors[key] = err.errors[key].message;
-
-                    }
-
-                    console.error(validationErrors);
-
-                    res.status(400).json({ errors: validationErrors });
-
-                } else {
-
-                console.error(err);
-                res.status(400).json({ message: 'Erreur lors de la création de la sous-tâche' });
-            }
+          res
+            .status(500)
+            .json({ message: "Erreur lors de la création de la sous-tâche" });
         }
-    // } else {
-    //     console.error("Vous devez d'abord être connecté");
-    //     res.status(401).json({ message: "Vous devez d'abord être connecté" });
-    // }
-}
+      });
+  } catch (err) {
+    console.error("Erreur lors de la création de la sous-tâche :", err);
+    return res
+      .status(500)
+      .json({ error: "Erreur lors de la création de la sous-tâche" });
+  }
+};
+
+const getTaskSubtasks = async (req, res) => {
+  const { taskId } = req.params;
+  try {
+    if (req.session.authenticated){
+        const subtasks = await Subtasks.find({subtask_task: taskId})
+        return res.status(200).json(subtasks)
+    }
+    return res.status(403).json({message: "Vous devez être connecté"})
+  } catch (error) {
+    console.error("Erreurs lors du chargement des sous-tâches: ", error);
+  }
+};
 
 module.exports = {
-    getOneSubtask,
-    getAllSubtasks,
-    createSubtask
-}
+  getOneSubtask,
+  getAllSubtasks,
+  createSubtask,
+  getTaskSubtasks,
+};

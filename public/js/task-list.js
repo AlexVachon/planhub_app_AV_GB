@@ -69,7 +69,7 @@ function HTMLContentMenuTasks(tasks) {
 
 function HTMLContentTaskContent(tasks){
     taskContent.innerHTML = ''
-    if (tasks){
+    if (tasks && tasks.length > 0){
         const ul = document.createElement('ul')
         ul.classList.add('list-group', 'shadow')
         tasks.forEach(task => {
@@ -80,7 +80,7 @@ function HTMLContentTaskContent(tasks){
             `
             <div class="row">
                 <div class="col-6">
-                    <div class="border-right pr-3" style="position: relative;">
+                    <div class="border-right pr-3" style="position: relative;  flex-grow: 1;">
                         <a class="stretched-link no-link-style" href="/projects/${projectId}/${task._id}">${task.task_name}</a>
                     </div>
                 </div>
@@ -138,9 +138,6 @@ function HTMLContentTaskContent(tasks){
         `
         <div class="text-center">
             <p class="text-center">Vous n'avez actuellement aucune tâche...</p>
-        </div>
-        <div class="container d-flex justify-content-center align-items-center">
-            <button type="button" class="btn btn-lg btn-outline-secondary" style="border-radius: 10px">Créer une tâche</button>
         </div>
         `
     }
