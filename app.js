@@ -35,6 +35,9 @@ const ModelUsers = require('./models/Users')
 const joins = require('./routes/join')
 const project = require('./routes/projects')
 const subtasks = require('./routes/subtasks')
+const tasks = require('./routes/tasks')
+const users = require('./routes/users')
+
 
 //.ENV -> hides informations like connection string
 require('dotenv').config()
@@ -48,8 +51,6 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser())
 
-app.use('/api/v1/users', users)
-app.use('/api/v1/tasks', tasks)
 app.use('/join', joins)
 app.use('/project', project)
 app.use('/api/v1/subtasks', subtasks)
