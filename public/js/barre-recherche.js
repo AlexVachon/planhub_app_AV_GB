@@ -1,24 +1,15 @@
 /**
- * Permet d'obtenir la liste des suggestions des recherches
- * @param checkpoint Le nombre de card qui est affiché en ce moment
- * @param chercher Le mot de la recherch
- * @returns {Promise<*>}Une liste des suggestions
- */
-async function obtenirSuggestions(checkpoint, chercher){
-    // Envoyez une requête AJAX pour récupérer les suggestions
-    const response = await fetch(`/api/v1/tasks/search?projectId=${projectId}&searchTerm=${chercher}`);
-    const data = await response.json();
-
-    // Retournez les suggestions obtenues
-    return data.tasks;
-}
-
-
-/**
  * Appelée lors d'un clic dans la fenêtre.
  */
 function gererClicFenetre(evenement) {
-    
+    const clicDansDivision = divSuggestions.contains(evenement.target);
+    console.log("Clic dans la zone cliquable ? " + clicDansDivision)
+
+    if (!clicDansDivision) {
+        divSuggestions.replaceChildren()
+        divSuggestions.classList.remove("afficher")
+        document.removeEventListener("click", gererClicFenetre)
+    }
 }
 
 /**
@@ -52,22 +43,51 @@ async function afficherRecherches(e){
  */
 async function afficherSuggestions() {
     const searchInput = document.getElementById('form-recherche');
-    const suggestionsDiv = document.getElementById('div-suggestions');
+    const divSuggestions = document.getElementById('div-suggestions');
 
     const searchTerm = searchInput.value;
-
-    // Vérifiez que le terme de recherche n'est pas vide
-    if (searchTerm.trim() !== '') {
-        // Envoyez une requête AJAX pour récupérer les suggestions
-        const response = await fetch(`/api/v1/tasks/search?projectId=${projectId}&searchTerm=${searchTerm}`);
+    
+    if (searchTerm.trim() !== '' && searchTerm.length >=3) {
+        const response = (await fetch(`/api/v1/tasks/search?projectId=${projectId}&searchTerm=${searchTerm}`));
         const data = await response.json();
+        
+        if (data.tasks.length > 0){
 
-        // Affichez les suggestions dans la div appropriée (div-suggestions)
-        suggestionsDiv.innerHTML = data.tasks.map(task => `<p>${task.task_name}</p>`).join('');
-        suggestionsDiv.classList.remove('masquer'); // Assurez-vous que la div n'est pas masquée
+        divSuggestions.replaceChildren()
+
+        divSuggestions.classList.add("afficher")
+
+        const ulSuggestions = document.createElement("ul")
+        divSuggestions.appendChild(ulSuggestions)
+
+        let nombreSuggestion = 0;
+
+        if (data.tasks){
+            for (let tache of data.tasks) {
+            nombreSuggestion += 1
+            if (nombreSuggestion <= 5){
+                const liSuggestion = document.createElement("li")
+                
+                const aSuggestion = document.createElement("a")
+                aSuggestion.classList.add("no-link-style")
+
+                aSuggestion.setAttribute("href", "/projects/" + projectId + "/" + tache._id)
+                aSuggestion.textContent = tache.task_name
+
+                liSuggestion.appendChild(aSuggestion)
+                ulSuggestions.appendChild(liSuggestion)
+            }
+        }
+        }
+
+        // Ajout d'un événement sur tout le document (la fenêtre)
+        document.addEventListener("click", gererClicFenetre)
+        } else {
+            console.log("NOPE")
+            //divSuggestions.innerHTML = data.tasks.map(task => `<p>${task.task_name}</p>`).join('');
+        }
     } else {
-        // Si le terme de recherche est vide, masquez la div de suggestions
-        suggestionsDiv.classList.add('masquer');
+        divSuggestions.classList.add('masquer');
     }
  }
 
@@ -77,7 +97,7 @@ async function afficherSuggestions() {
         .addEventListener("submit", afficherRecherches)
 
     document
-        .getElementById("div-suggestions")
+        .getElementById("form-recherche")
         .addEventListener("input", afficherSuggestions)
  }
 

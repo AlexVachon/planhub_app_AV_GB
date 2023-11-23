@@ -4788,7 +4788,7 @@ textarea.form-control-lg {
   top: -1px;
 }
 
-.alert, #suggestions .sortie {
+.alert {
   --bs-alert-bg: transparent;
   --bs-alert-padding-x: 1rem;
   --bs-alert-padding-y: 1rem;
@@ -4869,7 +4869,7 @@ textarea.form-control-lg {
   --bs-alert-link-color: var(--bs-danger-text-emphasis);
 }
 
-.alert-light, #suggestions .sortie {
+.alert-light {
   --bs-alert-color: var(--bs-light-text-emphasis);
   --bs-alert-bg: var(--bs-light-bg-subtle);
   --bs-alert-border-color: var(--bs-light-border-subtle);
@@ -12166,24 +12166,20 @@ footer {
 #suggestions .suggestions {
   background-color: darkgray;
   color: white;
-  width: 190px;
+  width: 215px;
   position: absolute;
   border: 1px solid gray;
   display: none;
 }
-#suggestions .afficher {
+#suggestions .suggestions.afficher {
   display: block;
 }
 #suggestions .suggestions > ul {
-  color: gray;
+  color: white;
   padding-left: 0;
   margin: 0;
   list-style-type: none;
-  cursor: default;
 }
-#suggestions .suggestions > ul li:hover {
+#suggestions .suggestions > ul > li:hover {
   background-color: lightblue;
-}
-#suggestions .sortie {
-  min-height: 100px;
 }

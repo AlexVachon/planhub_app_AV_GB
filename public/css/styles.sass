@@ -372,24 +372,19 @@ aside
     .suggestions
         background-color: darkgray
         color: white
-        width: 190px
+        width: 215px
         position: absolute
         border: 1px solid gray
         display: none
 
-    .afficher
-        display: block
+        &.afficher
+            display: block
 
-    .suggestions > ul
-        color: gray
-        padding-left: 0
-        margin: 0
-        list-style-type: none
-        cursor: default
+        > ul
+            color: white
+            padding-left: 0
+            margin: 0
+            list-style-type: none
 
-    .suggestions > ul li:hover
-        background-color: lightblue
-
-    .sortie
-        @extend .alert, .alert-light
-        min-height: 100px
+            > li:hover
+                background-color: lightblue
