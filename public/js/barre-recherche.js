@@ -51,7 +51,7 @@ async function afficherSuggestions() {
         const response = (await fetch(`/api/v1/tasks/search?projectId=${projectId}&searchTerm=${searchTerm}`));
         const data = await response.json();
         
-        if (data.tasks.length > 0){
+        if (data.tasks && data.tasks.length > 0){
 
         divSuggestions.replaceChildren()
 
@@ -80,11 +80,10 @@ async function afficherSuggestions() {
         }
         }
 
-        // Ajout d'un événement sur tout le document (la fenêtre)
         document.addEventListener("click", gererClicFenetre)
-        } else {
-            console.log("NOPE")
-            //divSuggestions.innerHTML = data.tasks.map(task => `<p>${task.task_name}</p>`).join('');
+        } else{
+            divSuggestions.replaceChildren();
+            divSuggestions.classList.remove('afficher');
         }
     } else {
         divSuggestions.classList.add('masquer');
