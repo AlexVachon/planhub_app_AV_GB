@@ -11,6 +11,7 @@
         <script src="/js/task-create.js" defer></script>
         <script src="/js/task-edit.js" defer></script>
         <script src="/js/barre-recherche.js" defer></script>
+        <script src="/js/task-filtre.js" defer></script>
 </head>
 
 <body>
@@ -177,6 +178,82 @@
                         </div>
                         <div class="mb-3">
                             <button type="submit" class="btn btn-primary">Modifier</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+            <div id="parametreRecherche" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <h2>Paramètres de filtrage et de tri des tâches</h2>
+                    <form class="form-parametre" id="form-parametre" novalidate>
+                        <div class="row">
+                            <div class="col-8 mb-3">
+                                <div class="text-center mb-3">
+                                    <h3>Filtre</h3>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="nom" class="form-label">
+                                        Nom de la tâche</label>
+                                    <input type="text" id="task_name" name="task_name" class="form-control"
+                                        aria-describedby="tnHelp">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="type" class="form-label">
+                                        Type</label>
+                                    <select id="type" name="type" class="form-select">
+                                        <option value="aucun">(aucun filtre)</option>
+                                        <option value="0">Bug</option>
+                                        <option value="1">Correction</option>
+                                        <option value="2">Sprint</option>
+                                        <option value="3">Tester</option>
+                                        <option value="4">Tâche</option>
+                                        <option value="5">Urgence</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="etat" class="form-label">
+                                        Étât</label>
+                                    <select id="etat" name="etat" class="form-select">
+                                        <option value="aucun">(aucun filtre)</option>
+                                        <option value="0">À faire</option>
+                                        <option value="1">En cours</option>
+                                        <option value="2">En attente</option>
+                                        <option value="3">À vérifier</option>
+                                        <option value="4">En pause</option>
+                                        <option value="5">Complété</option>
+                                        <option value="5">Annulé</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-4 mb-3">
+                                <div class="text-center mb-3">
+                                    <h3>Tri</h3>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="mb-3">
+                                        <input type="radio" name="tri" value="0" checked> Alphabétique
+                                    </label>
+                                    <br>
+                                    <label class="mb-3">
+                                        <input type="radio" name="tri" value="1"> Date de création
+                                    </label>
+                                    <br>
+                                    <label class="mb-3">
+                                        <input type="radio" name="tri" value="2"> Type de tâche
+                                    </label>
+                                    <br>
+                                    <label class="mb-3">
+                                        <input type="radio" name="tri" value="3"> État de la tâche
+                                    </label>
+                                    <br>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <button type="reset" class="btn btn-primary">Ré-initialiser</button>
+                            <button type="submit" class="btn btn-primary">Soumettre</button>
                         </div>
 
                     </form>

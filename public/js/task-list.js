@@ -145,7 +145,7 @@ function HTMLContentTaskContent(tasks){
             taskContent.innerHTML = 
         `
         <div class="text-center">
-            <p class="text-center">Vous n'avez actuellement aucune tâche qui correspont à la recherche...</p>
+            <p class="text-center">Vous n'avez actuellement aucune tâche qui correspond à la recherche...</p>
         </div>
         `
         } else{

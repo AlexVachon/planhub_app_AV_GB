@@ -37,7 +37,6 @@ async function afficherRecherches(e) {
     }
 }
 
-
 /**
  * Pour demander les suggestions au site web.
  *
@@ -108,16 +107,9 @@ async function afficherSuggestions() {
     formRecherche.addEventListener("submit", afficherRecherches);
     searchImage.addEventListener("click", function(event) {
         event.preventDefault();
-        afficherRecherches(event); // Appelez la fonction directement lors du clic
+        afficherRecherches(event); 
     });
     formRecherche.addEventListener("input", afficherSuggestions);
 }
 
 window.addEventListener('load', initialisation);
-
-
-window.addEventListener('load', initialisation);
-
-
-
-window.addEventListener('load', initialisation)
