@@ -102,14 +102,22 @@ async function afficherSuggestions() {
         afficherRecherches({ preventDefault: () => {} });
     }
 
-    document
-        .getElementById("form-recherche")
-        .addEventListener("submit", afficherRecherches)
+    const formRecherche = document.getElementById("form-recherche");
+    const searchImage = document.getElementById("search");
 
-    document
-        .getElementById("form-recherche")
-        .addEventListener("input", afficherSuggestions)
- }
+    formRecherche.addEventListener("submit", afficherRecherches);
+    searchImage.addEventListener("click", function(event) {
+        event.preventDefault();
+        afficherRecherches(event); // Appelez la fonction directement lors du clic
+    });
+    formRecherche.addEventListener("input", afficherSuggestions);
+}
+
+window.addEventListener('load', initialisation);
+
+
+window.addEventListener('load', initialisation);
+
 
 
 window.addEventListener('load', initialisation)
