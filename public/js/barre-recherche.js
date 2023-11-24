@@ -15,25 +15,28 @@ function gererClicFenetre(evenement) {
 /**
  * Pour afficher les résultats de la recherche.
  */
-async function afficherRecherches(e){
-    const searchInput = document.getElementById('recherche');
-    const suggestionsDiv = document.getElementById('div-suggestions');
+async function afficherRecherches(e) {
+    e.preventDefault();
 
+    const searchInput = document.getElementById('barre-recherche');
     const searchTerm = searchInput.value;
 
-    // Vérifiez que le terme de recherche n'est pas vide
-    if (searchTerm.trim() !== '') {
-        // Obtenez les suggestions en appelant obtenirSuggestions
-        const suggestions = await obtenirSuggestions(quelqueCheckpoint, searchTerm);
+    try {
+        const response = await fetch(`/api/v1/tasks/search?projectId=${projectId}&searchTerm=${searchTerm}`);
+        const data = await response.json();
 
-        // Affichez les suggestions dans la div appropriée (div-suggestions)
-        suggestionsDiv.innerHTML = suggestions.map(task => `<p>${task.task_name}</p>`).join('');
-        suggestionsDiv.classList.remove('masquer'); // Assurez-vous que la div n'est pas masquée
-    } else {
-        // Si le terme de recherche est vide, masquez la div de suggestions
-        suggestionsDiv.classList.add('masquer');
+        const rechercheTasks = data.tasks.filter(task => task.task_name.toLowerCase().includes(searchTerm.toLowerCase()));
+
+        // Mettez à jour l'URL avec le terme de recherche
+        const newUrl = window.location.href.split('?')[0] + `?searchTerm=${encodeURIComponent(searchTerm)}`;
+        window.history.pushState({ path: newUrl }, '', newUrl);
+
+        HTMLContentTaskContent(rechercheTasks);
+    } catch (error) {
+        console.error(error);
     }
 }
+
 
 /**
  * Pour demander les suggestions au site web.
@@ -42,7 +45,7 @@ async function afficherRecherches(e){
  * elles sont "hard-codés" pour la démo.
  */
 async function afficherSuggestions() {
-    const searchInput = document.getElementById('form-recherche');
+    const searchInput = document.getElementById('barre-recherche');
     const divSuggestions = document.getElementById('div-suggestions');
 
     const searchTerm = searchInput.value;
@@ -91,6 +94,14 @@ async function afficherSuggestions() {
  }
 
  function initialisation() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const searchTermFromUrl = urlParams.get('searchTerm');
+
+    if (searchTermFromUrl) {
+        document.getElementById('barre-recherche').value = searchTermFromUrl;
+        afficherRecherches({ preventDefault: () => {} });
+    }
+
     document
         .getElementById("form-recherche")
         .addEventListener("submit", afficherRecherches)

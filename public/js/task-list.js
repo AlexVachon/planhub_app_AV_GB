@@ -69,6 +69,13 @@ function HTMLContentMenuTasks(tasks) {
 
 function HTMLContentTaskContent(tasks){
     taskContent.innerHTML = ''
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const searchTerm = urlParams.get('searchTerm');
+    if (searchTerm) {
+        tasks = tasks.filter(task => task.task_name.toLowerCase().includes(searchTerm.toLowerCase()));
+    }
+
     if (tasks && tasks.length > 0){
         const ul = document.createElement('ul')
         ul.classList.add('list-group', 'shadow')
@@ -134,12 +141,21 @@ function HTMLContentTaskContent(tasks){
         
 
     }else{
-        taskContent.innerHTML = 
+        if (searchTerm){
+            taskContent.innerHTML = 
+        `
+        <div class="text-center">
+            <p class="text-center">Vous n'avez actuellement aucune tâche qui correspont à la recherche...</p>
+        </div>
+        `
+        } else{
+            taskContent.innerHTML = 
         `
         <div class="text-center">
             <p class="text-center">Vous n'avez actuellement aucune tâche...</p>
         </div>
         `
+        }
     }
 }
 
