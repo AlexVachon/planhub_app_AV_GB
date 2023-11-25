@@ -104,7 +104,7 @@ const editProject = async (req, res) => {
     const { userID, projectID } = req.params;
     const { name } = req.body;
 
-    const project = await Projects.findOne(projectID);
+    const project = await Projects.findOne({ _id: projectID });
     if (project) {
       const created_by = project.created_by;
       if (created_by == userID) {
@@ -113,12 +113,12 @@ const editProject = async (req, res) => {
           { $set: { project_name: name } },
           { new: true }
         );
-        return res.status(201).json(updatedProject)
+        return res.status(201).json({status: 'ok', message: `Le projet: '${updatedProject.project_name}' a bien été modifié!`})
       }else{
-        return res.status(403).json({message: "Vous devez être le créateur du projet pour le modifier"})
+        return res.status(403).json({message: "Vous devez être le créateur du projet pour le modifier!"})
       }
     } else {
-      return res.status(404).json({ message: "Projet non trouvé!" });
+      return res.status(404).json({ message: `Projet: "${projectID}" non trouvé!` });
     }
   } catch (err) {
     if (err.name === "ValidationError") {
@@ -130,7 +130,7 @@ const editProject = async (req, res) => {
       res.status(400).json({ errors: validationErrors });
     } else {
       console.error(err);
-      res.status(500).json({ message: "Erreur lors de la création du projet" });
+      res.status(500).json({ message: "Erreur lors de la modification du projet" });
     }
   }
 };

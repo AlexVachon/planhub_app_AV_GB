@@ -24,7 +24,7 @@ async function gestionSubmitEdit(e) {
 
     if (validate(name)) {
       const response = await envoyerRequeteAjax(
-        `/project/${userID}/${document.getElementById("projectID").value}/edit`,
+        `/project/${userID}/projects/${document.getElementById("projectID").value}/edit`,
         "POST",
         { name }
       );
@@ -33,7 +33,7 @@ async function gestionSubmitEdit(e) {
       const toastHeader = document.createElement("div");
       toastHeader.className = "toast-header";
 
-      if (response.status === 201) {
+      if (response.status == 'ok') {
         toastHeader.innerHTML = `
           <strong class="me-auto text-success">Confirmation !</strong>
           <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
@@ -55,6 +55,7 @@ async function gestionSubmitEdit(e) {
 
       const toastInstance = new bootstrap.Toast(toast);
       toastInstance.show();
+      document.getElementById("editProjectModal").style.display = 'none'
     }
   } catch (error) {
     console.error(error);
