@@ -168,34 +168,64 @@ const getAdminsProjects = async (req, res) => {
 
 const getRecherche = async (req, res) => {
     if (req.session.authenticated) {
-        const { projectId, searchTerm } = req.query;
-
-        try{
+        const { projectId, searchTerm, type, etat, tri } = req.query;
+        try {
             const projet = await Projects.findById(projectId);
             if (!projet) {
                 res.status(404).json({ message: "Projet introuvable" });
             }
-            
+
             // On vérifie si l'utilisateur est dans le projet
             const userId = req.session.user;
             if (projet.users.includes(userId)) {
-                const tasks = await Tasks.find({
+                const query = {
                     task_project: projectId,
-                    task_name: { $regex: searchTerm, $options: 'i' } 
-                });
+                };
+
+                if (searchTerm) {
+                    query.task_name = { $regex: searchTerm, $options: 'i' };
+                }
+
+                if (type && type !== "aucun") {
+                    query.task_type = parseInt(type);
+                }
+
+                if (etat && etat !== "aucun") {
+                    query.task_etat = parseInt(etat);
+                }
+
+                let sortOption;
+                switch (parseInt(tri)) {
+                    case 1:
+                        sortOption = { created_at: 1 }; // Tri par date de création
+                        break;
+                    case 2:
+                        sortOption = { task_type: 1 }; // Tri par type de tâche
+                        break;
+                    case 3:
+                        sortOption = { task_etat: 1 }; // Tri par état de la tâche
+                        break;
+                    default:
+                        sortOption = { task_name: 1 }; // Tri par défaut (alphabétique)
+                        break;
+                }
+
+                const tasks = await Tasks.find(query).sort(sortOption);
 
                 res.status(200).json({ tasks });
             } else {
                 res.status(403).json({ message: "Accès non autorisé" });
             }
-        } catch (error){
+        } catch (error) {
             console.error(error);
-            res.status(500).json({error: "Erreur lors de la recherche de la tâche"})
+            res.status(500).json({ error: "Erreur lors de la recherche de la tâche" });
         }
     } else {
         res.status(403).redirect('/join');
     }
 };
+
+
 
 
 const editTask = async (req, res) => {

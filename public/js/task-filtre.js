@@ -1,3 +1,36 @@
+async function afficherRecherchesFiltrees(e) {
+    e.preventDefault();
+
+    const searchInput = document.getElementById('searchTerm');
+    const searchTerm = searchInput.value;
+
+    const typeSelect = document.getElementById('type');
+    const selectedType = typeSelect.value;
+
+    const etatSelect = document.getElementById('etat');
+    const selectedEtat = etatSelect.value;
+
+    const triRadio = document.querySelector('input[name="tri"]:checked');
+    const selectedTri = triRadio ? triRadio.value : '0';
+
+    try {
+        const response = await fetch(`/api/v1/tasks/search?projectId=${projectId}&searchTerm=${searchTerm}&type=${selectedType}&etat=${selectedEtat}&tri=${selectedTri}`);
+        const data = await response.json();
+
+        const rechercheTasks = data.tasks.filter(task => task.task_name.toLowerCase().includes(searchTerm.toLowerCase()));
+
+        const newUrl = `/projects/${projectId}?searchTerm=${encodeURIComponent(searchTerm)}&type=${encodeURIComponent(selectedType)}&etat=${encodeURIComponent(selectedEtat)}&tri=${encodeURIComponent(selectedTri)}`;
+        window.history.pushState({ path: newUrl }, '', newUrl);
+
+        document.getElementById('parametreRecherche').style.display = 'none'
+
+        HTMLContentTaskContent(rechercheTasks);
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+
 function initialisation() {
 
     const filterImage = document.getElementById('filter');
@@ -17,6 +50,8 @@ function initialisation() {
             parametreRechercheModal.style.display = 'none';
         }
     });
+
+    parametreRechercheModal.addEventListener("submit", afficherRecherchesFiltrees);
 }
 
 window.addEventListener('load', initialisation);

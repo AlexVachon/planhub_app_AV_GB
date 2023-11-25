@@ -194,23 +194,9 @@
                                     <h3>Filtre</h3>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="nom" class="form-label">
+                                    <label for="searchTerm" class="form-label">
                                         Nom de la tâche</label>
-                                    <input type="text" id="task_name" name="task_name" class="form-control"
-                                        aria-describedby="tnHelp">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="type" class="form-label">
-                                        Type</label>
-                                    <select id="type" name="type" class="form-select">
-                                        <option value="aucun">(aucun filtre)</option>
-                                        <option value="0">Bug</option>
-                                        <option value="1">Correction</option>
-                                        <option value="2">Sprint</option>
-                                        <option value="3">Tester</option>
-                                        <option value="4">Tâche</option>
-                                        <option value="5">Urgence</option>
-                                    </select>
+                                    <input type="text" id="searchTerm" name="searchTerm" class="form-control">
                                 </div>
                                 <div class="mb-3">
                                     <label for="etat" class="form-label">
@@ -224,6 +210,19 @@
                                         <option value="4">En pause</option>
                                         <option value="5">Complété</option>
                                         <option value="5">Annulé</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="type" class="form-label">
+                                        Type</label>
+                                    <select id="type" name="type" class="form-select">
+                                        <option value="aucun">(aucun filtre)</option>
+                                        <option value="0">Bug</option>
+                                        <option value="1">Correction</option>
+                                        <option value="2">Sprint</option>
+                                        <option value="3">Tester</option>
+                                        <option value="4">Tâche</option>
+                                        <option value="5">Urgence</option>
                                     </select>
                                 </div>
                             </div>
