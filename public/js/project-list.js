@@ -107,13 +107,89 @@ function HTMLContentMainContent(projects) {
       const deleteImage = document.createElement("img");
       deleteImage.src = "/images/delete.png";
       deleteImage.alt = "image delete";
+      deleteImage.addEventListener("click", (event) => {
+        event.preventDefault();
 
-      const closeFormButton = document.querySelector(
+        const popoverContent = document.createElement("div");
+        popoverContent.innerHTML = `
+          <div>
+            <p>Voulez-vous vraiment supprimer le projet: ${project.project_name} ?</p>
+            <form id="deleteForm">
+              <input type="hidden" id="projectID" value="${project._id}"/>
+              <div class="d-flex justify-content-between">
+                <button type="submit" class="btn btn-danger">Oui, supprimer</button>
+                <button type="button" id="close" class="btn btn-secondary" aria-label="Close">Annuler</button>
+              </div>
+            </form>
+          </div>
+        `;
+
+        const popover = new bootstrap.Popover(deleteImage, {
+          title: "Confirmation de suppression",
+          content: popoverContent,
+          placement: "right",
+          trigger: "manual",
+          html: true,
+        });
+
+        popover.show();
+        const closeButton = popoverContent.querySelector("#close");
+        closeButton.addEventListener("click", () => {
+          popover.hide();
+        });
+
+        const deleteForm = popoverContent.querySelector("#deleteForm");
+        deleteForm.addEventListener("submit", async (event) => {
+          event.preventDefault();
+          try {
+            const response = await envoyerRequeteAjax(
+              `/project/projects/${
+                popoverContent.querySelector("#projectID").value
+              }/delete`,
+              "DELETE"
+            );
+            const toast = document.getElementById("notifications");
+            const toastHeader = document.createElement("div");
+            toastHeader.className = "toast-header";
+            if (response.status == "ok") {
+              toastHeader.innerHTML = `
+                <strong class="me-auto text-success">Confirmation !</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+              `;
+            } else {
+              toastHeader.innerHTML = `
+                <strong class="me-auto text-danger">Erreur !</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+              `;
+            }
+
+            const toastBody = document.createElement("div");
+            toastBody.className = "toast-body text-body-dark";
+            toastBody.textContent = response.message;
+
+            toast.innerHTML = "";
+            toast.appendChild(toastHeader);
+            toast.appendChild(toastBody);
+
+            const toastInstance = new bootstrap.Toast(toast);
+            toastInstance.show();
+            popover.hide();
+          } catch (error) {
+            console.error("Erreur lors de la suppression du projet", error);
+          }
+        });
+
+        setTimeout(() => {
+          popover.hide();
+        }, 5000);
+      });
+
+      const closeEditFormButton = document.querySelector(
         "#editProjectModal .close"
       );
 
-      if (closeFormButton) {
-        closeFormButton.addEventListener("click", (event) => {
+      if (closeEditFormButton) {
+        closeEditFormButton.addEventListener("click", (event) => {
           form_edit.style.display = "none";
         });
       }

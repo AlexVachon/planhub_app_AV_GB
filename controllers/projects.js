@@ -103,23 +103,38 @@ const editProject = async (req, res) => {
   try {
     const { userID, projectID } = req.params;
     const { name } = req.body;
-
-    const project = await Projects.findOne({ _id: projectID });
-    if (project) {
-      const created_by = project.created_by;
-      if (created_by == userID) {
-        const updatedProject = await Projects.findByIdAndUpdate(
-          projectID,
-          { $set: { project_name: name } },
-          { new: true }
-        );
-        return res.status(201).json({status: 'ok', message: `Le projet: '${updatedProject.project_name}' a bien été modifié!`})
-      }else{
-        return res.status(403).json({message: "Vous devez être le créateur du projet pour le modifier!"})
+    if(req.session.authenticated && req.session.user == userID){
+      const project = await Projects.findOne({ _id: projectID });
+      if (project) {
+        const created_by = project.created_by;
+        if (created_by == userID) {
+          const updatedProject = await Projects.findByIdAndUpdate(
+            projectID,
+            { $set: { project_name: name } },
+            { new: true }
+          );
+          return res
+            .status(201)
+            .json({
+              status: "ok",
+              message: `Le projet: '${updatedProject.project_name}' a bien été modifié!`,
+            });
+        } else {
+          return res
+            .status(403)
+            .json({
+              message: "Vous devez être le créateur du projet pour le modifier!",
+            });
+        }
+      } else {
+        return res
+          .status(404)
+          .json({ message: `Projet: "${projectID}" non trouvé!` });
       }
-    } else {
-      return res.status(404).json({ message: `Projet: "${projectID}" non trouvé!` });
+    }else{
+      return res.status(403).json({message: "Vous devez être connecté!"})
     }
+    
   } catch (err) {
     if (err.name === "ValidationError") {
       const validationErrors = {};
@@ -130,8 +145,58 @@ const editProject = async (req, res) => {
       res.status(400).json({ errors: validationErrors });
     } else {
       console.error(err);
-      res.status(500).json({ message: "Erreur lors de la modification du projet" });
+      res
+        .status(500)
+        .json({ message: "Erreur lors de la modification du projet" });
     }
+  }
+};
+
+const deleteProject = async (req, res) => {
+  try {
+    const { projectID, userID } = req.params;
+    if (req.session.authenticated) {
+      if (!projectID) {
+        return res.status(400).json({ message: "Project ID est requis" });
+      }
+
+      const project = await Projects.findOne({ _id: projectID });
+
+      if (!project) {
+        return res.status(404).json({ message: "Project not found" });
+      }
+      console.log("Created_By: ", project.created_by)
+      console.log("Session: ", req.session.user)
+      if (!project.created_by.equals(req.session.user)) {
+        return res
+          .status(403)
+          .json({
+            message: "Vous n'avez pas les permissions pour supprimer ce projet",
+          });
+      }
+
+      const deletedProject = await Projects.findByIdAndDelete(projectID);
+
+      if (deletedProject) {
+        return res
+          .status(200)
+          .json({
+            status: "ok",
+            message: `Projet: "${project.project_name}" supprimé avec succès!`,
+          });
+      } else {
+        return res
+          .status(404)
+          .json({ message: `Projet: "${projectID}" non trouvé!` });
+      }
+    }else{
+      return res.status(403).json({message: "Vous devez être connecté!"})
+    }
+  } catch (error) {
+    console.error(error);
+    res
+      .status(500)
+      .json({ message: "Erreur lors de la suppression du projet", error });
   }
 };
 
@@ -141,4 +206,5 @@ module.exports = {
   createProject,
   getProjectsUser,
   editProject,
+  deleteProject,
 };
