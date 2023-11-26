@@ -81,7 +81,11 @@ function HTMLContentMainContent(projects) {
       projectLink.href = `/projects/${project._id}`;
       projectLink.className = "stretched-link no-link-style";
       projectLink.textContent = project.project_name;
+      const taskCountContainer = document.createElement("div");
+      taskCountContainer.className = "badge bg-secondary rounded-pill me-2";
+      taskCountContainer.textContent = project.tasks.length;
 
+      linkContainer.appendChild(taskCountContainer);
       linkContainer.appendChild(projectLink);
 
       const actionContainer = document.createElement("div");
