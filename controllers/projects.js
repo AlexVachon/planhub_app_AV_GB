@@ -165,8 +165,7 @@ const deleteProject = async (req, res) => {
       if (!project) {
         return res.status(404).json({ message: "Project not found" });
       }
-      console.log("Created_By: ", project.created_by)
-      console.log("Session: ", req.session.user)
+      
       if (!project.created_by.equals(req.session.user)) {
         return res
           .status(403)
