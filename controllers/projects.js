@@ -1,7 +1,8 @@
 const Projects = require("../models/Projects");
 const Users = require("../models/Users");
+const Tasks = require("../models/Tasks");
+const Subtasks = require("../models/Subtasks");
 const mongoose = require("mongoose");
-const { updateOne } = require("../models/Users");
 
 const getOneProject = async (req, res) => {
   //Valeur des champs dans le formulaire **FAIRE EN POST**
@@ -103,7 +104,7 @@ const editProject = async (req, res) => {
   try {
     const { userID, projectID } = req.params;
     const { name } = req.body;
-    if(req.session.authenticated && req.session.user == userID){
+    if (req.session.authenticated && req.session.user == userID) {
       const project = await Projects.findOne({ _id: projectID });
       if (project) {
         const created_by = project.created_by;
@@ -113,28 +114,23 @@ const editProject = async (req, res) => {
             { $set: { project_name: name } },
             { new: true }
           );
-          return res
-            .status(201)
-            .json({
-              status: "ok",
-              message: `Le projet: '${updatedProject.project_name}' a bien été modifié!`,
-            });
+          return res.status(201).json({
+            status: "ok",
+            message: `Le projet: '${updatedProject.project_name}' a bien été modifié!`,
+          });
         } else {
-          return res
-            .status(403)
-            .json({
-              message: "Vous devez être le créateur du projet pour le modifier!",
-            });
+          return res.status(403).json({
+            message: "Vous devez être le créateur du projet pour le modifier!",
+          });
         }
       } else {
         return res
           .status(404)
           .json({ message: `Projet: "${projectID}" non trouvé!` });
       }
-    }else{
-      return res.status(403).json({message: "Vous devez être connecté!"})
+    } else {
+      return res.status(403).json({ message: "Vous devez être connecté!" });
     }
-    
   } catch (err) {
     if (err.name === "ValidationError") {
       const validationErrors = {};
@@ -165,7 +161,7 @@ const deleteProject = async (req, res) => {
       if (!project) {
         return res.status(404).json({ message: "Project not found" });
       }
-      
+
       if (!project.created_by.equals(req.session.user)) {
         return res
           .status(403)
@@ -173,6 +169,15 @@ const deleteProject = async (req, res) => {
             message: "Vous n'avez pas les permissions pour supprimer ce projet",
           });
       }
+
+      const taskIds = project.tasks;
+
+      const subtaskIds = await Tasks.find({ _id: { $in: taskIds } })
+        .distinct("subtasks");
+      
+      await Subtasks.deleteMany({ _id: { $in: subtaskIds } });
+
+      await Tasks.deleteMany({ _id: { $in: taskIds } });
 
       const deletedProject = await Projects.findByIdAndDelete(projectID);
 
@@ -188,8 +193,8 @@ const deleteProject = async (req, res) => {
           .status(404)
           .json({ message: `Projet: "${projectID}" non trouvé!` });
       }
-    }else{
-      return res.status(403).json({message: "Vous devez être connecté!"})
+    } else {
+      return res.status(403).json({ message: "Vous devez être connecté!" });
     }
   } catch (error) {
     console.error(error);
@@ -198,6 +203,7 @@ const deleteProject = async (req, res) => {
       .json({ message: "Erreur lors de la suppression du projet", error });
   }
 };
+
 
 module.exports = {
   getOneProject,

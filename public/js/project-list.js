@@ -113,7 +113,7 @@ function HTMLContentMainContent(projects) {
         const popoverContent = document.createElement("div");
         popoverContent.innerHTML = `
           <div>
-            <p>Voulez-vous vraiment supprimer le projet: ${project.project_name} ?</p>
+            <p>Voulez-vous vraiment supprimer le projet: "${project.project_name}" ?</p>
             <form id="deleteForm">
               <input type="hidden" id="projectID" value="${project._id}"/>
               <div class="d-flex justify-content-between">
