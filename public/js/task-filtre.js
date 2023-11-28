@@ -1,16 +1,15 @@
+const searchInput = document.getElementById('searchTerm');
+const typeSelect = document.getElementById('type');
+const etatSelect = document.getElementById('etat');
+const triRadio = document.querySelector('input[name="tri"]:checked');
+
+
 async function afficherRecherchesFiltrees(e) {
     e.preventDefault();
 
-    const searchInput = document.getElementById('searchTerm');
     const searchTerm = searchInput.value;
-
-    const typeSelect = document.getElementById('type');
     const selectedType = typeSelect.value;
-
-    const etatSelect = document.getElementById('etat');
     const selectedEtat = etatSelect.value;
-
-    const triRadio = document.querySelector('input[name="tri"]:checked');
     const selectedTri = triRadio ? triRadio.value : '0';
 
     try {
