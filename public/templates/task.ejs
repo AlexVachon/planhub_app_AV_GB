@@ -8,6 +8,7 @@
     <script src="/js/utils-ajax.js" defer></script>
     <script src="/js/subtask-list.js" defer></script>
     <script src="/js/tabs.js" defer></script>
+    <script src="/js/commentaire-list" defer></script>
 </head>
 
 <body>
@@ -22,11 +23,6 @@
               <h2>
                 <%= task.task_name %>
               </h2>
-            </div>
-            <div>
-              <p>
-                <%= task.task_description %>
-              </p>
             </div>
             <div class="row container">
               <div class="col-7 p-2">
@@ -82,8 +78,6 @@
                         <p class="card-text">This is the content for the Other tab.</p>
                         <a href="#" class="btn btn-primary">Go somewhere</a>
                       </div>
-
-                      
                     </div>
                   </div>
                 </div>
@@ -103,6 +97,16 @@
                 </div>
               </div>
             </div>
+            <div class="mt-4 container">
+              <div>
+                <h3>
+                  Commentaires :
+                </h3>
+              </div>
+              <div id="commentaires" class="text-break mb-3">
+                <!-- LOADED IN AJAX -->
+              </div>
+            </div>
           </div>
           <div hidden>
             <div id="projectId" data-projectId="<%= project._id %>"></div>
@@ -114,5 +118,4 @@
         <%- include('../partials/footer-join'); %>
       </footer>
 </body>
-
 </html>

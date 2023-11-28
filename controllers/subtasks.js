@@ -42,7 +42,7 @@ const createSubtask = async (req, res) => {
     req.body;
 
   try {
-    const task = new Tasks({
+    const subtask = new Subtasks({
       _id: new mongoose.Types.ObjectId(),
       subtask_name,
       subtask_etat,
@@ -51,7 +51,7 @@ const createSubtask = async (req, res) => {
       assigned_to,
     });
 
-    task
+    subtask
       .save()
       .then((savedSubtask) => {
         Users.updateOne(
