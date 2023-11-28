@@ -26,16 +26,18 @@ const cookieParser = require('cookie-parser')
 const connectDB = require('./db/connect')
 
 //MODÈLES -> ./models/
-const ModelUsers = require('./models/Users')
 const ModelProjects = require('./models/Projects')
+const ModelSubtasks = require('./models/Subtasks')
 const ModelTasks = require('./models/Tasks')
+const ModelUsers = require('./models/Users')
 
 //ROUTES -> ./routes/
-const users = require('./routes/users')
-const tasks = require('./routes/tasks')
 const joins = require('./routes/join')
 const project = require('./routes/projects')
 const subtasks = require('./routes/subtasks')
+const tasks = require('./routes/tasks')
+const users = require('./routes/users')
+
 
 //.ENV -> hides informations like connection string
 require('dotenv').config()
@@ -43,24 +45,20 @@ require('dotenv').config()
 const path = require('path');
 const port = process.env.PORT || 3000
 
-
-
-
 //MIDDLEWARE
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser())
 
-app.use('/api/v1/users', users)
-app.use('/api/v1/tasks', tasks)
-app.use('/api/v1/subtasks', subtasks)
 app.use('/join', joins)
 app.use('/project', project)
+app.use('/api/v1/subtasks', subtasks)
+app.use('/api/v1/tasks', tasks)
+app.use('/api/v1/users', users)
 
 // set the view engine to ejs
 app.set('view engine', 'ejs');
-
 
 // Gestionnaire de route pour la page d'accueil
 app.get('/', async (req, res) => {

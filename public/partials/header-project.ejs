@@ -3,12 +3,15 @@
       <div>
           <a href="/"><img id="logo-app" src="/images/planhub_logo(white).png" alt="Logo PlanHub noir" style="width: 50%; height: auto;"></a>
       </div>
-      <div>
-        <form class="d-flex">
-          <input class="form-control me-sm-2" type="search" placeholder="Trouver une tâche">          
-          <img action="submit" id="search" src="/images/search.png" alt="search">
-          <img id="filter" src="/images/filter.png" alt="filter">
-        </form>
+      <div id="suggestions">
+        <div>
+          <form id="form-recherche" class="d-flex">
+            <input id="barre-recherche" class="form-control me-sm-2" type="search" placeholder="Trouver une tâche">          
+            <img action="submit" id="search" src="/images/search.png" alt="search">
+            <img id="filter" src="/images/filter.png" alt="filter">
+          </form>
+        </div>
+        <div id="div-suggestions" class="suggestions masquer"></div>
       </div>
       <div>
           <ul class="nav nav-pills">

@@ -68,7 +68,53 @@ function HTMLContentMenuTasks(tasks) {
 
 
 function HTMLContentTaskContent(tasks){
-    taskContent.innerHTML = ''
+    taskContent.innerHTML = '';
+
+    // Récupérer les valeurs des filtres depuis l'URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const searchTerm = urlParams.get('searchTerm');
+    const selectedType = urlParams.get('type') || 'aucun';
+    const selectedEtat = urlParams.get('etat') || 'aucun';
+    const selectedTri = urlParams.get('tri') || '0';
+
+    // Appliquer les filtres
+    if (searchTerm) {
+        tasks = tasks.filter(task => task.task_name.toLowerCase().includes(searchTerm.toLowerCase()));
+    }
+
+    if (selectedType !== 'aucun') {
+        tasks = tasks.filter(task => task.task_type === parseInt(selectedType));
+    }
+
+    if (selectedEtat !== 'aucun') {
+        tasks = tasks.filter(task => task.task_etat === parseInt(selectedEtat));
+    }
+
+    // Tri par défaut (alphabétique)
+    tasks.sort((a, b) => {
+        switch (parseInt(selectedTri)) {
+            case 1:
+                return a.created_at.localeCompare(b.created_at);
+            case 2:
+                return a.task_type - b.task_type;
+            case 3:
+                return a.task_etat - b.task_etat;
+            default:
+                return a.task_name.localeCompare(b.task_name);
+        }
+    });
+
+    // Mettre à jour les valeurs des filtres dans le formulaire
+    const typeFilter = document.getElementById('type');
+    typeFilter.value = selectedType;
+
+    const etatFilter = document.getElementById('etat');
+    etatFilter.value = selectedEtat;
+
+    const triFilter = document.querySelector(`input[name="tri"][value="${selectedTri}"]`);
+    if (triFilter) {
+        triFilter.checked = true;
+    }
     if (tasks && tasks.length > 0){
         const ul = document.createElement('ul')
         ul.classList.add('list-group', 'shadow')
@@ -134,12 +180,21 @@ function HTMLContentTaskContent(tasks){
         
 
     }else{
-        taskContent.innerHTML = 
+        if (searchTerm){
+            taskContent.innerHTML = 
+        `
+        <div class="text-center">
+            <p class="text-center">Vous n'avez actuellement aucune tâche qui correspond à la recherche...</p>
+        </div>
+        `
+        } else{
+            taskContent.innerHTML = 
         `
         <div class="text-center">
             <p class="text-center">Vous n'avez actuellement aucune tâche...</p>
         </div>
         `
+        }
     }
 }
 
