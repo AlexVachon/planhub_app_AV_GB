@@ -127,6 +127,9 @@ function HTMLContentTaskContent(tasks){
             <div class="row">
                 <div class="col-6">
                     <div class="border-right pr-3" style="position: relative;  flex-grow: 1;">
+                        <div class="badge bg-secondary rounded-pill me-2">
+                            ${task.task_subtasks.length}
+                        </div>
                         <a class="stretched-link no-link-style" href="/projects/${projectId}/${task._id}">${task.task_name}</a>
                     </div>
                 </div>

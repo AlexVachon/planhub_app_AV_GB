@@ -64,28 +64,152 @@ function HTMLContentMenu(projects) {
 
 function HTMLContentMainContent(projects) {
   mainContent.innerHTML = "";
+
   if (projects.length > 0) {
     const ul = document.createElement("ul");
     ul.classList.add("list-group", "shadow");
-    for (project of projects) {
-      ul.innerHTML += ` <li class="bg-secondary-subtle text-dark list-group-item d-flex justify-content-between align-items-center">
-                <div style="position: relative; flex-grow: 1;">
-                    <a href="/projects/${project._id}" class="stretched-link no-link-style">${project.project_name}</a>
-                </div>
-                <div>
-                    <img id="edit" src="/images/edit.png" alt="image edit">
-                    <img id="delete" src="/images/delete.png" alt="image delete">
-                </div>
-            </li>
-            `;
-      mainContent.appendChild(ul);
+
+    for (const project of projects) {
+      const li = document.createElement("li");
+      li.className =
+        "bg-secondary-subtle text-dark list-group-item d-flex justify-content-between align-items-center";
+
+      const linkContainer = document.createElement("div");
+      linkContainer.style = "position: relative; flex-grow: 1;";
+
+      const projectLink = document.createElement("a");
+      projectLink.href = `/projects/${project._id}`;
+      projectLink.className = "stretched-link no-link-style";
+      projectLink.textContent = project.project_name;
+      const taskCountContainer = document.createElement("div");
+      taskCountContainer.className = "badge bg-secondary rounded-pill me-2";
+      taskCountContainer.textContent = project.tasks.length;
+
+      linkContainer.appendChild(taskCountContainer);
+      linkContainer.appendChild(projectLink);
+
+      const actionContainer = document.createElement("div");
+      const form_edit = document.getElementById("editProjectModal");
+
+      const editImage = document.createElement("img");
+      editImage.src = "/images/edit.png";
+      editImage.alt = "image edit";
+      editImage.addEventListener("click", (event) => {
+        event.preventDefault();
+        if (form_edit) {
+          form_edit.style.display = "block";
+          document.getElementById("ed_project_name").value =
+            project.project_name;
+          document.getElementById("projectID").value = project._id;
+        }
+      });
+
+      const deleteImage = document.createElement("img");
+      deleteImage.src = "/images/delete.png";
+      deleteImage.alt = "image delete";
+      deleteImage.addEventListener("click", (event) => {
+        event.preventDefault();
+
+        const popoverContent = document.createElement("div");
+        popoverContent.innerHTML = `
+          <div>
+            <p>Voulez-vous vraiment supprimer le projet: "${project.project_name}" ?</p>
+            <form id="deleteForm">
+              <input type="hidden" id="projectID" value="${project._id}"/>
+              <div class="d-flex justify-content-between">
+                <button type="submit" class="btn btn-danger">Oui, supprimer</button>
+                <button type="button" id="close" class="btn btn-secondary" aria-label="Close">Annuler</button>
+              </div>
+            </form>
+          </div>
+        `;
+
+        const popover = new bootstrap.Popover(deleteImage, {
+          title: "Confirmation de suppression",
+          content: popoverContent,
+          placement: "right",
+          trigger: "manual",
+          html: true,
+        });
+
+        popover.show();
+        const closeButton = popoverContent.querySelector("#close");
+        closeButton.addEventListener("click", () => {
+          popover.hide();
+        });
+
+        const deleteForm = popoverContent.querySelector("#deleteForm");
+        deleteForm.addEventListener("submit", async (event) => {
+          event.preventDefault();
+          try {
+            const response = await envoyerRequeteAjax(
+              `/project/projects/${
+                popoverContent.querySelector("#projectID").value
+              }/delete`,
+              "DELETE"
+            );
+            const toast = document.getElementById("notifications");
+            const toastHeader = document.createElement("div");
+            toastHeader.className = "toast-header";
+            if (response.status == "ok") {
+              toastHeader.innerHTML = `
+                <strong class="me-auto text-success">Confirmation !</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+              `;
+            } else {
+              toastHeader.innerHTML = `
+                <strong class="me-auto text-danger">Erreur !</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+              `;
+            }
+
+            const toastBody = document.createElement("div");
+            toastBody.className = "toast-body text-body-dark";
+            toastBody.textContent = response.message;
+
+            toast.innerHTML = "";
+            toast.appendChild(toastHeader);
+            toast.appendChild(toastBody);
+
+            const toastInstance = new bootstrap.Toast(toast);
+            toastInstance.show();
+            popover.hide();
+          } catch (error) {
+            console.error("Erreur lors de la suppression du projet", error);
+          }
+        });
+
+        setTimeout(() => {
+          popover.hide();
+        }, 5000);
+      });
+
+      const closeEditFormButton = document.querySelector(
+        "#editProjectModal .close"
+      );
+
+      if (closeEditFormButton) {
+        closeEditFormButton.addEventListener("click", (event) => {
+          form_edit.style.display = "none";
+        });
+      }
+
+      actionContainer.appendChild(editImage);
+      actionContainer.appendChild(deleteImage);
+
+      li.appendChild(linkContainer);
+      li.appendChild(actionContainer);
+
+      ul.appendChild(li);
     }
+
+    mainContent.appendChild(ul);
   } else {
     mainContent.innerHTML = `
         <div class="text-center">
             <p class="text-center">Vous n'avez aucun projet pour le moment...</p>
         </div>
-        `;
+    `;
   }
 }
 

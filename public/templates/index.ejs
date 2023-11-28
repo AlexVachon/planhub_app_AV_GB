@@ -7,6 +7,7 @@
         <script src="/js/project-create-form.js" defer></script>
         <script src="/js/project-list.js" defer></script>
         <script src="/js/project-create.js" defer></script>
+        <script src="/js/project-edit.js" defer></script>
         <title>PlanHub | Accueil</title>
 </head>
 
@@ -94,6 +95,37 @@
                             </div>
                             <div class="mb-3">
                                 <button type="submit" class="btn btn-primary">Créer</button>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+                <div id="editProjectModal" class="modal">
+                    <div class="modal-content">
+                        <span class="close">&times;</span>
+                        <h2>Modifier un projet</h2>
+                        <form class="form-create-project" id="form-edit-project" method="post" novalidate>
+                            <input type="text" id="projectID" value="" hidden>
+                            <div class="mb-3">
+                                <div>
+                                    <label for="ed_project_name" class="form-label"><span style="color: red;">*</span>
+                                        Nom du projet</label>
+                                    <input type="text" id="ed_project_name" name="ed_project_name" class="form-control"
+                                        aria-describedby="ed_pnHelp">
+                                    <div id="ed_pnHelp" class="form-text">
+                                        Votre nom de projet doit contenir de 4 à 25 caractères
+                                    </div>
+                                    <div class="valid-feedback">
+                                        Parfait!
+                                    </div>
+                                    <div class="invalid-feedback">
+                                        Doit contenir de 4 à 25 caractères
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="mb-3">
+                                <button type="submit" class="btn btn-primary">Modifier</button>
                             </div>
 
                         </form>
