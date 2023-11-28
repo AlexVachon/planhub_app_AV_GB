@@ -1,68 +1,78 @@
-function ListeCommentaires(v){
-    list_content.innerHTML = ''
-    if (v && v.length > 0){
-        const ul = document.createElement('ul')
-        ul.classList.add('list-group', 'shadow')
-        v.forEach(value => {
-            const li = document.createElement('li');
-            li.classList.add('bg-secondary-subtle', 'text-dark', 'list-group-item');
-            
-            // Création du contenu HTML pour chaque tâche
-            li.innerHTML = 
-            `
-            <div class="row">
-                <div class="col-4">
-                    <div class="border-right pr-3" style="position: relative;  flex-grow: 1;">
-                        <a class="stretched-link no-link-style">${value.subtask_name}</a>
-                    </div>
-                </div>
-                <div class="col-8">
-                    <div class="row">
-                        <div class="col-4">
-                            <p class="mb-0">${taskEtatOptions[value.subtask_etat]}</p>
-                        </div>
-                        <div class="col-5">
-                            <p class="mb-0">${taskTypeOptions[value.subtask_type]}</p>
-                        </div>
-                        <div class="col-3">
-                            <div class="d-flex justify-content-end">
-                                <img id="edit" src="/images/edit.png" alt="edit">
-                                <img id="delete" src="/images/delete.png" alt="delete">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            `
-            ul.appendChild(li);
-        });
-        list_content.append(ul)
-    }else{
-        list_content.innerHTML = 
-        `
-        <div class="text-center">
-            <p class="text-center">Vous n'avez actuellement aucune sous-tâche...</p>
-        </div>
-        `
+const comments_list = document.getElementById('liste-commentaires');
+
+function formatUserName(user) {
+    if (user) {
+        return `${user.first_name} ${user.last_name}`;
+    } else {
+        return "Utilisateur inconnu";
     }
 }
 
-async function ChargerCommentaires(){
+const getUser = async (userId) => {
+    const response = await fetch(`/api/v1/users/${userId}`);
+    const user = await response.json();
+    return user;
+};
+
+async function AfficherListeCommentaires(v) {
+    comments_list.innerHTML = '';
+    if (v && v.length > 0) {
+        const ul = document.createElement('ul');
+        ul.classList.add('list-group', 'shadow');
+        
+        for (const value of v) {
+            const li = document.createElement('li');
+            li.classList.add('bg-secondary-subtle', 'text-dark', 'list-group-item');
+            console.log("value.create_at : " + value.create_at)
+            // Récupérer le nom de l'utilisateur
+            try {
+                const commentuser = await getUser(value.comment_user);
+                const createdAtString = new Date(value.created_at).toLocaleString();
+
+
+                // Création du contenu HTML pour chaque commentaire
+                li.innerHTML = `
+                    <div class="card-header d-flex justify-content-between">
+                        <p class="m-0"><span class="text-secondary">${formatUserName(commentuser)}</span></p>
+                        <p class="m-0"><span class="text-secondary">créé: ${createdAtString}</span></p>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text text-dark">${value.comment_message}</p>
+                    </div>
+                `;
+
+                ul.appendChild(li);
+            } catch (error) {
+                console.error('Error fetching user:', error);
+            }
+        }
+
+        comments_list.append(ul);
+    } else {
+        comments_list.innerHTML = `
+            <div class="text-center">
+                <p class="text-center">Il n'y a pas de commentaire associé à la tâche...</p>
+            </div>
+        `;
+    }
+}
+
+
+async function ChargerCommentaires() {
     try {
-        const subtasks = await envoyerRequeteAjax(
-            url = `/api/v1/subtasks/${document.getElementById("taskId").dataset.taskid}/`,
-            methode='GET'
+        const comments = await envoyerRequeteAjax(
+            url = `/api/v1/comments/${document.getElementById("taskId").dataset.taskid}/`,
+            methode = 'GET'
         )
-        if(subtasks.constructor === [].constructor){
-            AfficherListeSubtask(subtasks)
+        if (comments.constructor === [].constructor) {
+            AfficherListeCommentaires(comments)
         }
     } catch (error) {
         console.error(error)
     }
 }
 
-
-function initialize(){
+function initialize() {
     ChargerCommentaires()
 }
 window.addEventListener('load', initialize)

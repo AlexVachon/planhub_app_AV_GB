@@ -8,7 +8,7 @@
     <script src="/js/utils-ajax.js" defer></script>
     <script src="/js/subtask-list.js" defer></script>
     <script src="/js/tabs.js" defer></script>
-    <script src="/js/commentaire-list" defer></script>
+    <script src="/js/commentaire-list.js" defer></script>
 </head>
 
 <body>
@@ -52,18 +52,10 @@
                       </div>
                       <div class="tab-pane fade" id="comments">
                         <div class="mb-3">
-                          <h6>Comments:</h6>
-                          <!-- Commentaire hardcodé avec la classe card -->
-                          <div class="card-commentaire mb-3">
-                            <div class="card-header d-flex justify-content-between">
-                              <p class="m-0"><span class="text-secondary">@John Doe</span></p>
-                              <p class="m-0"><span class="text-secondary">créé: 2023-01-01 12:00 PM</span></p>
-                            </div>
-                            <div class="card-body">
-                              <p class="card-text text-dark">This is a hardcoded comment.</p>
-                            </div>
+                          <h6>Commentaires :</h6>
+                          <div id="liste-commentaires" class="card-commentaire mb-3">
+                            <!-- LOADED IN AJAX -->
                           </div>
-                          <!-- Répéter cette structure pour chaque commentaire -->
                         </div>
                         <div class="input-group input-group-sm mb-3">
                           <span class="input-group-text text-secondary" for="comment">Commenter</span>
@@ -95,16 +87,6 @@
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
-            <div class="mt-4 container">
-              <div>
-                <h3>
-                  Commentaires :
-                </h3>
-              </div>
-              <div id="commentaires" class="text-break mb-3">
-                <!-- LOADED IN AJAX -->
               </div>
             </div>
           </div>

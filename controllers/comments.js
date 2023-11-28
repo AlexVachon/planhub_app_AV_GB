@@ -9,11 +9,11 @@ const createComment = async (req, res) => {
     if (!userID) {
         return res.status(401).json({ error: "Vous devez d'abord être connecté" });
     } else {
-        const { comment_message } = req.body;
+        const { comment_message, comment_user, comment_task } = req.body;
         const { taskId } = req.params;
 
         try {
-            const task = await Tasks.findOne({ _id: taskId });
+            const task = await Tasks.findOne({ _id: comment_task || taskId });
 
             if (!task) {
                 res.status(404).json({ message: "Tâche introuvable" });
@@ -21,8 +21,8 @@ const createComment = async (req, res) => {
                 const comment = new Comments({
                     _id: new mongoose.Types.ObjectId(),
                     comment_message: comment_message,
-                    comment_user: userID,
-                    comment_task: taskId
+                    comment_user: userID || comment_user,
+                    comment_task: taskId || comment_task
                 });
 
                 await comment.save();
@@ -39,6 +39,21 @@ const createComment = async (req, res) => {
     }
 };
 
+const getCommentsTask = async (req, res) => {
+    const { taskId } = req.params;
+    try {
+      if (req.session.authenticated){
+          const comments = await Comments.find({comment_task: taskId})
+          return res.status(200).json(comments)
+      }
+      return res.status(403).json({message: "Vous devez être connecté"})
+    } catch (error) {
+      console.error("Erreurs lors du chargement des commentaires: ", error);
+    }
+  };
+  
+
 module.exports = {
-    createComment
+    createComment,
+    getCommentsTask
 }

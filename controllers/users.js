@@ -2,6 +2,27 @@ const Users = require('../models/Users')
 const bcrypt = require('bcrypt')
 const mongoose = require('mongoose')
 
+const getUserById = async (req, res) => {
+    const userId = req.params.userId;
+
+    try {
+        if (!mongoose.Types.ObjectId.isValid(userId)) {
+            return res.status(400).json({ message: 'Invalid userId' });
+        }
+
+        const user = await Users.findOne({ _id: userId });
+        if (!user) {
+            return res.status(404).json({ message: 'Utilisateur introuvable' });
+        }
+
+        res.status(200).json({ user });
+    } catch (err) {
+        console.error("Erreur de la recherche de l'utilisateur :", err);
+        res.status(500).json({ message: 'Une erreur interne est survenue.' });
+    }
+};
+
+
 const getOneUser = async (req, res) => {
     const { user_email, user_password } = req.body
     try {
@@ -76,6 +97,7 @@ const createUser = async (req, res) => {
 
 
 module.exports = {
+    getUserById,
     getOneUser,
     getAllUsers,
     createUser
