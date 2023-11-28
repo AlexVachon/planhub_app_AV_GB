@@ -70,7 +70,7 @@ const createUser = async (req, res) => {
             console.error(err)
         }
     } else {
-        res.status(400).json({ message: "Les mots de passe ne sont pas identique" })
+        res.status(400).json({ message: "Les mots de passe ne sont pas identiques" })
     }
 }
 
