@@ -227,42 +227,52 @@ const getRecherche = async (req, res) => {
 };
 
 const editTask = async (req, res) => {
-  const { projectId, taskId } = req.params;
-  const { task_name, task_type, task_description } = req.body;
-
   if (req.session.authenticated) {
-    if (req.session.user in (await Projects.findById(projectId).users)) {
-      try {
-        const updatedTask = await Tasks.findOneAndUpdate(
-          { _id: taskId, task_project: projectId },
-          {
-            $set: {
-              task_name: task_name,
-              task_type: task_type,
-              task_description: task_description,
-            },
-          },
+    const { projectId, taskId } = req.params;
+    const { task_name, task_description, task_type } = req.body;
+
+    try {
+      const projet = await Projects.findById(projectId);
+      const users = projet.users;
+
+      if (users.includes(req.session.user)) {
+        const updatedData = {
+          task_name: task_name,
+          task_type: task_type,
+          task_description: task_description,
+        };
+
+        const tache = await Tasks.findOneAndUpdate(
+          { _id: taskId },
+          { $set: updatedData },
           { new: true }
         );
 
-        if (updatedTask) {
-          res.status(200).json({
-            message: "Tâche mise à jour avec succès.",
-            task: updatedTask,
-          });
+        if (tache) {
+            res.status(200).json({ message: 'Tâche mise à jour avec succès.', task: tache });
         } else {
           res
-            .status(404)
-            .json({ error: "La tâche spécifiée n'a pas été trouvée." });
+            .status(400)
+            .json({ message: "Aucune tâche correspondant n'a été trouvé." });
         }
-      } catch (error) {
-        console.error(error);
-        res
-          .status(500)
-          .json({ error: "Erreur lors de la mise à jour de la tâche." });
+      } else {
+        res.status(403).json({ message: "Accès non autorisé" });
       }
-    }else{
-        return res.status(403).json({message: "Vous n'avez pas les droits de modifier cette tâche!"})
+    } catch (error) {
+      if (err.name === "ValidationError") {
+        const validationErrors = {};
+        for (const key in err.errors) {
+          validationErrors[key] = err.errors[key].message;
+        }
+
+        console.error(validationErrors);
+        res.status(400).json({ errors: validationErrors });
+      } else {
+        console.error(err);
+        res
+          .status(400)
+          .json({ message: "Erreur lors de la modification de la tâche" });
+      }
     }
   } else {
     res.status(403).redirect("/join");
