@@ -14,7 +14,12 @@ const CommentsModel = mongoose.Schema({
         type: String,
         required: [true, "Vous devez saisir un contenu dans le commentaire"],
         trim: true
+    },
+    "comment_task": {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Tasks',
+        required: true
     }
 })
 
-module.exports = mongoose.model('Teams', TeamsModel)
+module.exports = mongoose.model('Comments', CommentsModel)

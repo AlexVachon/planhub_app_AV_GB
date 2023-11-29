@@ -26,12 +26,15 @@ const cookieParser = require('cookie-parser')
 const connectDB = require('./db/connect')
 
 //MODÈLES -> ./models/
+
+const ModelComments = require('./models/Comments')
 const ModelProjects = require('./models/Projects')
 const ModelSubtasks = require('./models/Subtasks')
 const ModelTasks = require('./models/Tasks')
 const ModelUsers = require('./models/Users')
 
 //ROUTES -> ./routes/
+const comments = require('./routes/comments')
 const joins = require('./routes/join')
 const project = require('./routes/projects')
 const subtasks = require('./routes/subtasks')
@@ -51,6 +54,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser())
 
+app.use('/api/v1/comments', comments)
 app.use('/join', joins)
 app.use('/project', project)
 app.use('/api/v1/subtasks', subtasks)

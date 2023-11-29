@@ -8,6 +8,8 @@
     <script src="/js/utils-ajax.js" defer></script>
     <script src="/js/subtask-list.js" defer></script>
     <script src="/js/tabs.js" defer></script>
+    <script src="/js/commentaire-list.js" defer></script>
+    <script src="/js/commentaire-create.js" defer></script>
 </head>
 
 <body>
@@ -22,11 +24,6 @@
               <h2>
                 <%= task.task_name %>
               </h2>
-            </div>
-            <div>
-              <p>
-                <%= task.task_description %>
-              </p>
             </div>
             <div class="row container">
               <div class="col-7 p-2">
@@ -56,24 +53,18 @@
                       </div>
                       <div class="tab-pane fade" id="comments">
                         <div class="mb-3">
-                          <h6>Comments:</h6>
-                          <!-- Commentaire hardcodé avec la classe card -->
-                          <div class="card-commentaire mb-3">
-                            <div class="card-header d-flex justify-content-between">
-                              <p class="m-0"><span class="text-secondary">@John Doe</span></p>
-                              <p class="m-0"><span class="text-secondary">créé: 2023-01-01 12:00 PM</span></p>
-                            </div>
-                            <div class="card-body">
-                              <p class="card-text text-dark">This is a hardcoded comment.</p>
-                            </div>
+                          <h6>Commentaires :</h6>
+                          <div id="liste-commentaires" class="card-commentaire mb-3">
+                            <!-- LOADED IN AJAX -->
                           </div>
-                          <!-- Répéter cette structure pour chaque commentaire -->
                         </div>
-                        <div class="input-group input-group-sm mb-3">
-                          <span class="input-group-text text-secondary" for="comment">Commenter</span>
-                          <textarea type="text" class="form-control" id="comment" name="comment"></textarea>
-                        </div>
-                        <button class="btn btn-success" id="AddCommentBtn">Ajouter</button>
+                        <form id="form-commentaire">
+                          <div class="input-group input-group-sm mb-3">
+                            <span class="input-group-text text-secondary" for="comment">Commenter</span>
+                            <textarea type="text" class="form-control" id="comment" name="comment"></textarea>
+                          </div>
+                          <button action="submit" class="btn btn-success" id="AddCommentBtn">Ajouter</button>
+                        </form>
                       </div>
 
                       <!-- Other Tab Content -->
@@ -82,8 +73,6 @@
                         <p class="card-text">This is the content for the Other tab.</p>
                         <a href="#" class="btn btn-primary">Go somewhere</a>
                       </div>
-
-                      
                     </div>
                   </div>
                 </div>
@@ -114,5 +103,4 @@
         <%- include('../partials/footer-join'); %>
       </footer>
 </body>
-
 </html>
