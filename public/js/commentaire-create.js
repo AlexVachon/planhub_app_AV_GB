@@ -19,7 +19,6 @@ function gestionSubmitCommentaires(event) {
         if (response.ok) {
             console.log("Commentaire ajouté avec succès");
             document.getElementById("comment").value = "";
-            window.location.reload();
         } else {
             console.error("Erreur lors de l'ajout du commentaire");
         }
