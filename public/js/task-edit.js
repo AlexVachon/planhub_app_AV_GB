@@ -41,7 +41,6 @@ async function gestionSubmitEdit(e){
                 }
             )
             document.getElementById('editTaskModal').style.display = 'none'
-            console.log(reponse)
 
             const myToast = document.getElementById('notifications')
                 myToast.innerHTML = 
@@ -51,7 +50,7 @@ async function gestionSubmitEdit(e){
                     <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
                 </div>
                 <div class="toast-body text-body-dark">
-                    Tâche modifiée
+                    ${reponse.message}
                 </div>
                 `
                 const toast = new bootstrap.Toast(myToast)
@@ -61,8 +60,6 @@ async function gestionSubmitEdit(e){
     } catch (error) {
         console.error(error)
         document.getElementById('editTaskModal').style.display = 'none'
-            console.log(reponse)
-
             const myToast = document.getElementById('notifications')
                 myToast.innerHTML = 
                 `
