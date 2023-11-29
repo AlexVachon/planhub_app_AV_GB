@@ -11,7 +11,6 @@ function gestionSubmitCommentaires(event) {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-            //comment_user: userId,
             comment_message: message,
             comment_task: taskId,
         }),

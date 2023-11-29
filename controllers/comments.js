@@ -47,16 +47,21 @@ const createComment = async (req, res) => {
 const getCommentsTask = async (req, res) => {
     const { taskId } = req.params;
     try {
-      if (req.session.authenticated){
-          const comments = await Comments.find({comment_task: taskId})
-          return res.status(200).json(comments)
-      }
-      return res.status(403).json({message: "Vous devez être connecté"})
+        if (req.session.authenticated) {
+            const comments = await Comments
+                .find({ comment_task: taskId })
+                .populate('comment_user')
+                .populate('comment_task');
+
+            return res.status(200).json(comments);
+        }
+        return res.status(403).json({ message: "Vous devez être connecté" });
     } catch (error) {
-      console.error("Erreurs lors du chargement des commentaires: ", error);
+        console.error("Erreurs lors du chargement des commentaires: ", error);
+        return res.status(500).json({ message: "Erreur interne du serveur" });
     }
-  };
-  
+};
+
 
 module.exports = {
     createComment,

@@ -25,14 +25,12 @@ async function AfficherListeCommentaires(v) {
             li.classList.add('bg-secondary-subtle', 'text-dark', 'list-group-item');
             // Récupérer le nom de l'utilisateur
             try {
-                const commentuser = await getUser(value.comment_user);
                 const createdAtString = new Date(value.created_at).toLocaleString();
-
 
                 // Création du contenu HTML pour chaque commentaire
                 li.innerHTML = `
                     <div class="card-header d-flex justify-content-between">
-                        <p class="m-0"><span class="text-secondary">${formatUserName(commentuser)}</span></p>
+                        <p class="m-0"><span class="text-secondary">${formatUserName(value.comment_user)}</span></p>
                         <p class="m-0"><span class="text-secondary">créé: ${createdAtString}</span></p>
                     </div>
                     <div class="card-body">
@@ -56,7 +54,6 @@ async function AfficherListeCommentaires(v) {
     }
 }
 
-
 async function ChargerCommentaires() {
     try {
         const comments = await envoyerRequeteAjax(
@@ -64,6 +61,7 @@ async function ChargerCommentaires() {
             methode = 'GET'
         )
         if (comments.constructor === [].constructor) {
+            console.log(comments)
             AfficherListeCommentaires(comments)
         }
     } catch (error) {
