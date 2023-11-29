@@ -23,7 +23,6 @@ async function AfficherListeCommentaires(v) {
         for (const value of v) {
             const li = document.createElement('li');
             li.classList.add('bg-secondary-subtle', 'text-dark', 'list-group-item');
-            console.log("value.create_at : " + value.create_at)
             // Récupérer le nom de l'utilisateur
             try {
                 const commentuser = await getUser(value.comment_user);
@@ -51,7 +50,7 @@ async function AfficherListeCommentaires(v) {
     } else {
         comments_list.innerHTML = `
             <div class="text-center">
-                <p class="text-center">Il n'y a pas de commentaire associé à la tâche...</p>
+                <p class="text-black text-center">Il n'y a pas de commentaire associé à la tâche...</p>
             </div>
         `;
     }

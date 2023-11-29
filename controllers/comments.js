@@ -5,15 +5,20 @@ const mongoose = require('mongoose')
 
 const createComment = async (req, res) => {
     const userID = req.session.user;
+    console.log("userId : " + userID)
 
     if (!userID) {
         return res.status(401).json({ error: "Vous devez d'abord être connecté" });
     } else {
         const { comment_message, comment_user, comment_task } = req.body;
-        const { taskId } = req.params;
+        
+        console.log("comment)_message : " + comment_message)
+        
+        console.log("taskId : " + comment_task)
 
         try {
             const task = await Tasks.findOne({ _id: comment_task || taskId });
+            console.log("task : " + task)
 
             if (!task) {
                 res.status(404).json({ message: "Tâche introuvable" });
@@ -21,8 +26,8 @@ const createComment = async (req, res) => {
                 const comment = new Comments({
                     _id: new mongoose.Types.ObjectId(),
                     comment_message: comment_message,
-                    comment_user: userID || comment_user,
-                    comment_task: taskId || comment_task
+                    comment_user: userID,
+                    comment_task: comment_task
                 });
 
                 await comment.save();

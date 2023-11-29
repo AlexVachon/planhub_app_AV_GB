@@ -9,6 +9,7 @@
     <script src="/js/subtask-list.js" defer></script>
     <script src="/js/tabs.js" defer></script>
     <script src="/js/commentaire-list.js" defer></script>
+    <script src="/js/commentaire-create.js" defer></script>
 </head>
 
 <body>
@@ -57,11 +58,13 @@
                             <!-- LOADED IN AJAX -->
                           </div>
                         </div>
-                        <div class="input-group input-group-sm mb-3">
-                          <span class="input-group-text text-secondary" for="comment">Commenter</span>
-                          <textarea type="text" class="form-control" id="comment" name="comment"></textarea>
-                        </div>
-                        <button class="btn btn-success" id="AddCommentBtn">Ajouter</button>
+                        <form id="form-commentaire">
+                          <div class="input-group input-group-sm mb-3">
+                            <span class="input-group-text text-secondary" for="comment">Commenter</span>
+                            <textarea type="text" class="form-control" id="comment" name="comment"></textarea>
+                          </div>
+                          <button action="submit" class="btn btn-success" id="AddCommentBtn">Ajouter</button>
+                        </form>
                       </div>
 
                       <!-- Other Tab Content -->
