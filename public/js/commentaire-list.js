@@ -70,6 +70,6 @@ async function ChargerCommentaires() {
 }
 
 function initialize() {
-    ChargerCommentaires()
+    setInterval(ChargerCommentaires, 1000)
 }
 window.addEventListener('load', initialize)
