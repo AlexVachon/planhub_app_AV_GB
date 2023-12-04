@@ -2,6 +2,7 @@ const Projects = require("../models/Projects");
 const Users = require("../models/Users");
 const Tasks = require("../models/Tasks");
 const Subtasks = require("../models/Subtasks");
+const Comments = require("../models/Comments");
 const mongoose = require("mongoose");
 
 const getOneProject = async (req, res) => {
@@ -150,7 +151,7 @@ const editProject = async (req, res) => {
 
 const deleteProject = async (req, res) => {
   try {
-    const { projectID, userID } = req.params;
+    const { projectID } = req.params;
     if (req.session.authenticated) {
       if (!projectID) {
         return res.status(400).json({ message: "Project ID est requis" });
@@ -159,35 +160,48 @@ const deleteProject = async (req, res) => {
       const project = await Projects.findOne({ _id: projectID });
 
       if (!project) {
-        return res.status(404).json({ message: "Project not found" });
+        return res
+          .status(404)
+          .json({ message: "Aucune projet trouvé avec cet ID!" });
       }
 
       if (!project.created_by.equals(req.session.user)) {
-        return res
-          .status(403)
-          .json({
-            message: "Vous n'avez pas les permissions pour supprimer ce projet",
-          });
+        return res.status(403).json({
+          message: "Vous n'avez pas les permissions pour supprimer ce projet",
+        });
       }
 
       const taskIds = project.tasks;
 
-      const subtaskIds = await Tasks.find({ _id: { $in: taskIds } })
-        .distinct("subtasks");
-      
+      const subtaskIds = await Tasks.find({ _id: { $in: taskIds } }).distinct(
+        "task_subtasks"
+      );
+
+      // Supprimer les sous-tâches
       await Subtasks.deleteMany({ _id: { $in: subtaskIds } });
 
+      // Supprimer les commentaires des tâches
+      await Comments.deleteMany({
+        comment_task: { $in: taskIds },
+      });
+
+      // Supprimer les tâches
       await Tasks.deleteMany({ _id: { $in: taskIds } });
 
+      // Mettre à jour l'utilisateur en supprimant l'ID du projet du tableau projects
+      await Users.updateOne(
+        { _id: req.session.user },
+        { $pull: { projects: projectID } }
+      );
+
+      // Supprimer le projet
       const deletedProject = await Projects.findByIdAndDelete(projectID);
 
       if (deletedProject) {
-        return res
-          .status(200)
-          .json({
-            status: "ok",
-            message: `Projet: "${project.project_name}" supprimé avec succès!`,
-          });
+        return res.status(200).json({
+          status: "ok",
+          message: `Projet: "${project.project_name}" supprimé avec succès!`,
+        });
       } else {
         return res
           .status(404)
@@ -203,7 +217,6 @@ const deleteProject = async (req, res) => {
       .json({ message: "Erreur lors de la suppression du projet", error });
   }
 };
-
 
 module.exports = {
   getOneProject,
