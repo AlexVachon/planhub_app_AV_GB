@@ -1,6 +1,8 @@
 const Projects = require("../models/Projects");
 const Tasks = require("../models/Tasks");
 const Users = require("../models/Users");
+const Subtasks = require("../models/Subtasks");
+const Comments = require("../models/Comments");
 
 const mongoose = require("mongoose");
 
@@ -232,7 +234,21 @@ const editTask = async (req, res) => {
     const { task_name, task_description, task_type } = req.body;
 
     try {
+      if (!projectId || !mongoose.Types.ObjectId.isValid(projectId)) {
+        return res
+          .status(400)
+          .json({ message: "Vous devez fournir un projetId valide!" });
+      } else if (!taskId || !mongoose.Types.ObjectId.isValid(taskId)) {
+        return res
+          .status(400)
+          .json({ message: "Vous devez fournir un taskId valide!" });
+      }
       const projet = await Projects.findById(projectId);
+      if (!projet) {
+        return res
+          .status(404)
+          .json({ message: "Aucun projet ne correspond à cet ID!" });
+      }
       const users = projet.users;
 
       if (users.includes(req.session.user)) {
@@ -249,7 +265,9 @@ const editTask = async (req, res) => {
         );
 
         if (tache) {
-            res.status(200).json({ message: 'Tâche mise à jour avec succès.', task: tache });
+          res
+            .status(200)
+            .json({ message: "Tâche mise à jour avec succès.", task: tache });
         } else {
           res
             .status(400)
@@ -258,7 +276,9 @@ const editTask = async (req, res) => {
       } else {
         res.status(403).json({ message: "Accès non autorisé" });
       }
+
     } catch (error) {
+
       if (err.name === "ValidationError") {
         const validationErrors = {};
         for (const key in err.errors) {
@@ -279,6 +299,60 @@ const editTask = async (req, res) => {
   }
 };
 
+const deleteTask = async (req, res) => {
+  if (req.session.authenticated) {
+    try {
+      const { taskId, projectId } = req.params;
+
+      if (!taskId || !mongoose.Types.ObjectId.isValid(taskId)) {
+        return res
+          .status(400)
+          .json({ message: "Vous devez fournir un taskID valide!" });
+      }
+
+      const task = await Tasks.findOne({ _id: taskId });
+
+      if (!task) {
+        return res
+          .status(404)
+          .json({ message: "Aucune tâche trouvée avec cet ID!" });
+      }
+
+      const subtaskIds = await Subtasks.find({
+        subtask_task: taskId,
+      }).distinct("_id");
+
+      await Subtasks.deleteMany({ _id: { $in: subtaskIds } });
+      await Comments.deleteMany({ comment_task: taskId });
+
+      await Projects.updateOne(
+        { task_project: projectId },
+        { $pull: { tasks: taskId } }
+      );
+
+      const deletedTask = await Tasks.findByIdAndDelete(taskId);
+
+      if (deletedTask) {
+        return res.status(200).json({
+          status: "ok",
+          message: `Tâche: "${task.task_name}" supprimée avec succès!`,
+        });
+      } else {
+        return res
+          .status(404)
+          .json({ message: `Tâche: "${taskId}" non trouvé!` });
+      }
+    } catch (error) {
+      console.error(error);
+      res
+        .status(500)
+        .json({ message: "Erreur lors de la suppression de la tâche", error });
+    }
+  } else {
+    return res.status(403).json({ message: "Vous devez être connecté!" });
+  }
+};
+
 module.exports = {
   getOneTask,
   getAllTasks,
@@ -288,4 +362,5 @@ module.exports = {
   getAdminsProjects,
   getRecherche,
   editTask,
+  deleteTask,
 };

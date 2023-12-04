@@ -151,7 +151,7 @@ const editProject = async (req, res) => {
 
 const deleteProject = async (req, res) => {
   try {
-    const { projectID, userID } = req.params;
+    const { projectID } = req.params;
     if (req.session.authenticated) {
       if (!projectID) {
         return res.status(400).json({ message: "Project ID est requis" });
@@ -160,7 +160,9 @@ const deleteProject = async (req, res) => {
       const project = await Projects.findOne({ _id: projectID });
 
       if (!project) {
-        return res.status(404).json({ message: "Project not found" });
+        return res
+          .status(404)
+          .json({ message: "Aucune projet trouvé avec cet ID!" });
       }
 
       if (!project.created_by.equals(req.session.user)) {
@@ -172,7 +174,7 @@ const deleteProject = async (req, res) => {
       const taskIds = project.tasks;
 
       const subtaskIds = await Tasks.find({ _id: { $in: taskIds } }).distinct(
-        "subtasks"
+        "task_subtasks"
       );
 
       // Supprimer les sous-tâches
