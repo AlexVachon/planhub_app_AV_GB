@@ -189,6 +189,7 @@ function HTMLContentTaskContent(tasks) {
             <p>Voulez-vous vraiment supprimer la tâche: "${task.task_name}" ?</p>
             <form id="deleteForm">
                 <input type="hidden" id="taskID" value="${task._id}"/>
+                <input type="hidden" id="projectID" value="${task.task_project}"
                 <div class="d-flex justify-content-between">
                 <button type="submit" class="btn btn-danger">Oui, supprimer</button>
                 <button type="button" id="close" class="btn btn-secondary" aria-label="Close">Annuler</button>
@@ -196,65 +197,65 @@ function HTMLContentTaskContent(tasks) {
             </form>
         </div>        
         `;
-        
-        const popover = new bootstrap.Popover(imgDelete, {
-            title: "Confirmation de suppression",
-            content: popoverContent,
-            placement: "right",
-            trigger: "manual",
-            html: true
-          })
 
-        popover.show()
-        const closeButton = popoverContent.querySelector("#close");
-        closeButton.addEventListener("click", () => {
-            popover.hide()
+        const popover = new bootstrap.Popover(imgDelete, {
+          title: "Confirmation de suppression",
+          content: popoverContent,
+          placement: "right",
+          trigger: "manual",
+          html: true,
         });
 
-        const deleteForm = popoverContent.querySelector("#deleteForm")
+        popover.show();
+        const closeButton = popoverContent.querySelector("#close");
+        closeButton.addEventListener("click", () => {
+          popover.hide();
+        });
+
+        const deleteForm = popoverContent.querySelector("#deleteForm");
         deleteForm.addEventListener("submit", async (event) => {
-            event.preventDefault()
-            try {
-                const response = await envoyerRequeteAjax(
-                    `/`,
-                    'DELETE'
-                );
-                const toast = document.getElementById("notifications");
-                const toastHeader = document.createElement("div")
-                toastHeader.className = "toast-header"
-                if(response.status == "ok"){
-                    toastHeader.innerHTML = `
+          event.preventDefault();
+          try {
+            const response = await envoyerRequeteAjax(
+              `/api/v1/tasks/${popoverContent.querySelector("#projectID").value}/${
+                popoverContent.querySelector("#taskID").value
+              }/delete`,
+              "DELETE"
+            );
+            const toast = document.getElementById("notifications");
+            const toastHeader = document.createElement("div");
+            toastHeader.className = "toast-header";
+            if (response.status == "ok") {
+              toastHeader.innerHTML = `
                     <strong class="me-auto text-success">Confirmation !</strong>
                     <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-                    `
-                }else{
-                toastHeader.innerHTML = `
+                    `;
+            } else {
+              toastHeader.innerHTML = `
                     <strong class="me-auto text-danger">Erreur !</strong>
                     <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
                  `;
-                }
-
-                const toastBody = document.createElement("div")
-                toastBody.className = "toast-body text-body-dark"
-                toastBody.textContent = response.message
-
-                toast.innerHTML = ""
-                toast.appendChild(toastHeader)
-                toast.appendChild(toastBody)
-
-                const toastInstance = new bootstrap.Toast(toast)
-                toastInstance.show();
-                popover.hide()
-            } catch (error) {
-                console.error(error)
             }
 
-            setTimeout(() => {
-                popover.hide()
-            }, 5000)
-        })
+            const toastBody = document.createElement("div");
+            toastBody.className = "toast-body text-body-dark";
+            toastBody.textContent = response.message;
 
+            toast.innerHTML = "";
+            toast.appendChild(toastHeader);
+            toast.appendChild(toastBody);
 
+            const toastInstance = new bootstrap.Toast(toast);
+            toastInstance.show();
+            popover.hide();
+          } catch (error) {
+            console.error(error);
+          }
+
+          setTimeout(() => {
+            popover.hide();
+          }, 5000);
+        });
       });
 
       const form = document.getElementById("editTaskModal");

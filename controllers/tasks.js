@@ -326,7 +326,7 @@ const deleteTask = async (req, res) => {
       await Comments.deleteMany({ comment_task: taskId });
 
       await Projects.updateOne(
-        { task_project: projectId },
+        { _id: projectId },
         { $pull: { tasks: taskId } }
       );
 
