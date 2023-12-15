@@ -47,7 +47,7 @@ async function AfficherListeCommentaires(v) {
         comments_list.append(ul);
     } else {
         comments_list.innerHTML = `
-            <div class="text-center">
+            <div class="text-center mt-2">
                 <p class="text-black text-center">Il n'y a pas de commentaire associé à la tâche...</p>
             </div>
         `;
